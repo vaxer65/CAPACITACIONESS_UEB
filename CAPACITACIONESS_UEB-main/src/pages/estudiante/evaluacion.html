@@ -1,0 +1,890 @@
+<!doctype html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Evaluación | UEB</title>
+        <link rel="stylesheet" href="../../styles.css" />
+        <style>
+            :root {
+                --blue-inst: #003366;
+                --blue-mid: #004a8f;
+                --blue-light: #1a6abf;
+                --orange-cta: #ff6600;
+                --orange-light: #ff8533;
+                --neutral-bg: #f5f7fa;
+                --white: #ffffff;
+                --shadow-sm: 0 2px 8px rgba(0, 51, 102, 0.08);
+                --shadow-md: 0 8px 24px rgba(0, 51, 102, 0.14);
+                --shadow-lg: 0 16px 48px rgba(0, 51, 102, 0.18);
+                --radius: 16px;
+                --radius-sm: 10px;
+            }
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            body {
+                font-family:
+                    "Segoe UI",
+                    system-ui,
+                    -apple-system,
+                    sans-serif;
+                background: var(--neutral-bg);
+            }
+
+            /* ── NAVBAR ── */
+            .top-navbar {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 0 28px;
+                height: 64px;
+                background: linear-gradient(
+                    135deg,
+                    var(--blue-inst) 0%,
+                    var(--blue-mid) 60%,
+                    var(--blue-light) 100%
+                );
+                box-shadow: 0 4px 20px rgba(0, 51, 102, 0.35);
+                position: sticky;
+                top: 0;
+                z-index: 1000;
+            }
+            .logo-area {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+            }
+            .logo-box {
+                width: 38px;
+                height: 38px;
+                background: linear-gradient(
+                    135deg,
+                    var(--orange-cta),
+                    var(--orange-light)
+                );
+                border-radius: 10px;
+                font-size: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                box-shadow: 0 4px 12px rgba(255, 102, 0, 0.4);
+            }
+            .logo-box::after {
+                content: "🎓";
+            }
+            .logo-area h2 {
+                color: #fff;
+                font-size: 17px;
+                font-weight: 700;
+            }
+            .search-area input {
+                background: rgba(255, 255, 255, 0.15);
+                border: 1px solid rgba(255, 255, 255, 0.25);
+                border-radius: 24px;
+                padding: 8px 18px;
+                color: #fff;
+                font-size: 13px;
+                width: 280px;
+                outline: none;
+                transition: all 0.3s;
+            }
+            .search-area input::placeholder {
+                color: rgba(255, 255, 255, 0.65);
+            }
+            .user-area {
+                display: flex;
+                align-items: center;
+                gap: 16px;
+            }
+            .notif-bell {
+                position: relative;
+                cursor: pointer;
+                background: rgba(255, 255, 255, 0.12);
+                border-radius: 50%;
+                width: 38px;
+                height: 38px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 17px;
+            }
+            .notif-badge {
+                position: absolute;
+                top: -3px;
+                right: -3px;
+                background: var(--orange-cta);
+                color: #fff;
+                font-size: 10px;
+                font-weight: 700;
+                width: 18px;
+                height: 18px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border: 2px solid var(--blue-inst);
+            }
+            .user-info {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-end;
+            }
+            .user-name {
+                color: #fff;
+                font-size: 13px;
+                font-weight: 600;
+            }
+            .user-role {
+                color: rgba(255, 255, 255, 0.65);
+                font-size: 11px;
+            }
+            .avatar {
+                width: 38px;
+                height: 38px;
+                border-radius: 50%;
+                background: linear-gradient(135deg, var(--orange-cta), #ff9933);
+                color: #fff;
+                font-weight: 700;
+                font-size: 13px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+            }
+
+            /* ── APP BODY ── */
+            .app-body {
+                display: flex;
+                flex: 1;
+                min-height: calc(100vh - 64px);
+            }
+
+            /* ── SIDEBAR ── */
+            .sidebar {
+                width: 240px;
+                background: linear-gradient(
+                    180deg,
+                    var(--blue-inst) 0%,
+                    #002244 100%
+                );
+                display: flex;
+                flex-direction: column;
+                padding: 20px 0;
+                box-shadow: 4px 0 24px rgba(0, 0, 0, 0.18);
+                position: sticky;
+                top: 64px;
+                height: calc(100vh - 64px);
+                overflow-y: auto;
+                flex-shrink: 0;
+            }
+            .sidebar-brand {
+                padding: 0 20px 20px;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+                margin-bottom: 8px;
+            }
+            .sidebar-brand span {
+                color: rgba(255, 255, 255, 0.45);
+                font-size: 10px;
+                text-transform: uppercase;
+                letter-spacing: 1.5px;
+                font-weight: 600;
+            }
+            .nav-links {
+                list-style: none;
+                padding: 0;
+                flex: 1;
+            }
+            .nav-links li {
+                margin: 2px 12px;
+            }
+            .nav-links a {
+                display: flex;
+                align-items: center;
+                gap: 11px;
+                padding: 11px 14px;
+                border-radius: var(--radius-sm);
+                color: rgba(255, 255, 255, 0.65);
+                text-decoration: none;
+                font-size: 13.5px;
+                font-weight: 500;
+                transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            .nav-links a:hover {
+                color: #fff;
+                background: rgba(255, 255, 255, 0.1);
+                transform: translateX(3px);
+            }
+            .nav-links a.active {
+                background: var(--orange-cta);
+                color: #fff;
+                font-weight: 700;
+                box-shadow: 0 4px 14px rgba(255, 102, 0, 0.4);
+            }
+            .nav-links a.active:hover {
+                transform: none;
+            }
+            .nav-icon {
+                width: 20px;
+                text-align: center;
+                font-size: 16px;
+            }
+            .bottom-links {
+                margin-top: auto;
+                border-top: 1px solid rgba(255, 255, 255, 0.08);
+                padding-top: 10px;
+            }
+            .nav-links a.text-red {
+                color: rgba(255, 120, 120, 0.8);
+            }
+            .nav-links a.text-red:hover {
+                color: #ff6b6b;
+                background: rgba(255, 80, 80, 0.12);
+            }
+            .sidebar-section-label {
+                padding: 12px 26px 4px;
+                color: rgba(255, 255, 255, 0.3);
+                font-size: 10px;
+                text-transform: uppercase;
+                letter-spacing: 1.5px;
+                font-weight: 600;
+            }
+
+            /* ── CONTENT ── */
+            .content {
+                flex: 1;
+                padding: 28px 32px;
+                overflow-y: auto;
+            }
+
+            /* ── PAGE HEADER ── */
+            .eval-page-header {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-bottom: 24px;
+                animation: fadeInDown 0.45s ease both;
+            }
+            .eval-page-header h2 {
+                font-size: 22px;
+                font-weight: 800;
+                color: var(--blue-inst);
+            }
+
+            /* ── TIMER ── */
+            .timer-badge {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                background: linear-gradient(135deg, #fef3c7, #fde68a);
+                border: 2px solid rgba(234, 179, 8, 0.3);
+                border-radius: 14px;
+                padding: 10px 18px;
+            }
+            .timer-icon {
+                font-size: 20px;
+            }
+            .timer-text {
+                text-align: right;
+            }
+            .timer-label {
+                font-size: 10px;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                color: #92400e;
+                font-weight: 600;
+                display: block;
+            }
+            .timer-num {
+                font-size: 22px;
+                font-weight: 800;
+                color: #b45309;
+                line-height: 1;
+                font-variant-numeric: tabular-nums;
+            }
+
+            /* ── LAYOUT ── */
+            .eval-layout {
+                display: grid;
+                grid-template-columns: 1fr 300px;
+                gap: 24px;
+            }
+
+            /* ── QUIZ CARD ── */
+            .quiz-card {
+                background: var(--white);
+                border-radius: var(--radius);
+                padding: 28px;
+                box-shadow: var(--shadow-sm);
+                border: 1px solid rgba(0, 51, 102, 0.06);
+                margin-bottom: 18px;
+                animation: fadeInUp 0.5s ease 0.1s both;
+            }
+            .quiz-card h3 {
+                font-size: 18px;
+                color: var(--blue-inst);
+                font-weight: 800;
+                margin-bottom: 6px;
+            }
+            .quiz-card > p {
+                font-size: 13px;
+                color: #6b7280;
+                margin-bottom: 24px;
+            }
+
+            /* ── QUIZ QUESTION ── */
+            .quiz-pregunta {
+                background: var(--neutral-bg);
+                border-radius: 14px;
+                padding: 20px;
+                margin-bottom: 18px;
+                border: 1.5px solid rgba(0, 51, 102, 0.07);
+                transition: border-color 0.2s;
+            }
+            .quiz-pregunta:focus-within {
+                border-color: rgba(0, 51, 102, 0.2);
+            }
+            .pregunta-header {
+                display: flex;
+                align-items: flex-start;
+                gap: 12px;
+                margin-bottom: 14px;
+            }
+            .pregunta-num {
+                width: 30px;
+                height: 30px;
+                border-radius: 50%;
+                background: linear-gradient(
+                    135deg,
+                    var(--blue-inst),
+                    var(--blue-light)
+                );
+                color: #fff;
+                font-size: 13px;
+                font-weight: 800;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+                margin-top: 1px;
+            }
+            .pregunta-text {
+                font-size: 14px;
+                font-weight: 700;
+                color: #1f2937;
+                line-height: 1.5;
+            }
+
+            /* ── RADIO OPTIONS ── */
+            .quiz-opcion {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                padding: 11px 14px;
+                border-radius: 10px;
+                cursor: pointer;
+                transition: all 0.2s;
+                margin-bottom: 6px;
+                border: 2px solid transparent;
+                background: var(--white);
+                font-size: 13.5px;
+                color: #374151;
+                font-weight: 500;
+            }
+            .quiz-opcion:hover {
+                border-color: rgba(0, 51, 102, 0.15);
+                background: #f8faff;
+            }
+            .quiz-opcion input[type="radio"] {
+                display: none;
+            }
+            .radio-custom {
+                width: 20px;
+                height: 20px;
+                border-radius: 50%;
+                border: 2.5px solid #d1d5db;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+                transition: all 0.2s;
+                background: #fff;
+            }
+            .radio-dot {
+                width: 8px;
+                height: 8px;
+                border-radius: 50%;
+                background: transparent;
+                transition: all 0.2s;
+            }
+            .quiz-opcion input[type="radio"]:checked ~ .radio-custom {
+                border-color: var(--orange-cta);
+            }
+            .quiz-opcion
+                input[type="radio"]:checked
+                ~ .radio-custom
+                .radio-dot {
+                background: var(--orange-cta);
+            }
+            .quiz-opcion:has(input:checked) {
+                border-color: rgba(255, 102, 0, 0.3);
+                background: linear-gradient(135deg, #fff7ed, #fff3e0);
+            }
+
+            /* ── SUBMIT BUTTON ── */
+            .btn-submit {
+                display: block;
+                width: 100%;
+                padding: 14px;
+                background: linear-gradient(
+                    135deg,
+                    var(--orange-cta),
+                    var(--orange-light)
+                );
+                border: none;
+                border-radius: 14px;
+                color: #fff;
+                font-size: 15px;
+                font-weight: 800;
+                cursor: pointer;
+                box-shadow: 0 6px 20px rgba(255, 102, 0, 0.35);
+                transition: all 0.25s;
+                margin-top: 8px;
+            }
+            .btn-submit:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 10px 28px rgba(255, 102, 0, 0.45);
+            }
+
+            /* ── ASIDE ── */
+            .aside-card {
+                background: var(--white);
+                border-radius: var(--radius);
+                padding: 22px;
+                box-shadow: var(--shadow-sm);
+                border: 1px solid rgba(0, 51, 102, 0.06);
+                margin-bottom: 18px;
+                animation: fadeInRight 0.5s ease 0.2s both;
+            }
+            .aside-card h4 {
+                font-size: 15px;
+                color: var(--blue-inst);
+                font-weight: 800;
+                margin-bottom: 8px;
+            }
+            .aside-card > p {
+                font-size: 12px;
+                color: #6b7280;
+                margin-bottom: 18px;
+                line-height: 1.5;
+            }
+
+            /* ── SELECT & TEXTAREA ── */
+            .form-select,
+            .form-textarea {
+                width: 100%;
+                padding: 10px 14px;
+                border: 2px solid rgba(0, 51, 102, 0.12);
+                border-radius: 10px;
+                font-size: 13px;
+                outline: none;
+                transition: border-color 0.2s;
+                background: var(--white);
+                font-family: inherit;
+            }
+            .form-select:focus,
+            .form-textarea:focus {
+                border-color: var(--blue-light);
+            }
+            .label-sm {
+                font-size: 11px;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                color: var(--blue-inst);
+                display: block;
+                margin-bottom: 5px;
+                margin-top: 12px;
+            }
+
+            /* ── STAR RATING ── */
+            .star-rating {
+                display: flex;
+                gap: 6px;
+                margin: 8px 0;
+            }
+            .star {
+                font-size: 34px;
+                cursor: pointer;
+                color: #d1d5db;
+                transition: all 0.15s;
+                filter: drop-shadow(0 0 0px transparent);
+                line-height: 1;
+            }
+            .star.active {
+                color: #f59e0b;
+                filter: drop-shadow(0 0 6px rgba(245, 158, 11, 0.5));
+                transform: scale(1.15);
+            }
+            .star:hover {
+                transform: scale(1.2);
+            }
+
+            /* ── SEND BUTTON ── */
+            .btn-send {
+                display: block;
+                width: 100%;
+                padding: 12px;
+                background: linear-gradient(
+                    135deg,
+                    var(--blue-inst),
+                    var(--blue-mid)
+                );
+                border: none;
+                border-radius: 12px;
+                color: #fff;
+                font-size: 14px;
+                font-weight: 700;
+                cursor: pointer;
+                box-shadow: 0 4px 14px rgba(0, 51, 102, 0.3);
+                transition: all 0.25s;
+                margin-top: 14px;
+            }
+            .btn-send:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 20px rgba(0, 51, 102, 0.4);
+            }
+
+            /* ── TOAST ── */
+            .toast {
+                position: fixed;
+                bottom: 24px;
+                right: 24px;
+                background: var(--blue-inst);
+                color: #fff;
+                padding: 14px 22px;
+                border-radius: 12px;
+                font-size: 14px;
+                font-weight: 500;
+                box-shadow: var(--shadow-md);
+                transform: translateY(80px);
+                opacity: 0;
+                transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+                z-index: 9999;
+            }
+            .toast.show {
+                transform: translateY(0);
+                opacity: 1;
+            }
+
+            /* ── ANIMATIONS ── */
+            @keyframes fadeInDown {
+                from {
+                    opacity: 0;
+                    transform: translateY(-20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            @keyframes fadeInRight {
+                from {
+                    opacity: 0;
+                    transform: translateX(20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateX(0);
+                }
+            }
+        </style>
+    </head>
+    <body style="margin: 0; background: var(--neutral-bg)">
+        <!-- ══ NAVBAR ══ -->
+        <header class="top-navbar">
+            <div class="logo-area">
+                <div class="logo-box"></div>
+                <h2>Capacitación UEB</h2>
+            </div>
+            <div class="search-area">
+                <input type="text" placeholder="🔍 Buscar cursos..." />
+            </div>
+            <div class="user-area">
+                <div class="notif-bell">
+                    🔔<span class="notif-badge">2</span>
+                </div>
+                <div class="user-info">
+                    <span class="user-name">Valentín Valle</span
+                    ><span class="user-role">Estudiante · Sexto A</span>
+                </div>
+                <div class="avatar">VV</div>
+            </div>
+        </header>
+
+        <div class="app-body">
+            <!-- ══ SIDEBAR ══ -->
+            <nav class="sidebar" id="sidebar">
+                <div class="sidebar-brand"><span>Menú principal</span></div>
+                <div class="sidebar-section-label">Navegación</div>
+                <ul class="nav-links">
+                    <li>
+                        <a href="dashboard.html" class="nav-link"
+                            ><span class="nav-icon">📊</span> Dashboard</a
+                        >
+                    </li>
+                    <li>
+                        <a href="catalogo.html" class="nav-link"
+                            ><span class="nav-icon">📚</span> Catálogo</a
+                        >
+                    </li>
+                    <li>
+                        <a href="aula.html" class="nav-link active"
+                            ><span class="nav-icon">💻</span> Aula Virtual</a
+                        >
+                    </li>
+                    <li>
+                        <a href="certificados.html" class="nav-link"
+                            ><span class="nav-icon">🎓</span> Certificados</a
+                        >
+                    </li>
+                </ul>
+                <div class="sidebar-section-label">Cuenta</div>
+                <ul class="nav-links bottom-links">
+                    <li>
+                        <a href="perfil.html" class="nav-link"
+                            ><span class="nav-icon">👤</span> Perfil &amp;
+                            Soporte</a
+                        >
+                    </li>
+                    <li>
+                        <a href="../login.html" class="text-red"
+                            ><span class="nav-icon">🚪</span> Cerrar Sesión</a
+                        >
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- ══ MAIN ══ -->
+            <main class="content">
+                <!-- Page header with timer -->
+                <div class="eval-page-header">
+                    <h2>⭐ Evaluación y Calidad</h2>
+                    <div class="timer-badge">
+                        <span class="timer-icon">⏱️</span>
+                        <div class="timer-text">
+                            <span class="timer-label">Tiempo restante</span>
+                            <span class="timer-num" id="eval-timer">10:00</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="eval-layout">
+                    <!-- Main quiz column -->
+                    <div>
+                        <div class="quiz-card">
+                            <h3>📝 Evaluación del Módulo Actual</h3>
+                            <p>
+                                Responde correctamente para avanzar al siguiente
+                                módulo.
+                            </p>
+
+                            <!-- Pregunta 1 -->
+                            <div class="quiz-pregunta">
+                                <div class="pregunta-header">
+                                    <div class="pregunta-num">1</div>
+                                    <p class="pregunta-text">
+                                        ¿Qué patrón de arquitectura permite que
+                                        servicios independientes se comuniquen
+                                        entre sí?
+                                    </p>
+                                </div>
+                                <label class="quiz-opcion">
+                                    <input type="radio" name="q1" value="a" />
+                                    <span class="radio-custom"
+                                        ><span class="radio-dot"></span
+                                    ></span>
+                                    API RESTful
+                                </label>
+                                <label class="quiz-opcion">
+                                    <input type="radio" name="q1" value="b" />
+                                    <span class="radio-custom"
+                                        ><span class="radio-dot"></span
+                                    ></span>
+                                    Monolítico tradicional
+                                </label>
+                                <label class="quiz-opcion">
+                                    <input type="radio" name="q1" value="c" />
+                                    <span class="radio-custom"
+                                        ><span class="radio-dot"></span
+                                    ></span>
+                                    MVC sin backend
+                                </label>
+                            </div>
+
+                            <!-- Pregunta 2 -->
+                            <div class="quiz-pregunta">
+                                <div class="pregunta-header">
+                                    <div class="pregunta-num">2</div>
+                                    <p class="pregunta-text">
+                                        ¿Cuál herramienta se usa para
+                                        contenerizar microservicios?
+                                    </p>
+                                </div>
+                                <label class="quiz-opcion">
+                                    <input type="radio" name="q2" value="a" />
+                                    <span class="radio-custom"
+                                        ><span class="radio-dot"></span
+                                    ></span>
+                                    Figma
+                                </label>
+                                <label class="quiz-opcion">
+                                    <input type="radio" name="q2" value="b" />
+                                    <span class="radio-custom"
+                                        ><span class="radio-dot"></span
+                                    ></span>
+                                    Docker
+                                </label>
+                                <label class="quiz-opcion">
+                                    <input type="radio" name="q2" value="c" />
+                                    <span class="radio-custom"
+                                        ><span class="radio-dot"></span
+                                    ></span>
+                                    Canva
+                                </label>
+                            </div>
+
+                            <button
+                                class="btn-submit"
+                                onclick="enviarEvaluacion()"
+                            >
+                                Enviar Respuestas →
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Aside: Rating -->
+                    <aside>
+                        <div class="aside-card">
+                            <h4>🌟 Califica tu experiencia</h4>
+                            <p>
+                                Ayúdanos a mejorar calificando los cursos
+                                terminados.
+                            </p>
+
+                            <label class="label-sm">Curso a evaluar:</label>
+                            <select class="form-select">
+                                <option>Desarrollo de Microservicios</option>
+                                <option>Comunicación Organizacional</option>
+                                <option>Python Nivel 1</option>
+                            </select>
+
+                            <label class="label-sm">Tu calificación:</label>
+                            <div class="star-rating" id="star-rating">
+                                <span
+                                    class="star"
+                                    data-val="1"
+                                    onclick="setStars(1)"
+                                    >★</span
+                                >
+                                <span
+                                    class="star"
+                                    data-val="2"
+                                    onclick="setStars(2)"
+                                    >★</span
+                                >
+                                <span
+                                    class="star"
+                                    data-val="3"
+                                    onclick="setStars(3)"
+                                    >★</span
+                                >
+                                <span
+                                    class="star"
+                                    data-val="4"
+                                    onclick="setStars(4)"
+                                    >★</span
+                                >
+                                <span
+                                    class="star"
+                                    data-val="5"
+                                    onclick="setStars(5)"
+                                    >★</span
+                                >
+                            </div>
+
+                            <label class="label-sm">Comentarios:</label>
+                            <textarea
+                                class="form-textarea"
+                                rows="3"
+                                placeholder="¿Qué mejorarías del curso?"
+                            ></textarea>
+
+                            <button
+                                class="btn-send"
+                                onclick="enviarRetroalimentacion()"
+                            >
+                                Enviar Evaluación
+                            </button>
+                        </div>
+                    </aside>
+                </div>
+            </main>
+        </div>
+
+        <div id="toast" class="toast" role="alert"></div>
+
+        <script>
+            // ── Radio visual sync ──
+            document
+                .querySelectorAll('.quiz-opcion input[type="radio"]')
+                .forEach((radio) => {
+                    radio.addEventListener("change", () => {
+                        const name = radio.name;
+                        document
+                            .querySelectorAll(`input[name="${name}"]`)
+                            .forEach((r) => {
+                                r.closest(".quiz-opcion").style.borderColor =
+                                    "";
+                                r.closest(".quiz-opcion").style.background = "";
+                            });
+                    });
+                });
+
+            // ── Decorative countdown timer (10 min) ──
+            (function () {
+                let total = 600;
+                const el = document.getElementById("eval-timer");
+                const iv = setInterval(() => {
+                    if (total <= 0) {
+                        clearInterval(iv);
+                        el.textContent = "00:00";
+                        return;
+                    }
+                    total--;
+                    const m = Math.floor(total / 60);
+                    const s = total % 60;
+                    el.textContent =
+                        String(m).padStart(2, "0") +
+                        ":" +
+                        String(s).padStart(2, "0");
+                    if (total <= 60) el.style.color = "#dc2626";
+                }, 1000);
+            })();
+        </script>
+
+        <script src="../../js/evaluacion.js"></script>
+    </body>
+</html>

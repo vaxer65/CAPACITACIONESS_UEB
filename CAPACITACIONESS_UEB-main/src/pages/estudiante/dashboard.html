@@ -1,0 +1,1167 @@
+<!doctype html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Dashboard | Estudiante UEB</title>
+        <link rel="stylesheet" href="../../styles.css" />
+        <style>
+            :root {
+                --blue-inst: #003366;
+                --blue-mid: #004a8f;
+                --blue-light: #1a6abf;
+                --orange-cta: #ff6600;
+                --orange-light: #ff8533;
+                --neutral-bg: #f5f7fa;
+                --white: #ffffff;
+                --shadow-sm: 0 2px 8px rgba(0, 51, 102, 0.08);
+                --shadow-md: 0 8px 24px rgba(0, 51, 102, 0.14);
+                --shadow-lg: 0 16px 48px rgba(0, 51, 102, 0.18);
+                --radius: 16px;
+                --radius-sm: 10px;
+            }
+
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            body {
+                font-family:
+                    "Segoe UI",
+                    system-ui,
+                    -apple-system,
+                    sans-serif;
+                background: var(--neutral-bg);
+            }
+
+            /* ── NAVBAR ── */
+            .top-navbar {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 0 28px;
+                height: 64px;
+                background: linear-gradient(
+                    135deg,
+                    var(--blue-inst) 0%,
+                    var(--blue-mid) 60%,
+                    var(--blue-light) 100%
+                );
+                backdrop-filter: blur(12px);
+                box-shadow: 0 4px 20px rgba(0, 51, 102, 0.35);
+                position: sticky;
+                top: 0;
+                z-index: 1000;
+            }
+            .logo-area {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+            }
+            .logo-box {
+                width: 38px;
+                height: 38px;
+                background: linear-gradient(
+                    135deg,
+                    var(--orange-cta),
+                    var(--orange-light)
+                );
+                border-radius: 10px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 18px;
+                box-shadow: 0 4px 12px rgba(255, 102, 0, 0.4);
+            }
+            .logo-box::after {
+                content: "🎓";
+            }
+            .logo-area h2 {
+                color: #fff;
+                font-size: 17px;
+                font-weight: 700;
+                letter-spacing: 0.3px;
+            }
+            .search-area input {
+                background: rgba(255, 255, 255, 0.15);
+                border: 1px solid rgba(255, 255, 255, 0.25);
+                border-radius: 24px;
+                padding: 8px 18px;
+                color: #fff;
+                font-size: 13px;
+                width: 280px;
+                outline: none;
+                transition: all 0.3s;
+                backdrop-filter: blur(4px);
+            }
+            .search-area input::placeholder {
+                color: rgba(255, 255, 255, 0.65);
+            }
+            .search-area input:focus {
+                background: rgba(255, 255, 255, 0.22);
+                border-color: rgba(255, 255, 255, 0.5);
+                width: 320px;
+            }
+            .user-area {
+                display: flex;
+                align-items: center;
+                gap: 16px;
+            }
+            .notif-bell {
+                position: relative;
+                cursor: pointer;
+                background: rgba(255, 255, 255, 0.12);
+                border-radius: 50%;
+                width: 38px;
+                height: 38px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 17px;
+                transition: background 0.2s;
+            }
+            .notif-bell:hover {
+                background: rgba(255, 255, 255, 0.22);
+            }
+            .notif-badge {
+                position: absolute;
+                top: -3px;
+                right: -3px;
+                background: var(--orange-cta);
+                color: #fff;
+                font-size: 10px;
+                font-weight: 700;
+                width: 18px;
+                height: 18px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border: 2px solid var(--blue-inst);
+            }
+            .user-info {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-end;
+            }
+            .user-name {
+                color: #fff;
+                font-size: 13px;
+                font-weight: 600;
+            }
+            .user-role {
+                color: rgba(255, 255, 255, 0.65);
+                font-size: 11px;
+            }
+            .avatar {
+                width: 38px;
+                height: 38px;
+                border-radius: 50%;
+                background: linear-gradient(135deg, var(--orange-cta), #ff9933);
+                color: #fff;
+                font-weight: 700;
+                font-size: 13px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+                cursor: pointer;
+            }
+
+            /* ── APP BODY ── */
+            .app-body {
+                display: flex;
+                flex: 1;
+                min-height: calc(100vh - 64px);
+            }
+
+            /* ── SIDEBAR ── */
+            .sidebar {
+                width: 240px;
+                background: linear-gradient(
+                    180deg,
+                    var(--blue-inst) 0%,
+                    #002244 100%
+                );
+                display: flex;
+                flex-direction: column;
+                padding: 20px 0;
+                box-shadow: 4px 0 24px rgba(0, 0, 0, 0.18);
+                position: sticky;
+                top: 64px;
+                height: calc(100vh - 64px);
+                overflow-y: auto;
+                flex-shrink: 0;
+            }
+            .sidebar-brand {
+                padding: 0 20px 20px;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+                margin-bottom: 8px;
+            }
+            .sidebar-brand span {
+                color: rgba(255, 255, 255, 0.45);
+                font-size: 10px;
+                text-transform: uppercase;
+                letter-spacing: 1.5px;
+                font-weight: 600;
+            }
+            .nav-links {
+                list-style: none;
+                padding: 0;
+                flex: 1;
+            }
+            .nav-links li {
+                margin: 2px 12px;
+            }
+            .nav-links a {
+                display: flex;
+                align-items: center;
+                gap: 11px;
+                padding: 11px 14px;
+                border-radius: var(--radius-sm);
+                color: rgba(255, 255, 255, 0.65);
+                text-decoration: none;
+                font-size: 13.5px;
+                font-weight: 500;
+                transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            .nav-links a:hover {
+                color: #fff;
+                background: rgba(255, 255, 255, 0.1);
+                transform: translateX(3px);
+            }
+            .nav-links a.active {
+                background: var(--orange-cta);
+                color: #fff;
+                font-weight: 700;
+                box-shadow: 0 4px 14px rgba(255, 102, 0, 0.4);
+            }
+            .nav-links a.active:hover {
+                transform: none;
+            }
+            .nav-icon {
+                width: 20px;
+                text-align: center;
+                font-size: 16px;
+            }
+            .bottom-links {
+                margin-top: auto;
+                border-top: 1px solid rgba(255, 255, 255, 0.08);
+                padding-top: 10px;
+            }
+            .nav-links a.text-red {
+                color: rgba(255, 120, 120, 0.8);
+            }
+            .nav-links a.text-red:hover {
+                color: #ff6b6b;
+                background: rgba(255, 80, 80, 0.12);
+            }
+            .sidebar-section-label {
+                padding: 12px 26px 4px;
+                color: rgba(255, 255, 255, 0.3);
+                font-size: 10px;
+                text-transform: uppercase;
+                letter-spacing: 1.5px;
+                font-weight: 600;
+            }
+
+            /* ── MAIN CONTENT ── */
+            .content {
+                flex: 1;
+                padding: 28px 32px;
+                overflow-y: auto;
+            }
+
+            /* ── WELCOME HEADER ── */
+            .welcome-header-card {
+                background: linear-gradient(
+                    135deg,
+                    var(--blue-inst) 0%,
+                    var(--blue-mid) 55%,
+                    #1a5fa0 100%
+                );
+                border-radius: var(--radius);
+                padding: 32px 36px;
+                margin-bottom: 28px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                position: relative;
+                overflow: hidden;
+                box-shadow: var(--shadow-lg);
+                animation: fadeInDown 0.5s ease both;
+            }
+            .welcome-header-card::before {
+                content: "";
+                position: absolute;
+                top: -40px;
+                right: -40px;
+                width: 200px;
+                height: 200px;
+                background: rgba(255, 255, 255, 0.04);
+                border-radius: 50%;
+            }
+            .welcome-header-card::after {
+                content: "";
+                position: absolute;
+                bottom: -60px;
+                right: 120px;
+                width: 160px;
+                height: 160px;
+                background: rgba(255, 102, 0, 0.08);
+                border-radius: 50%;
+            }
+            .welcome-text h1 {
+                color: #fff;
+                font-size: 26px;
+                font-weight: 800;
+                margin-bottom: 6px;
+            }
+            .welcome-text p {
+                color: rgba(255, 255, 255, 0.72);
+                font-size: 14px;
+                line-height: 1.5;
+                max-width: 400px;
+            }
+            .welcome-actions {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-end;
+                gap: 14px;
+                z-index: 1;
+            }
+            .btn-cta-white {
+                background: #fff;
+                color: var(--blue-inst);
+                border: none;
+                border-radius: 24px;
+                padding: 11px 24px;
+                font-size: 13px;
+                font-weight: 700;
+                cursor: pointer;
+                transition: all 0.25s;
+                box-shadow: 0 4px 14px rgba(0, 0, 0, 0.15);
+                white-space: nowrap;
+            }
+            .btn-cta-white:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+            }
+            .semester-progress-wrap {
+                text-align: right;
+            }
+            .semester-progress-wrap span {
+                color: rgba(255, 255, 255, 0.65);
+                font-size: 11px;
+                display: block;
+                margin-bottom: 5px;
+            }
+            .semester-bar {
+                width: 180px;
+                height: 6px;
+                background: rgba(255, 255, 255, 0.2);
+                border-radius: 10px;
+                overflow: hidden;
+            }
+            .semester-bar-fill {
+                height: 100%;
+                background: linear-gradient(90deg, var(--orange-cta), #ffaa44);
+                border-radius: 10px;
+                width: 68%;
+                position: relative;
+                overflow: hidden;
+            }
+            .semester-bar-fill::after {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(
+                    90deg,
+                    transparent,
+                    rgba(255, 255, 255, 0.5),
+                    transparent
+                );
+                animation: shimmer 2s infinite;
+            }
+            .welcome-illustration {
+                position: absolute;
+                right: 200px;
+                top: 50%;
+                transform: translateY(-50%);
+                opacity: 0.07;
+                z-index: 0;
+            }
+
+            /* ── STATS ROW ── */
+            .stats-row {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 18px;
+                margin-bottom: 28px;
+            }
+            .stat-card {
+                background: var(--white);
+                border-radius: var(--radius);
+                padding: 22px 24px;
+                display: flex;
+                align-items: center;
+                gap: 18px;
+                box-shadow: var(--shadow-sm);
+                border: 1px solid rgba(0, 51, 102, 0.06);
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                position: relative;
+                overflow: hidden;
+                animation: fadeInUp 0.5s ease both;
+            }
+            .stat-card:nth-child(1) {
+                animation-delay: 0.1s;
+            }
+            .stat-card:nth-child(2) {
+                animation-delay: 0.2s;
+            }
+            .stat-card:nth-child(3) {
+                animation-delay: 0.3s;
+            }
+            .stat-card::before {
+                content: "";
+                position: absolute;
+                bottom: 0;
+                right: 0;
+                width: 70px;
+                height: 70px;
+                border-radius: 50% 0 0 0;
+                opacity: 0.04;
+            }
+            .stat-card:nth-child(1)::before {
+                background: var(--blue-inst);
+            }
+            .stat-card:nth-child(2)::before {
+                background: var(--orange-cta);
+            }
+            .stat-card:nth-child(3)::before {
+                background: #22c55e;
+            }
+            .stat-card:hover {
+                transform: translateY(-5px);
+                box-shadow: var(--shadow-md);
+            }
+            .stat-icon-wrap {
+                width: 54px;
+                height: 54px;
+                border-radius: 14px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 24px;
+                flex-shrink: 0;
+            }
+            .stat-icon-blue {
+                background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+            }
+            .stat-icon-orange {
+                background: linear-gradient(135deg, #ffedd5, #fed7aa);
+            }
+            .stat-icon-green {
+                background: linear-gradient(135deg, #dcfce7, #bbf7d0);
+            }
+            .stat-info h3 {
+                font-size: 32px;
+                font-weight: 800;
+                line-height: 1;
+                margin-bottom: 4px;
+                color: var(--blue-inst);
+            }
+            .stat-info p {
+                font-size: 12px;
+                color: #6b7280;
+                font-weight: 500;
+            }
+
+            /* ── SECTION TITLE ── */
+            .section-title {
+                font-size: 16px;
+                font-weight: 700;
+                color: var(--blue-inst);
+                margin-bottom: 16px;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+            .section-title::after {
+                content: "";
+                flex: 1;
+                height: 1px;
+                background: linear-gradient(
+                    90deg,
+                    rgba(0, 51, 102, 0.15),
+                    transparent
+                );
+                margin-left: 8px;
+            }
+
+            /* ── LAYOUT ── */
+            .dashboard-layout {
+                display: grid;
+                grid-template-columns: 1fr 300px;
+                gap: 24px;
+            }
+
+            /* ── ASIDE CARD ── */
+            .aside-card {
+                background: var(--white);
+                border-radius: var(--radius);
+                padding: 22px;
+                box-shadow: var(--shadow-sm);
+                border: 1px solid rgba(0, 51, 102, 0.06);
+                margin-bottom: 18px;
+                animation: fadeInRight 0.5s ease 0.35s both;
+            }
+            .vencimiento-card {
+                background: linear-gradient(135deg, #fff7ed, #fff3e0);
+                border: 2px solid rgba(255, 102, 0, 0.2);
+                border-radius: var(--radius);
+                padding: 22px;
+                margin-bottom: 18px;
+                box-shadow: 0 8px 24px rgba(255, 102, 0, 0.12);
+                animation: fadeInRight 0.5s ease 0.25s both;
+            }
+            .venc-label {
+                display: inline-flex;
+                align-items: center;
+                gap: 6px;
+                background: rgba(255, 102, 0, 0.12);
+                color: var(--orange-cta);
+                font-size: 10px;
+                font-weight: 800;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                padding: 4px 10px;
+                border-radius: 20px;
+                margin-bottom: 12px;
+            }
+            .countdown-grid {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 8px;
+                margin: 14px 0;
+            }
+            .countdown-unit {
+                background: var(--white);
+                border-radius: 10px;
+                padding: 10px 4px;
+                text-align: center;
+                box-shadow: 0 2px 8px rgba(255, 102, 0, 0.1);
+            }
+            .countdown-num {
+                font-size: 26px;
+                font-weight: 800;
+                color: var(--orange-cta);
+                line-height: 1;
+                display: block;
+            }
+            .countdown-lbl {
+                font-size: 9px;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                color: #9ca3af;
+                font-weight: 600;
+            }
+            .btn-cta {
+                background: linear-gradient(
+                    135deg,
+                    var(--orange-cta),
+                    var(--orange-light)
+                );
+                color: #fff;
+                border: none;
+                border-radius: 24px;
+                padding: 11px 22px;
+                font-size: 13px;
+                font-weight: 700;
+                cursor: pointer;
+                transition: all 0.25s;
+                box-shadow: 0 4px 14px rgba(255, 102, 0, 0.35);
+                width: 100%;
+            }
+            .btn-cta:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 20px rgba(255, 102, 0, 0.45);
+            }
+
+            /* ── ANIMATIONS ── */
+            @keyframes fadeInDown {
+                from {
+                    opacity: 0;
+                    transform: translateY(-20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            @keyframes fadeInRight {
+                from {
+                    opacity: 0;
+                    transform: translateX(20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateX(0);
+                }
+            }
+            @keyframes shimmer {
+                0% {
+                    left: -100%;
+                }
+                100% {
+                    left: 200%;
+                }
+            }
+            @keyframes pulse-ring {
+                0% {
+                    transform: scale(1);
+                    opacity: 0.6;
+                }
+                100% {
+                    transform: scale(1.4);
+                    opacity: 0;
+                }
+            }
+            @keyframes countUp {
+                from {
+                    opacity: 0;
+                    transform: scale(0.7);
+                }
+                to {
+                    opacity: 1;
+                    transform: scale(1);
+                }
+            }
+
+            /* ── TOAST ── */
+            .toast {
+                position: fixed;
+                bottom: 24px;
+                right: 24px;
+                background: var(--blue-inst);
+                color: #fff;
+                padding: 14px 22px;
+                border-radius: 12px;
+                font-size: 14px;
+                font-weight: 500;
+                box-shadow: var(--shadow-md);
+                transform: translateY(80px);
+                opacity: 0;
+                transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+                z-index: 9999;
+            }
+            .toast.show {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        </style>
+    </head>
+    <body style="margin: 0; background: var(--neutral-bg)">
+        <!-- ══ NAVBAR ══ -->
+        <header class="top-navbar">
+            <div class="logo-area">
+                <div class="logo-box"></div>
+                <h2>Capacitación UEB</h2>
+            </div>
+            <div class="search-area">
+                <input
+                    type="text"
+                    placeholder="🔍 Buscar cursos, materiales..."
+                />
+            </div>
+            <div class="user-area">
+                <div class="notif-bell" title="Notificaciones">
+                    🔔
+                    <span class="notif-badge" id="dash-badge-notif">2</span>
+                </div>
+                <div class="user-info">
+                    <span class="user-name">Valentín Valle</span>
+                    <span class="user-role">Estudiante · Sexto A</span>
+                </div>
+                <div class="avatar">VV</div>
+            </div>
+        </header>
+
+        <div class="app-body">
+            <!-- ══ SIDEBAR ══ -->
+            <nav class="sidebar" id="sidebar">
+                <div class="sidebar-brand">
+                    <span>Menú principal</span>
+                </div>
+                <div class="sidebar-section-label">Navegación</div>
+                <ul class="nav-links">
+                    <li>
+                        <a href="dashboard.html" class="nav-link active"
+                            ><span class="nav-icon">📊</span> Dashboard</a
+                        >
+                    </li>
+                    <li>
+                        <a href="catalogo.html" class="nav-link"
+                            ><span class="nav-icon">📚</span> Catálogo</a
+                        >
+                    </li>
+                    <li>
+                        <a href="aula.html" class="nav-link"
+                            ><span class="nav-icon">💻</span> Aula Virtual</a
+                        >
+                    </li>
+                    <li>
+                        <a href="certificados.html" class="nav-link"
+                            ><span class="nav-icon">🎓</span> Certificados</a
+                        >
+                    </li>
+                </ul>
+                <div class="sidebar-section-label">Cuenta</div>
+                <ul class="nav-links bottom-links">
+                    <li>
+                        <a href="perfil.html" class="nav-link"
+                            ><span class="nav-icon">👤</span> Perfil &amp;
+                            Soporte</a
+                        >
+                    </li>
+                    <li>
+                        <a href="../login.html" class="text-red"
+                            ><span class="nav-icon">🚪</span> Cerrar Sesión</a
+                        >
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- ══ MAIN ══ -->
+            <main class="content">
+                <!-- Welcome Banner -->
+                <div class="welcome-header-card">
+                    <!-- SVG decorativo -->
+                    <div class="welcome-illustration">
+                        <svg
+                            width="200"
+                            height="180"
+                            viewBox="0 0 200 180"
+                            fill="none"
+                        >
+                            <path
+                                d="M100 20L160 55V110L100 145L40 110V55L100 20Z"
+                                fill="white"
+                                opacity="0.6"
+                            />
+                            <path
+                                d="M100 40L140 62V105L100 127L60 105V62L100 40Z"
+                                fill="white"
+                                opacity="0.4"
+                            />
+                            <rect
+                                x="75"
+                                y="80"
+                                width="50"
+                                height="40"
+                                rx="4"
+                                fill="white"
+                                opacity="0.7"
+                            />
+                            <rect
+                                x="85"
+                                y="90"
+                                width="30"
+                                height="5"
+                                rx="2"
+                                fill="#003366"
+                                opacity="0.4"
+                            />
+                            <rect
+                                x="85"
+                                y="100"
+                                width="20"
+                                height="5"
+                                rx="2"
+                                fill="#003366"
+                                opacity="0.4"
+                            />
+                            <polygon
+                                points="100,50 112,58 108,72 100,75 92,72 88,58"
+                                fill="white"
+                                opacity="0.8"
+                            />
+                            <line
+                                x1="100"
+                                y1="20"
+                                x2="100"
+                                y2="10"
+                                stroke="white"
+                                stroke-width="3"
+                                opacity="0.7"
+                            />
+                            <circle
+                                cx="100"
+                                cy="8"
+                                r="4"
+                                fill="white"
+                                opacity="0.8"
+                            />
+                        </svg>
+                    </div>
+                    <div class="welcome-text">
+                        <h1>¡Bienvenido de vuelta, Valentín 👋</h1>
+                        <p>
+                            Sigue aprendiendo y alcanza tus metas académicas.
+                            Tienes cursos activos esperándote.
+                        </p>
+                    </div>
+                    <div class="welcome-actions">
+                        <a href="catalogo.html" style="text-decoration: none">
+                            <button class="btn-cta-white">
+                                Explorar Catálogo →
+                            </button>
+                        </a>
+                        <div class="semester-progress-wrap">
+                            <span>Progreso semestral · 68%</span>
+                            <div class="semester-bar">
+                                <div class="semester-bar-fill"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats Row -->
+                <div class="stats-row">
+                    <div class="stat-card">
+                        <div class="stat-icon-wrap stat-icon-blue">📖</div>
+                        <div class="stat-info">
+                            <h3 id="dash-total-cursos">1</h3>
+                            <p>Cursos Inscritos</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon-wrap stat-icon-orange">⚡</div>
+                        <div class="stat-info">
+                            <h3 id="_stat-progreso">75%</h3>
+                            <p>Progreso Promedio</p>
+                        </div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon-wrap stat-icon-green">🏆</div>
+                        <div class="stat-info">
+                            <h3 id="_stat-certs">03</h3>
+                            <p>Certificados</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Main layout -->
+                <div class="dashboard-layout">
+                    <div class="main-col">
+                        <p class="section-title">📋 Mis Cursos Activos</p>
+                        <div
+                            id="contenedor-dashboard-estudiante"
+                            style="
+                                display: flex;
+                                flex-direction: column;
+                                gap: 14px;
+                            "
+                        ></div>
+                    </div>
+
+                    <aside>
+                        <!-- Próximo Vencimiento -->
+                        <div class="vencimiento-card">
+                            <div class="venc-label">⏰ Próximo Vencimiento</div>
+                            <h4
+                                style="
+                                    color: var(--blue-inst);
+                                    font-size: 15px;
+                                    margin-bottom: 4px;
+                                "
+                            >
+                                Examen Final: Estructuras
+                            </h4>
+                            <p
+                                style="
+                                    font-size: 12px;
+                                    color: #6b7280;
+                                    margin-bottom: 6px;
+                                "
+                            >
+                                La fecha límite se acerca rápido
+                            </p>
+                            <div class="countdown-grid">
+                                <div class="countdown-unit">
+                                    <span class="countdown-num" id="cd-dias"
+                                        >02</span
+                                    >
+                                    <span class="countdown-lbl">Días</span>
+                                </div>
+                                <div class="countdown-unit">
+                                    <span class="countdown-num" id="cd-horas"
+                                        >14</span
+                                    >
+                                    <span class="countdown-lbl">Horas</span>
+                                </div>
+                                <div class="countdown-unit">
+                                    <span class="countdown-num" id="cd-mins"
+                                        >33</span
+                                    >
+                                    <span class="countdown-lbl">Mins</span>
+                                </div>
+                            </div>
+                            <button
+                                class="btn-cta"
+                                onclick="window.location.href = 'aula.html'"
+                            >
+                                💻 Ir al Aula Virtual
+                            </button>
+                        </div>
+
+                        <!-- Progreso rápido -->
+                        <div class="aside-card">
+                            <p
+                                style="
+                                    font-size: 13px;
+                                    font-weight: 700;
+                                    color: var(--blue-inst);
+                                    margin-bottom: 14px;
+                                "
+                            >
+                                📈 Actividad Reciente
+                            </p>
+                            <div
+                                style="
+                                    display: flex;
+                                    flex-direction: column;
+                                    gap: 10px;
+                                "
+                            >
+                                <div>
+                                    <div
+                                        style="
+                                            display: flex;
+                                            justify-content: space-between;
+                                            margin-bottom: 4px;
+                                        "
+                                    >
+                                        <span
+                                            style="
+                                                font-size: 12px;
+                                                color: #374151;
+                                                font-weight: 500;
+                                            "
+                                            >Microservicios</span
+                                        >
+                                        <span
+                                            style="
+                                                font-size: 12px;
+                                                color: var(--orange-cta);
+                                                font-weight: 700;
+                                            "
+                                            >20%</span
+                                        >
+                                    </div>
+                                    <div
+                                        style="
+                                            height: 7px;
+                                            background: #f3f4f6;
+                                            border-radius: 10px;
+                                            overflow: hidden;
+                                        "
+                                    >
+                                        <div
+                                            style="
+                                                height: 100%;
+                                                width: 20%;
+                                                background: linear-gradient(
+                                                    90deg,
+                                                    var(--orange-cta),
+                                                    #ff9933
+                                                );
+                                                border-radius: 10px;
+                                            "
+                                        ></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div
+                                        style="
+                                            display: flex;
+                                            justify-content: space-between;
+                                            margin-bottom: 4px;
+                                        "
+                                    >
+                                        <span
+                                            style="
+                                                font-size: 12px;
+                                                color: #374151;
+                                                font-weight: 500;
+                                            "
+                                            >Marketing Digital</span
+                                        >
+                                        <span
+                                            style="
+                                                font-size: 12px;
+                                                color: var(--blue-light);
+                                                font-weight: 700;
+                                            "
+                                            >40%</span
+                                        >
+                                    </div>
+                                    <div
+                                        style="
+                                            height: 7px;
+                                            background: #f3f4f6;
+                                            border-radius: 10px;
+                                            overflow: hidden;
+                                        "
+                                    >
+                                        <div
+                                            style="
+                                                height: 100%;
+                                                width: 40%;
+                                                background: linear-gradient(
+                                                    90deg,
+                                                    var(--blue-mid),
+                                                    var(--blue-light)
+                                                );
+                                                border-radius: 10px;
+                                            "
+                                        ></div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div
+                                        style="
+                                            display: flex;
+                                            justify-content: space-between;
+                                            margin-bottom: 4px;
+                                        "
+                                    >
+                                        <span
+                                            style="
+                                                font-size: 12px;
+                                                color: #374151;
+                                                font-weight: 500;
+                                            "
+                                            >Python Nivel 1</span
+                                        >
+                                        <span
+                                            style="
+                                                font-size: 12px;
+                                                color: #22c55e;
+                                                font-weight: 700;
+                                            "
+                                            >100%</span
+                                        >
+                                    </div>
+                                    <div
+                                        style="
+                                            height: 7px;
+                                            background: #f3f4f6;
+                                            border-radius: 10px;
+                                            overflow: hidden;
+                                        "
+                                    >
+                                        <div
+                                            style="
+                                                height: 100%;
+                                                width: 100%;
+                                                background: linear-gradient(
+                                                    90deg,
+                                                    #22c55e,
+                                                    #4ade80
+                                                );
+                                                border-radius: 10px;
+                                            "
+                                        ></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </aside>
+                </div>
+            </main>
+        </div>
+
+        <script>
+            // ── CountUp animation ──
+            function animateCount(el, target, suffix) {
+                let start = 0;
+                const isFloat = target % 1 !== 0;
+                const step = target / 40;
+                const timer = setInterval(() => {
+                    start = Math.min(start + step, target);
+                    el.textContent = isFloat
+                        ? Math.round(start) + (suffix || "")
+                        : (start < 10 ? "0" : "") + Math.round(start);
+                    if (start >= target) clearInterval(timer);
+                }, 30);
+            }
+
+            const observer = new IntersectionObserver(
+                (entries) => {
+                    entries.forEach((e) => {
+                        if (e.isIntersecting) {
+                            const statsEls =
+                                document.querySelectorAll(".stat-info h3");
+                            const vals = [1, 75, 3];
+                            const suffixes = ["", "%", ""];
+                            statsEls.forEach((el, i) =>
+                                animateCount(el, vals[i], suffixes[i]),
+                            );
+                            observer.disconnect();
+                        }
+                    });
+                },
+                { threshold: 0.3 },
+            );
+
+            const statsRow = document.querySelector(".stats-row");
+            if (statsRow) observer.observe(statsRow);
+
+            // ── Countdown ──
+            (function startCountdown() {
+                const target = new Date();
+                target.setDate(target.getDate() + 2);
+                target.setHours(
+                    target.getHours() + 14,
+                    target.getMinutes() + 33,
+                    0,
+                );
+                function tick() {
+                    const now = new Date();
+                    const diff = Math.max(0, target - now);
+                    const d = Math.floor(diff / 86400000);
+                    const h = Math.floor((diff % 86400000) / 3600000);
+                    const m = Math.floor((diff % 3600000) / 60000);
+                    document.getElementById("cd-dias").textContent = String(
+                        d,
+                    ).padStart(2, "0");
+                    document.getElementById("cd-horas").textContent = String(
+                        h,
+                    ).padStart(2, "0");
+                    document.getElementById("cd-mins").textContent = String(
+                        m,
+                    ).padStart(2, "0");
+                }
+                tick();
+                setInterval(tick, 30000);
+            })();
+        </script>
+
+        <script src="../../js/dashboard.js"></script>
+    </body>
+</html>

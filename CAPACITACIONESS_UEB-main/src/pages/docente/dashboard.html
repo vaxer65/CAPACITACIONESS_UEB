@@ -1,0 +1,1948 @@
+<!doctype html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Panel Docente | UEB</title>
+        <link rel="stylesheet" href="../../styles.css" />
+        <style>
+            /* ====================================================
+           DASHBOARD DOCENTE — ESTILOS EXCLUSIVOS
+        ==================================================== */
+
+            /* --- Navbar docente (naranja/azul) --- */
+            .top-navbar {
+                background: linear-gradient(
+                    135deg,
+                    #001a40 0%,
+                    #003366 40%,
+                    #004080 70%,
+                    #cc4400 100%
+                ) !important;
+                box-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
+                position: relative;
+                overflow: hidden;
+            }
+            .top-navbar::before {
+                content: "";
+                position: absolute;
+                top: -40px;
+                right: -40px;
+                width: 180px;
+                height: 180px;
+                border-radius: 50%;
+                background: rgba(255, 102, 0, 0.18);
+                pointer-events: none;
+            }
+            .top-navbar::after {
+                content: "";
+                position: absolute;
+                bottom: -30px;
+                left: 20%;
+                width: 120px;
+                height: 120px;
+                border-radius: 50%;
+                background: rgba(255, 255, 255, 0.04);
+                pointer-events: none;
+            }
+            .docente-badge {
+                display: inline-flex;
+                align-items: center;
+                gap: 6px;
+                background: linear-gradient(135deg, #ff6600, #ff9900);
+                color: #fff;
+                font-size: 10px;
+                font-weight: 800;
+                letter-spacing: 1.5px;
+                text-transform: uppercase;
+                padding: 4px 11px;
+                border-radius: 999px;
+                box-shadow: 0 3px 14px rgba(255, 102, 0, 0.55);
+                margin-left: 10px;
+            }
+            .logo-box-modern {
+                width: 36px;
+                height: 36px;
+                background: linear-gradient(135deg, #ff6600, #e84d00);
+                border-radius: 10px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 18px;
+                box-shadow: 0 4px 14px rgba(255, 102, 0, 0.5);
+                flex-shrink: 0;
+            }
+
+            /* --- Sidebar docente --- */
+            .sidebar {
+                background: linear-gradient(
+                    180deg,
+                    #001e4a 0%,
+                    #002d6b 100%
+                ) !important;
+                border-right: none !important;
+                box-shadow: 4px 0 24px rgba(0, 0, 0, 0.2);
+            }
+            .sidebar-section-label {
+                font-size: 9px;
+                font-weight: 700;
+                letter-spacing: 2px;
+                text-transform: uppercase;
+                color: rgba(255, 255, 255, 0.35);
+                padding: 20px 18px 6px;
+            }
+            .nav-links li a {
+                color: rgba(255, 255, 255, 0.72) !important;
+                border-radius: 10px !important;
+                margin: 2px 10px !important;
+                padding: 10px 14px !important;
+                transition: all 0.22s ease !important;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+            .nav-links li a:hover,
+            .nav-links li a.active {
+                background: linear-gradient(
+                    135deg,
+                    #cc4400,
+                    #ff6600
+                ) !important;
+                color: #fff !important;
+                box-shadow: 0 4px 14px rgba(255, 102, 0, 0.4) !important;
+                transform: translateX(3px);
+            }
+            .nav-icon-wrap {
+                width: 32px;
+                height: 32px;
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 8px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 15px;
+                flex-shrink: 0;
+                transition: background 0.22s ease;
+            }
+            .nav-links li a.active .nav-icon-wrap,
+            .nav-links li a:hover .nav-icon-wrap {
+                background: rgba(255, 255, 255, 0.2);
+            }
+            .nav-links li a.text-red {
+                color: #fc8181 !important;
+            }
+            .nav-links li a.text-red:hover {
+                background: rgba(229, 62, 62, 0.18) !important;
+                box-shadow: none !important;
+            }
+
+            /* --- Animaciones --- */
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(22px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            @keyframes modalIn {
+                from {
+                    opacity: 0;
+                    transform: scale(0.93) translateY(16px);
+                }
+                to {
+                    opacity: 1;
+                    transform: scale(1) translateY(0);
+                }
+            }
+            .fade-up {
+                animation: fadeInUp 0.5s ease both;
+            }
+            .delay-1 {
+                animation-delay: 0.07s;
+            }
+            .delay-2 {
+                animation-delay: 0.14s;
+            }
+            .delay-3 {
+                animation-delay: 0.21s;
+            }
+            .delay-4 {
+                animation-delay: 0.28s;
+            }
+
+            /* --- Sección título --- */
+            .sec-title {
+                font-size: 15px;
+                font-weight: 700;
+                color: #003366;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                margin: 0 0 16px;
+            }
+            .sec-title::before {
+                content: "";
+                width: 4px;
+                height: 18px;
+                background: linear-gradient(180deg, #ff6600, #003366);
+                border-radius: 4px;
+                flex-shrink: 0;
+            }
+
+            /* --- View sections --- */
+            .view-section {
+                display: none;
+            }
+            .view-section.active {
+                display: block !important;
+            }
+
+            /* --- Welcome Hero --- */
+            .welcome-hero-doc {
+                background: linear-gradient(
+                    135deg,
+                    #001e4a 0%,
+                    #003366 45%,
+                    #cc4400 100%
+                );
+                border-radius: 18px;
+                padding: 26px 30px;
+                color: #fff;
+                position: relative;
+                overflow: hidden;
+                margin-bottom: 24px;
+                box-shadow: 0 8px 30px rgba(0, 51, 102, 0.3);
+            }
+            .welcome-hero-doc::before {
+                content: "";
+                position: absolute;
+                top: -50px;
+                right: -50px;
+                width: 200px;
+                height: 200px;
+                border-radius: 50%;
+                background: rgba(255, 102, 0, 0.15);
+            }
+            .welcome-hero-doc h1 {
+                font-size: 21px;
+                font-weight: 800;
+                color: #fff;
+                margin: 0 0 6px;
+            }
+            .welcome-hero-doc p {
+                font-size: 13px;
+                color: rgba(255, 255, 255, 0.75);
+                margin: 0;
+            }
+            .hero-doc-icon {
+                position: absolute;
+                right: 30px;
+                top: 50%;
+                transform: translateY(-50%);
+                font-size: 60px;
+                opacity: 0.15;
+            }
+
+            /* --- CTA Card sidebar --- */
+            .cta-card-doc {
+                background: linear-gradient(135deg, #cc4400, #ff6600);
+                border-radius: 16px;
+                padding: 22px;
+                color: #fff;
+                position: relative;
+                overflow: hidden;
+                box-shadow: 0 8px 24px rgba(255, 102, 0, 0.4);
+            }
+            .cta-card-doc::before {
+                content: "";
+                position: absolute;
+                top: -20px;
+                right: -20px;
+                width: 100px;
+                height: 100px;
+                border-radius: 50%;
+                background: rgba(255, 255, 255, 0.15);
+            }
+            .cta-card-doc .cta-label {
+                font-size: 10px;
+                font-weight: 800;
+                letter-spacing: 2px;
+                text-transform: uppercase;
+                color: rgba(255, 255, 255, 0.8);
+            }
+            .cta-card-doc h4 {
+                color: #fff;
+                font-size: 14px;
+                margin: 6px 0 5px;
+            }
+            .cta-card-doc p {
+                font-size: 12px;
+                color: rgba(255, 255, 255, 0.8);
+                margin-bottom: 14px;
+            }
+            .cta-card-doc .btn-white-doc {
+                width: 100%;
+                background: #fff;
+                color: #cc4400;
+                border: none;
+                border-radius: 10px;
+                padding: 10px;
+                font-size: 13px;
+                font-weight: 800;
+                cursor: pointer;
+                transition: all 0.25s ease;
+            }
+            .cta-card-doc .btn-white-doc:hover {
+                background: #fff3e0;
+                transform: translateY(-2px);
+            }
+
+            /* --- Cursos list --- */
+            .curso-item-doc {
+                background: #fff;
+                border-radius: 14px;
+                padding: 18px;
+                display: flex;
+                align-items: center;
+                gap: 16px;
+                margin-bottom: 12px;
+                box-shadow: 0 3px 16px rgba(0, 0, 0, 0.07);
+                border: 1px solid rgba(226, 232, 240, 0.8);
+                border-left: 4px solid #ff6600;
+                transition: all 0.25s ease;
+            }
+            .curso-item-doc:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 10px 28px rgba(255, 102, 0, 0.12);
+            }
+            .curso-icon-doc {
+                width: 46px;
+                height: 46px;
+                border-radius: 12px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 22px;
+                flex-shrink: 0;
+                background: linear-gradient(135deg, #fff5eb, #ffd7b5);
+            }
+
+            /* --- Tabla notas --- */
+            .table-modern {
+                width: 100%;
+                border-collapse: collapse;
+                font-size: 13px;
+            }
+            .table-modern thead tr {
+                background: linear-gradient(135deg, #fff5eb, #ffe0cc);
+                border-bottom: 2px solid #ffd7b5;
+            }
+            .table-modern thead th {
+                padding: 13px 16px;
+                color: #c05621;
+                font-weight: 700;
+                font-size: 11px;
+                text-transform: uppercase;
+                letter-spacing: 0.6px;
+            }
+            .table-modern tbody tr {
+                border-bottom: 1px solid #f0f4f8;
+                transition: background 0.18s ease;
+            }
+            .table-modern tbody tr:hover {
+                background: #fffaf0;
+            }
+            .table-modern tbody td {
+                padding: 13px 16px;
+                color: #4a5568;
+            }
+            .table-modern tbody td:first-child {
+                font-weight: 600;
+                color: #1a202c;
+            }
+
+            /* --- Progress bar notas --- */
+            .nota-prog-wrap {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+            .nota-prog-track {
+                flex: 1;
+                height: 8px;
+                background: #e2e8f0;
+                border-radius: 999px;
+                overflow: hidden;
+            }
+            .nota-prog-fill {
+                height: 100%;
+                border-radius: 999px;
+                transition: width 1s ease;
+            }
+            .npf-high {
+                background: linear-gradient(90deg, #38a169, #68d391);
+            }
+            .npf-mid {
+                background: linear-gradient(90deg, #ff6600, #ff9900);
+            }
+            .npf-low {
+                background: linear-gradient(90deg, #e53e3e, #fc8181);
+            }
+            .nota-num {
+                font-size: 13px;
+                font-weight: 800;
+                min-width: 28px;
+            }
+            .nota-num.high {
+                color: #276749;
+            }
+            .nota-num.mid {
+                color: #c05621;
+            }
+            .nota-num.low {
+                color: #c53030;
+            }
+
+            /* --- Estado badges notas --- */
+            .est-badge {
+                display: inline-flex;
+                align-items: center;
+                gap: 5px;
+                font-size: 11px;
+                font-weight: 700;
+                padding: 4px 11px;
+                border-radius: 999px;
+            }
+            .est-badge::before {
+                content: "";
+                width: 6px;
+                height: 6px;
+                border-radius: 50%;
+                flex-shrink: 0;
+            }
+            .eb-aprobado {
+                background: #f0fff4;
+                color: #276749;
+            }
+            .eb-aprobado::before {
+                background: #38a169;
+            }
+            .eb-proceso {
+                background: #fff5eb;
+                color: #c05621;
+            }
+            .eb-proceso::before {
+                background: #ff6600;
+            }
+            .eb-riesgo {
+                background: #fff5f5;
+                color: #c53030;
+            }
+            .eb-riesgo::before {
+                background: #e53e3e;
+            }
+
+            /* --- Selector de asignatura --- */
+            .asig-selector {
+                background: #fff;
+                border-radius: 14px;
+                padding: 16px 20px;
+                display: flex;
+                align-items: center;
+                gap: 16px;
+                flex-wrap: wrap;
+                box-shadow: 0 3px 16px rgba(0, 0, 0, 0.06);
+                border: 1px solid rgba(226, 232, 240, 0.8);
+                margin-bottom: 18px;
+                border-left: 4px solid #ff6600;
+            }
+
+            /* --- Foro chat UI --- */
+            .foro-layout {
+                display: grid;
+                grid-template-columns: 1fr 1.4fr;
+                gap: 18px;
+            }
+            @media (max-width: 800px) {
+                .foro-layout {
+                    grid-template-columns: 1fr;
+                }
+            }
+            .hilo-card {
+                background: #fff;
+                border-radius: 14px;
+                padding: 16px;
+                margin-bottom: 10px;
+                cursor: pointer;
+                box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+                border: 1px solid rgba(226, 232, 240, 0.8);
+                border-left: 4px solid #e2e8f0;
+                transition: all 0.2s ease;
+            }
+            .hilo-card:hover,
+            .hilo-card.active-thread {
+                border-left-color: #ff6600;
+                box-shadow: 0 6px 20px rgba(255, 102, 0, 0.12);
+                background: #fffaf0;
+            }
+            .hilo-card .hilo-title {
+                font-size: 13px;
+                font-weight: 700;
+                color: #1a202c;
+                margin: 0 0 5px;
+            }
+            .hilo-card .hilo-meta {
+                font-size: 11px;
+                color: #a0aec0;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+            .hilo-unread {
+                background: linear-gradient(135deg, #ff6600, #e84d00);
+                color: #fff;
+                font-size: 10px;
+                font-weight: 800;
+                padding: 2px 8px;
+                border-radius: 999px;
+            }
+            .chat-panel {
+                background: #fff;
+                border-radius: 16px;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+                border: 1px solid rgba(226, 232, 240, 0.8);
+                display: flex;
+                flex-direction: column;
+                height: 480px;
+                overflow: hidden;
+            }
+            .chat-panel-header {
+                background: linear-gradient(135deg, #001e4a, #003580);
+                padding: 14px 18px;
+            }
+            .chat-panel-header h4 {
+                color: #fff;
+                margin: 0;
+                font-size: 14px;
+                font-weight: 700;
+            }
+            .chat-panel-header p {
+                color: rgba(255, 255, 255, 0.6);
+                font-size: 11px;
+                margin: 3px 0 0;
+            }
+            #foro-chat-mensajes {
+                flex: 1;
+                overflow-y: auto;
+                padding: 16px;
+                display: flex;
+                flex-direction: column;
+                gap: 12px;
+                background: #f8fafc;
+            }
+            .msg-bubble {
+                max-width: 78%;
+                padding: 11px 14px;
+                border-radius: 14px;
+                font-size: 13px;
+                line-height: 1.5;
+                position: relative;
+            }
+            .msg-bubble.received {
+                background: #fff;
+                border: 1px solid #e2e8f0;
+                border-radius: 4px 14px 14px 14px;
+                align-self: flex-start;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+            }
+            .msg-bubble.sent {
+                background: linear-gradient(135deg, #cc4400, #ff6600);
+                color: #fff;
+                border-radius: 14px 4px 14px 14px;
+                align-self: flex-end;
+                box-shadow: 0 4px 12px rgba(255, 102, 0, 0.3);
+            }
+            .msg-meta {
+                font-size: 10px;
+                color: #a0aec0;
+                margin-top: 4px;
+                font-weight: 600;
+            }
+            .msg-meta.sent {
+                color: rgba(255, 255, 255, 0.7);
+                text-align: right;
+            }
+            .chat-form {
+                padding: 12px 14px;
+                border-top: 1px solid #e2e8f0;
+                display: flex;
+                gap: 8px;
+                background: #fff;
+            }
+            #foro-texto-input {
+                flex: 1;
+                border: 1.5px solid #e2e8f0;
+                border-radius: 10px;
+                padding: 9px 14px;
+                font-size: 13px;
+                outline: none;
+                transition: border-color 0.2s ease;
+            }
+            #foro-texto-input:focus {
+                border-color: #ff6600;
+            }
+            #foro-texto-input:disabled {
+                background: #f5f7fa;
+            }
+            #foro-btn-enviar {
+                background: linear-gradient(135deg, #cc4400, #ff6600);
+                color: #fff;
+                border: none;
+                border-radius: 10px;
+                padding: 9px 18px;
+                font-size: 13px;
+                font-weight: 700;
+                cursor: pointer;
+                transition: all 0.2s ease;
+                box-shadow: 0 3px 10px rgba(255, 102, 0, 0.35);
+            }
+            #foro-btn-enviar:hover:not(:disabled) {
+                transform: translateY(-2px);
+                box-shadow: 0 5px 16px rgba(255, 102, 0, 0.5);
+            }
+            #foro-btn-enviar:disabled {
+                background: #cbd5e0;
+                box-shadow: none;
+                cursor: not-allowed;
+            }
+
+            /* --- Catálogo --- */
+            .catalog-grid-doc {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+                gap: 18px;
+            }
+            .catalog-card-doc {
+                background: #fff;
+                border-radius: 16px;
+                overflow: hidden;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+                border: 1px solid rgba(226, 232, 240, 0.8);
+                transition: all 0.3s ease;
+            }
+            .catalog-card-doc:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 14px 36px rgba(0, 0, 0, 0.12);
+            }
+            .catalog-card-doc img {
+                width: 100%;
+                height: 160px;
+                object-fit: cover;
+                transition: transform 0.4s ease;
+            }
+            .catalog-card-doc:hover img {
+                transform: scale(1.05);
+            }
+            .catalog-card-doc .cc-body {
+                padding: 18px;
+            }
+            .catalog-card-doc .cc-body h4 {
+                font-size: 14px;
+                font-weight: 700;
+                color: #1a202c;
+                margin: 8px 0 6px;
+            }
+            .catalog-card-doc .cc-body p {
+                font-size: 12px;
+                color: #718096;
+                margin: 0 0 14px;
+            }
+            .btn-inscr {
+                width: 100%;
+                background: linear-gradient(135deg, #cc4400, #ff6600);
+                color: #fff;
+                border: none;
+                border-radius: 10px;
+                padding: 10px;
+                font-size: 13px;
+                font-weight: 700;
+                cursor: pointer;
+                transition: all 0.25s ease;
+                box-shadow: 0 3px 12px rgba(255, 102, 0, 0.35);
+            }
+            .btn-inscr:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 6px 18px rgba(255, 102, 0, 0.5);
+            }
+
+            /* === MODAL PROPUESTA WIZARD === */
+            .modal-overlay {
+                display: none;
+                position: fixed;
+                inset: 0;
+                background: rgba(0, 0, 0, 0.55);
+                backdrop-filter: blur(4px);
+                z-index: 1000;
+                align-items: center;
+                justify-content: center;
+            }
+            .modal-overlay.active {
+                display: flex !important;
+            }
+            .modal-box {
+                background: #fff;
+                border-radius: 20px;
+                box-shadow: 0 24px 60px rgba(0, 0, 0, 0.22);
+                width: 100%;
+                max-width: 560px;
+                padding: 0;
+                overflow: hidden;
+                animation: modalIn 0.32s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+            }
+            .modal-header-doc {
+                background: linear-gradient(135deg, #001e4a, #003366, #cc4400);
+                padding: 20px 26px;
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-start;
+            }
+            .modal-header-doc h3 {
+                color: #fff;
+                font-size: 17px;
+                font-weight: 800;
+                margin: 0 0 2px;
+            }
+            .modal-header-doc p {
+                color: rgba(255, 255, 255, 0.7);
+                font-size: 12px;
+                margin: 0;
+            }
+            .modal-close-btn {
+                width: 30px;
+                height: 30px;
+                border-radius: 8px;
+                background: rgba(255, 255, 255, 0.15);
+                color: #fff;
+                border: none;
+                cursor: pointer;
+                font-size: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: background 0.2s ease;
+                flex-shrink: 0;
+            }
+            .modal-close-btn:hover {
+                background: rgba(255, 255, 255, 0.3);
+            }
+
+            /* Stepper visual */
+            .wizard-stepper {
+                display: flex;
+                align-items: center;
+                padding: 14px 26px;
+                background: #f8fafc;
+                border-bottom: 1px solid #e2e8f0;
+                gap: 0;
+            }
+            .step-item {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                flex: 1;
+                position: relative;
+            }
+            .step-item:not(:last-child)::after {
+                content: "";
+                position: absolute;
+                top: 14px;
+                left: 60%;
+                right: -40%;
+                height: 2px;
+                background: #e2e8f0;
+                z-index: 0;
+            }
+            .step-item.done:not(:last-child)::after,
+            .step-item.active:not(:last-child)::after {
+                background: linear-gradient(90deg, #ff6600, #e2e8f0);
+            }
+            .step-circle {
+                width: 28px;
+                height: 28px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 12px;
+                font-weight: 800;
+                position: relative;
+                z-index: 1;
+                transition: all 0.3s ease;
+            }
+            .step-circle.pending {
+                background: #e2e8f0;
+                color: #a0aec0;
+            }
+            .step-circle.active {
+                background: linear-gradient(135deg, #ff6600, #cc4400);
+                color: #fff;
+                box-shadow: 0 3px 12px rgba(255, 102, 0, 0.45);
+            }
+            .step-circle.done {
+                background: linear-gradient(135deg, #38a169, #276749);
+                color: #fff;
+            }
+            .step-label {
+                font-size: 10px;
+                font-weight: 600;
+                margin-top: 5px;
+                text-align: center;
+                color: #a0aec0;
+            }
+            .step-item.active .step-label {
+                color: #c05621;
+                font-weight: 700;
+            }
+            .step-item.done .step-label {
+                color: #276749;
+            }
+
+            /* Modal body/footer */
+            .modal-body-doc {
+                padding: 22px 26px;
+                max-height: 52vh;
+                overflow-y: auto;
+            }
+            .modal-footer-doc {
+                padding: 14px 26px;
+                background: #f8fafc;
+                border-top: 1px solid #e2e8f0;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .form-field-label {
+                font-size: 11px;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 0.8px;
+                color: #718096;
+                margin-bottom: 6px;
+                display: block;
+            }
+            .wizard-paso {
+                display: none;
+            }
+            .wizard-paso.active-paso {
+                display: block;
+            }
+
+            /* Módulos dinámicos en wizard */
+            .modulo-item-wiz {
+                background: #f5f8ff;
+                border-radius: 10px;
+                padding: 10px 14px;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                font-size: 13px;
+                color: #2d3748;
+                font-weight: 600;
+                border: 1px solid #dde4f5;
+            }
+            .modulo-del-btn {
+                background: none;
+                border: none;
+                color: #a0aec0;
+                cursor: pointer;
+                font-size: 16px;
+                line-height: 1;
+                transition: color 0.18s ease;
+            }
+            .modulo-del-btn:hover {
+                color: #e53e3e;
+            }
+
+            /* --- Modal inscripción --- */
+            .modal-insc-box {
+                background: #fff;
+                border-radius: 20px;
+                box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+                width: 100%;
+                max-width: 440px;
+                padding: 30px;
+                animation: modalIn 0.28s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+            }
+
+            /* --- Toast docente --- */
+            .toast {
+                position: fixed;
+                bottom: 24px;
+                right: 24px;
+                z-index: 9999;
+                background: linear-gradient(135deg, #cc4400, #ff6600);
+                color: #fff;
+                padding: 14px 22px;
+                border-radius: 14px;
+                font-size: 13px;
+                font-weight: 600;
+                box-shadow: 0 8px 28px rgba(255, 102, 0, 0.4);
+                opacity: 0;
+                transform: translateY(12px) scale(0.97);
+                transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+                pointer-events: none;
+            }
+            .toast.show {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+
+            /* --- Page section hero (sub-secciones) --- */
+            .section-hero {
+                background: linear-gradient(
+                    135deg,
+                    #001e4a 0%,
+                    #003366 50%,
+                    #7a2500 100%
+                );
+                border-radius: 16px;
+                padding: 22px 26px;
+                color: #fff;
+                position: relative;
+                overflow: hidden;
+                margin-bottom: 20px;
+                box-shadow: 0 6px 22px rgba(0, 51, 102, 0.3);
+            }
+            .section-hero::before {
+                content: "";
+                position: absolute;
+                top: -30px;
+                right: -30px;
+                width: 140px;
+                height: 140px;
+                border-radius: 50%;
+                background: rgba(255, 102, 0, 0.15);
+            }
+            .section-hero h2 {
+                font-size: 17px;
+                font-weight: 800;
+                color: #fff;
+                margin: 0 0 4px;
+            }
+            .section-hero p {
+                font-size: 12px;
+                color: rgba(255, 255, 255, 0.7);
+                margin: 0;
+            }
+            .section-hero .sh-icon {
+                position: absolute;
+                right: 20px;
+                top: 50%;
+                transform: translateY(-50%);
+                font-size: 48px;
+                opacity: 0.15;
+            }
+        </style>
+    </head>
+    <body class="flex-column" style="margin: 0">
+        <!-- ======================== NAVBAR ======================== -->
+        <header class="top-navbar">
+            <div
+                class="logo-area"
+                style="display: flex; align-items: center; gap: 12px"
+            >
+                <div class="logo-box-modern">🎓</div>
+                <div
+                    style="
+                        display: flex;
+                        flex-direction: column;
+                        line-height: 1.2;
+                    "
+                >
+                    <h2
+                        style="
+                            margin: 0;
+                            font-size: 16px;
+                            color: #fff;
+                            font-weight: 800;
+                            letter-spacing: -0.3px;
+                        "
+                    >
+                        Capacitación UEB
+                        <span class="docente-badge">👨‍🏫 Docente</span>
+                    </h2>
+                    <span
+                        style="
+                            font-size: 10px;
+                            color: rgba(255, 255, 255, 0.55);
+                            letter-spacing: 0.5px;
+                        "
+                        >Panel de Facilitadores</span
+                    >
+                </div>
+            </div>
+            <div
+                class="user-area"
+                style="display: flex; align-items: center; gap: 14px"
+            >
+                <div style="text-align: right">
+                    <span
+                        class="user-name"
+                        style="
+                            color: #fff;
+                            display: block;
+                            font-weight: 700;
+                            font-size: 14px;
+                        "
+                        >Ing. Carlitos Caiza</span
+                    >
+                    <span
+                        class="user-role"
+                        style="color: rgba(255, 255, 255, 0.6); font-size: 11px"
+                        >Facilitador / Docente</span
+                    >
+                </div>
+                <div
+                    class="avatar"
+                    style="
+                        background: linear-gradient(135deg, #ff6600, #cc4400);
+                        border: 2px solid rgba(255, 255, 255, 0.3);
+                        color: #fff;
+                        font-weight: 800;
+                        box-shadow: 0 4px 14px rgba(255, 102, 0, 0.5);
+                    "
+                >
+                    CC
+                </div>
+            </div>
+        </header>
+
+        <div
+            class="app-body"
+            style="display: flex; flex: 1; overflow: hidden; position: relative"
+        >
+            <!-- ======================== SIDEBAR ======================== -->
+            <nav class="sidebar" id="sidebar">
+                <div
+                    class="sidebar-indicator"
+                    style="color: rgba(255, 255, 255, 0.4)"
+                >
+                    ▶
+                </div>
+                <div class="sidebar-section-label">Mi Panel</div>
+                <ul class="nav-links" style="padding: 0 4px">
+                    <li>
+                        <a
+                            href="#"
+                            id="link-cursos"
+                            class="nav-link active"
+                            onclick="cambiarVistaDocente('cursos')"
+                            ><span class="nav-icon-wrap">📊</span
+                            ><span>Mis Cursos</span></a
+                        >
+                    </li>
+                    <li>
+                        <a
+                            href="#"
+                            id="link-notas"
+                            class="nav-link"
+                            onclick="cambiarVistaDocente('notas')"
+                            ><span class="nav-icon-wrap">📝</span
+                            ><span>Control de Notas</span></a
+                        >
+                    </li>
+                    <li>
+                        <a
+                            href="#"
+                            id="link-foro"
+                            class="nav-link"
+                            onclick="cambiarVistaDocente('foro')"
+                            ><span class="nav-icon-wrap">💬</span
+                            ><span>Foro de Consultas</span></a
+                        >
+                    </li>
+                    <li>
+                        <a
+                            href="#"
+                            id="link-catalogo"
+                            class="nav-link"
+                            onclick="cambiarVistaDocente('catalogo')"
+                            ><span class="nav-icon-wrap">📚</span
+                            ><span>Catálogo General</span></a
+                        >
+                    </li>
+                </ul>
+                <div class="sidebar-section-label" style="margin-top: auto">
+                    Sistema
+                </div>
+                <ul class="nav-links bottom-links" style="padding: 0 4px">
+                    <li>
+                        <a href="../login.html" class="nav-link text-red"
+                            ><span
+                                class="nav-icon-wrap"
+                                style="background: rgba(229, 62, 62, 0.15)"
+                                >🚪</span
+                            ><span>Cerrar Sesión</span></a
+                        >
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- ======================== MAIN ======================== -->
+            <main class="content" style="overflow-y: auto">
+                <!-- ===== VISTA: MIS CURSOS ===== -->
+                <section id="vista-cursos" class="view-section active">
+                    <div class="welcome-hero-doc fade-up">
+                        <div class="hero-doc-icon">👋</div>
+                        <h1>Panel del Cuerpo Docente</h1>
+                        <p>
+                            Gestione sus asignaturas o proponga nuevas
+                            capacitaciones para la comunidad universitaria.
+                        </p>
+                    </div>
+
+                    <div
+                        style="
+                            display: grid;
+                            grid-template-columns: 1fr 290px;
+                            gap: 20px;
+                        "
+                    >
+                        <div>
+                            <p class="sec-title fade-up delay-1">
+                                📋 Cursos a mi Cargo
+                            </p>
+                            <div id="lista-cursos-docente">
+                                <!-- Llenado por docente.js -->
+                            </div>
+                        </div>
+                        <div>
+                            <div class="cta-card-doc fade-up delay-2">
+                                <p class="cta-label">💡 Nueva Propuesta</p>
+                                <h4>¿Quieres publicar tu propio curso?</h4>
+                                <p>
+                                    Diseña el temario, añade videos y publica
+                                    material didáctico para aprobación del
+                                    comité.
+                                </p>
+                                <button
+                                    class="btn-white-doc"
+                                    onclick="abrirModalPropuesta()"
+                                >
+                                    + Crear y Postular Curso
+                                </button>
+                            </div>
+
+                            <!-- Métricas rápidas docente -->
+                            <div
+                                style="
+                                    background: #fff;
+                                    border-radius: 14px;
+                                    padding: 16px 18px;
+                                    margin-top: 14px;
+                                    box-shadow: 0 3px 14px rgba(0, 0, 0, 0.06);
+                                    border: 1px solid rgba(226, 232, 240, 0.8);
+                                "
+                                class="fade-up delay-3"
+                            >
+                                <p
+                                    style="
+                                        font-size: 12px;
+                                        font-weight: 700;
+                                        color: #003366;
+                                        margin: 0 0 12px;
+                                        display: flex;
+                                        align-items: center;
+                                        gap: 6px;
+                                    "
+                                >
+                                    ⚡ Mis Estadísticas
+                                </p>
+                                <div
+                                    style="
+                                        display: flex;
+                                        justify-content: space-between;
+                                        align-items: center;
+                                        padding: 8px 0;
+                                        border-bottom: 1px solid #f0f4f8;
+                                    "
+                                >
+                                    <span
+                                        style="font-size: 12px; color: #718096"
+                                        >Alumnos activos</span
+                                    >
+                                    <span
+                                        style="
+                                            font-size: 15px;
+                                            font-weight: 800;
+                                            color: #cc4400;
+                                        "
+                                        >12</span
+                                    >
+                                </div>
+                                <div
+                                    style="
+                                        display: flex;
+                                        justify-content: space-between;
+                                        align-items: center;
+                                        padding: 8px 0;
+                                        border-bottom: 1px solid #f0f4f8;
+                                    "
+                                >
+                                    <span
+                                        style="font-size: 12px; color: #718096"
+                                        >Avg. calificación</span
+                                    >
+                                    <span
+                                        style="
+                                            font-size: 15px;
+                                            font-weight: 800;
+                                            color: #38a169;
+                                        "
+                                        >7.8/10</span
+                                    >
+                                </div>
+                                <div
+                                    style="
+                                        display: flex;
+                                        justify-content: space-between;
+                                        align-items: center;
+                                        padding: 8px 0;
+                                    "
+                                >
+                                    <span
+                                        style="font-size: 12px; color: #718096"
+                                        >Consultas pendientes</span
+                                    >
+                                    <span
+                                        style="
+                                            font-size: 15px;
+                                            font-weight: 800;
+                                            color: #003366;
+                                        "
+                                        >3</span
+                                    >
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ===== VISTA: CONTROL DE NOTAS ===== -->
+                <section id="vista-notas" class="view-section">
+                    <div class="section-hero fade-up">
+                        <div class="sh-icon">📝</div>
+                        <h2>📝 Registro y Control de Calificaciones</h2>
+                        <p>
+                            Monitoree el avance real de sus estudiantes
+                            asentados en acta.
+                        </p>
+                    </div>
+
+                    <!-- Selector asignatura -->
+                    <div class="asig-selector fade-up delay-1">
+                        <div style="flex: 1">
+                            <label
+                                class="label-sm"
+                                style="margin: 0 0 6px; display: block"
+                                >Seleccionar Asignatura en Curso:</label
+                            >
+                            <select
+                                class="form-select"
+                                style="background: #fff; margin: 0"
+                            >
+                                <option>
+                                    Desarrollo de Microservicios (Paralelo A)
+                                </option>
+                                <option>Python Avanzado (Paralelo B)</option>
+                            </select>
+                        </div>
+                        <div
+                            style="
+                                display: flex;
+                                flex-direction: column;
+                                align-items: flex-end;
+                                gap: 5px;
+                            "
+                        >
+                            <span
+                                class="badge badge-blue"
+                                style="padding: 7px 16px; font-size: 12px"
+                                >12 Alumnos Activos</span
+                            >
+                            <span style="font-size: 11px; color: #718096"
+                                >Ciclo 2025-II</span
+                            >
+                        </div>
+                    </div>
+
+                    <!-- Tabla notas -->
+                    <div
+                        style="
+                            background: #fff;
+                            border-radius: 16px;
+                            overflow: hidden;
+                            box-shadow: 0 4px 22px rgba(0, 0, 0, 0.07);
+                            border: 1px solid rgba(226, 232, 240, 0.8);
+                        "
+                        class="fade-up delay-2"
+                    >
+                        <div style="overflow-x: auto">
+                            <table class="table-modern">
+                                <thead>
+                                    <tr>
+                                        <th>Estudiante</th>
+                                        <th>Progreso Módulos</th>
+                                        <th>Nota (/ 10)</th>
+                                        <th>Estado</th>
+                                        <th style="text-align: center">
+                                            Acciones
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody id="tabla-notas-alumnos">
+                                    <!-- Llenado por docente.js -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ===== VISTA: FORO ===== -->
+                <section id="vista-foro" class="view-section">
+                    <div class="section-hero fade-up">
+                        <div class="sh-icon">💬</div>
+                        <h2>💬 Foro de Consultas e Interacción Académica</h2>
+                        <p>
+                            Responda las dudas técnicas planteadas por sus
+                            estudiantes.
+                        </p>
+                    </div>
+
+                    <div class="foro-layout">
+                        <!-- Lista de hilos -->
+                        <div
+                            id="lista-hilos-foro"
+                            style="
+                                display: flex;
+                                flex-direction: column;
+                                gap: 0;
+                            "
+                        >
+                            <!-- Llenado por docente.js -->
+                        </div>
+
+                        <!-- Panel de chat -->
+                        <div class="chat-panel">
+                            <div class="chat-panel-header">
+                                <h4 id="foro-hilo-titulo">
+                                    Bandeja de Conversación
+                                </h4>
+                                <p>
+                                    Seleccione un hilo para iniciar la respuesta
+                                </p>
+                            </div>
+                            <div id="foro-chat-mensajes">
+                                <!-- Mensajes llenados por docente.js -->
+                            </div>
+                            <form
+                                id="form-foro-respuesta"
+                                onsubmit="enviarRespuestaForo(event)"
+                                class="chat-form"
+                            >
+                                <input
+                                    type="text"
+                                    id="foro-texto-input"
+                                    placeholder="Escriba su respuesta docente..."
+                                    disabled
+                                />
+                                <button
+                                    type="submit"
+                                    id="foro-btn-enviar"
+                                    disabled
+                                >
+                                    Enviar ➤
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ===== VISTA: CATÁLOGO ===== -->
+                <section id="vista-catalogo" class="view-section">
+                    <div class="section-hero fade-up">
+                        <div class="sh-icon">📚</div>
+                        <h2>📚 Catálogo de Capacitación Continua</h2>
+                        <p>
+                            Inscríbete en los cursos ofertados por otras
+                            facultades y amplía tus competencias.
+                        </p>
+                    </div>
+
+                    <div class="catalog-grid-doc">
+                        <div class="catalog-card-doc fade-up delay-1">
+                            <img
+                                src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=400&q=80"
+                                alt="Marketing"
+                            />
+                            <div class="cc-body">
+                                <span
+                                    class="tag tag-orange"
+                                    style="font-size: 10px"
+                                    >Marketing</span
+                                >
+                                <h4>Estrategias de Marketing Digital 2026</h4>
+                                <p>
+                                    Domina SEO, SEM y posicionamiento
+                                    corporativo web.
+                                </p>
+                                <button
+                                    class="btn-inscr"
+                                    onclick="
+                                        abrirModalInscripcionDocente(
+                                            'Estrategias de Marketing Digital 2026',
+                                        )
+                                    "
+                                >
+                                    Inscribirse como Alumno
+                                </button>
+                            </div>
+                        </div>
+                        <div class="catalog-card-doc fade-up delay-2">
+                            <img
+                                src="https://images.unsplash.com/photo-1543286386-713bdd548da4?auto=format&fit=crop&w=400&q=80"
+                                alt="Admin"
+                            />
+                            <div class="cc-body">
+                                <span
+                                    class="tag tag-green"
+                                    style="font-size: 10px"
+                                    >Administración</span
+                                >
+                                <h4>Gestión de Proyectos con PMBOK</h4>
+                                <p>
+                                    Certifícate en metodologías ágiles y
+                                    estándar del PMI.
+                                </p>
+                                <button
+                                    class="btn-inscr"
+                                    onclick="
+                                        abrirModalInscripcionDocente(
+                                            'Gestión de Proyectos con PMBOK',
+                                        )
+                                    "
+                                >
+                                    Inscribirse como Alumno
+                                </button>
+                            </div>
+                        </div>
+                        <div class="catalog-card-doc fade-up delay-3">
+                            <img
+                                src="https://images.unsplash.com/photo-1555949963-ff9fe0c870eb?auto=format&fit=crop&w=400&q=80"
+                                alt="Software"
+                            />
+                            <div class="cc-body">
+                                <span
+                                    class="tag tag-blue"
+                                    style="font-size: 10px"
+                                    >Software</span
+                                >
+                                <h4>Python Avanzado y Machine Learning</h4>
+                                <p>
+                                    Algoritmos de ML, procesamiento de datos y
+                                    visualización.
+                                </p>
+                                <button
+                                    class="btn-inscr"
+                                    onclick="
+                                        abrirModalInscripcionDocente(
+                                            'Python Avanzado y Machine Learning',
+                                        )
+                                    "
+                                >
+                                    Inscribirse como Alumno
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <!-- ======================== MODAL PROPUESTA (WIZARD) ======================== -->
+        <div id="modal-propuesta" class="modal-overlay">
+            <div class="modal-box">
+                <div class="modal-header-doc">
+                    <div>
+                        <h3 id="modal-wizard-titulo">Nueva Capacitación</h3>
+                        <p id="wizard-progreso-texto">
+                            Paso 1 de 3: Datos Informativos
+                        </p>
+                    </div>
+                    <button
+                        class="modal-close-btn"
+                        onclick="cerrarModalPropuesta()"
+                    >
+                        &times;
+                    </button>
+                </div>
+
+                <!-- Stepper gráfico -->
+                <div class="wizard-stepper" id="wizard-stepper-ui">
+                    <div class="step-item active" id="stepper-1">
+                        <div class="step-circle active">1</div>
+                        <span class="step-label">Datos</span>
+                    </div>
+                    <div class="step-item" id="stepper-2">
+                        <div class="step-circle pending">2</div>
+                        <span class="step-label">Módulos</span>
+                    </div>
+                    <div class="step-item" id="stepper-3">
+                        <div class="step-circle pending">3</div>
+                        <span class="step-label">Recursos</span>
+                    </div>
+                </div>
+
+                <div class="modal-body-doc">
+                    <form id="form-propuesta" onsubmit="enviarPropuesta(event)">
+                        <!-- Paso 1 -->
+                        <div class="wizard-paso active-paso" id="paso-1">
+                            <div class="mb-10">
+                                <label class="form-field-label"
+                                    >📌 Nombre de la Capacitación</label
+                                >
+                                <input
+                                    type="text"
+                                    id="propuesta-nombre"
+                                    class="form-input"
+                                    placeholder="Ej. Inteligencia Artificial Aplicada"
+                                />
+                            </div>
+
+                            <div class="grid-2-cols mb-10">
+                                <div>
+                                    <label class="form-field-label"
+                                        >🗂 Área del Conocimiento</label
+                                    >
+                                    <select
+                                        id="propuesta-categoria"
+                                        class="form-select"
+                                    >
+                                        <option value="Software">
+                                            💻 Software
+                                        </option>
+                                        <option value="Marketing">
+                                            📣 Marketing
+                                        </option>
+                                        <option value="Administración">
+                                            🏢 Administración
+                                        </option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="form-field-label"
+                                        >⏱ Horas Académicas</label
+                                    >
+                                    <input
+                                        type="number"
+                                        id="propuesta-horas"
+                                        class="form-input"
+                                        placeholder="Ej. 40"
+                                    />
+                                </div>
+                            </div>
+
+                            <div class="grid-2-cols mb-10">
+                                <div>
+                                    <label class="form-field-label"
+                                        >📅 Duración Estimada</label
+                                    >
+                                    <div style="display: flex; gap: 5px">
+                                        <input
+                                            type="number"
+                                            id="propuesta-duracion-valor"
+                                            class="form-input"
+                                            style="margin: 0; width: 45%"
+                                            placeholder="2"
+                                            required
+                                        />
+                                        <select
+                                            id="propuesta-duracion-tipo"
+                                            class="form-select"
+                                            style="margin: 0; width: 55%"
+                                        >
+                                            <option value="Semanas">
+                                                Semanas
+                                            </option>
+                                            <option value="Meses">Meses</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div>
+                                    <label class="form-field-label"
+                                        >🗓 Planificación Horaria</label
+                                    >
+                                    <input
+                                        type="text"
+                                        id="propuesta-cronograma"
+                                        class="form-input"
+                                        style="margin: 0"
+                                        placeholder="Lun y Mié 18:00-20:00"
+                                        required
+                                    />
+                                </div>
+                            </div>
+
+                            <div class="grid-2-cols mb-10">
+                                <div>
+                                    <label class="form-field-label"
+                                        >🖥 Modalidad</label
+                                    >
+                                    <select
+                                        id="propuesta-modalidad"
+                                        class="form-select"
+                                    >
+                                        <option value="Virtual">
+                                            🌐 Virtual
+                                        </option>
+                                        <option value="Presencial">
+                                            🏛 Presencial
+                                        </option>
+                                        <option value="Híbrido">
+                                            🔀 Híbrido
+                                        </option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="form-field-label"
+                                        >🖼 URL Imagen Portada</label
+                                    >
+                                    <input
+                                        type="url"
+                                        id="propuesta-foto"
+                                        class="form-input"
+                                        placeholder="https://..."
+                                    />
+                                </div>
+                            </div>
+
+                            <div class="mb-10">
+                                <label class="form-field-label"
+                                    >📄 Perfil de Egreso / Resumen</label
+                                >
+                                <textarea
+                                    id="propuesta-descripcion"
+                                    class="form-textarea"
+                                    rows="2"
+                                    placeholder="Describe los objetivos de aprendizaje..."
+                                ></textarea>
+                            </div>
+                        </div>
+                        <!-- /paso-1 -->
+
+                        <!-- Paso 2 -->
+                        <div class="wizard-paso" id="paso-2">
+                            <p
+                                style="
+                                    font-size: 12px;
+                                    color: #718096;
+                                    margin: 0 0 14px;
+                                "
+                            >
+                                Crea los módulos personalizados que conformarán
+                                tu plan de estudios:
+                            </p>
+
+                            <div
+                                style="
+                                    display: flex;
+                                    gap: 10px;
+                                    margin-bottom: 14px;
+                                "
+                            >
+                                <input
+                                    type="text"
+                                    id="input-nuevo-modulo"
+                                    class="form-input"
+                                    style="margin: 0; flex: 1"
+                                    placeholder="Ej. Módulo 1: Introducción Teórica"
+                                />
+                                <button
+                                    type="button"
+                                    class="btn-cta"
+                                    style="padding: 9px 16px; flex-shrink: 0"
+                                    onclick="agregarModuloDinamico()"
+                                >
+                                    + Añadir
+                                </button>
+                            </div>
+
+                            <label class="form-field-label"
+                                >Estructura Modular Registrada:</label
+                            >
+                            <div
+                                id="contenedor-modulos-dinamicos"
+                                style="
+                                    display: flex;
+                                    flex-direction: column;
+                                    gap: 8px;
+                                    max-height: 160px;
+                                    overflow-y: auto;
+                                    padding: 12px;
+                                    border: 1.5px dashed #e2e8f0;
+                                    border-radius: 10px;
+                                    background: #fafbfc;
+                                "
+                            ></div>
+                        </div>
+                        <!-- /paso-2 -->
+
+                        <!-- Paso 3 -->
+                        <div class="wizard-paso" id="paso-3">
+                            <div
+                                style="
+                                    background: #f5f8ff;
+                                    border: 1.5px dashed #dde4f5;
+                                    border-radius: 12px;
+                                    padding: 16px;
+                                    margin-bottom: 14px;
+                                "
+                            >
+                                <label
+                                    class="form-field-label"
+                                    style="color: #003366"
+                                    >📹 Video de Clase Principal
+                                    (YouTube)</label
+                                >
+                                <input
+                                    type="url"
+                                    id="propuesta-video"
+                                    class="form-input"
+                                    placeholder="https://www.youtube.com/watch?v=..."
+                                />
+                            </div>
+
+                            <div
+                                style="
+                                    background: #f0fff4;
+                                    border: 1.5px dashed #c6f6d5;
+                                    border-radius: 12px;
+                                    padding: 16px;
+                                "
+                            >
+                                <label
+                                    class="form-field-label"
+                                    style="color: #276749"
+                                    >📚 Material de Lectura (Drive PDF)</label
+                                >
+                                <input
+                                    type="url"
+                                    id="propuesta-material"
+                                    class="form-input"
+                                    placeholder="https://drive.google.com/..."
+                                />
+                            </div>
+                        </div>
+                        <!-- /paso-3 -->
+                    </form>
+                </div>
+
+                <div class="modal-footer-doc">
+                    <button
+                        type="button"
+                        id="btn-wizard-prev"
+                        class="btn-outline"
+                        onclick="navegarPasos(-1)"
+                        style="visibility: hidden"
+                    >
+                        ← Atrás
+                    </button>
+                    <div style="display: flex; gap: 10px">
+                        <button
+                            type="button"
+                            class="btn-outline"
+                            onclick="cerrarModalPropuesta()"
+                        >
+                            Cancelar
+                        </button>
+                        <button
+                            type="button"
+                            id="btn-wizard-next"
+                            class="btn-cta"
+                            onclick="navegarPasos(1)"
+                        >
+                            Siguiente →
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ======================== MODAL INSCRIPCIÓN ======================== -->
+        <div id="modal-inscripcion-docente" class="modal-overlay">
+            <div class="modal-insc-box">
+                <button
+                    class="modal-close-btn"
+                    onclick="cerrarModalInscripcionDocente()"
+                    style="
+                        background: #f0f4f8;
+                        color: #4a5568;
+                        float: right;
+                        margin-bottom: 10px;
+                    "
+                >
+                    &times;
+                </button>
+                <div style="clear: both"></div>
+                <div style="text-align: center; margin-bottom: 16px">
+                    <div
+                        style="
+                            width: 52px;
+                            height: 52px;
+                            background: linear-gradient(
+                                135deg,
+                                #fff5eb,
+                                #ffd7b5
+                            );
+                            border-radius: 14px;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            font-size: 26px;
+                            margin: 0 auto 12px;
+                        "
+                    >
+                        📚
+                    </div>
+                    <h3 class="blue-text" style="margin: 0 0 6px">
+                        Confirmar Matrícula
+                    </h3>
+                    <p style="font-size: 13px; color: #718096; margin: 0">
+                        Te vas a inscribir como alumno al curso:
+                    </p>
+                </div>
+                <div
+                    style="
+                        background: linear-gradient(135deg, #fff5eb, #ffe0cc);
+                        border: 1px solid #ffd7b5;
+                        border-radius: 12px;
+                        padding: 14px;
+                        text-align: center;
+                        margin-bottom: 18px;
+                    "
+                >
+                    <strong
+                        id="modal-curso-nombre-doc"
+                        class="blue-text"
+                        style="font-size: 14px"
+                    ></strong>
+                </div>
+                <div style="display: flex; gap: 10px">
+                    <button
+                        class="btn-outline"
+                        onclick="cerrarModalInscripcionDocente()"
+                        style="flex: 1"
+                    >
+                        Cancelar
+                    </button>
+                    <button
+                        class="btn-cta"
+                        onclick="confirmarInscripcionDocente()"
+                        style="
+                            flex: 1;
+                            background: linear-gradient(
+                                135deg,
+                                #cc4400,
+                                #ff6600
+                            );
+                        "
+                    >
+                        ✓ Matricularme
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Toast -->
+        <div id="toast" class="toast" role="alert"></div>
+
+        <!-- Funciones inline requeridas -->
+        <script>
+            function cerrarModalPropuesta() {
+                document
+                    .getElementById("modal-propuesta")
+                    .classList.remove("active");
+            }
+
+            function abrirModalPropuesta() {
+                editandoCursoId = null;
+                modulosPropuesta = [];
+                pasoActual = 1;
+                const fp = document.getElementById("form-propuesta");
+                if (fp) fp.reset();
+                if (typeof actualizarWizardUI === "function")
+                    actualizarWizardUI();
+                if (typeof renderizarModulosWizard === "function")
+                    renderizarModulosWizard();
+                const tit = document.getElementById("modal-wizard-titulo");
+                if (tit) tit.innerText = "Nueva Capacitación";
+                document
+                    .getElementById("modal-propuesta")
+                    .classList.add("active");
+            }
+
+            // Actualizar stepper visual en sincronía con navegarPasos()
+            // Se engancha DESPUÉS de que docente.js defina actualizarWizardUI
+            document.addEventListener("DOMContentLoaded", () => {
+                const origActualizar = window.actualizarWizardUI;
+                if (typeof origActualizar === "function") {
+                    window.actualizarWizardUI = function () {
+                        origActualizar();
+                        actualizarStepperVisual();
+                    };
+                }
+            });
+
+            function actualizarStepperVisual() {
+                const total = 3;
+                const actual =
+                    typeof pasoActual !== "undefined" ? pasoActual : 1;
+                for (let i = 1; i <= total; i++) {
+                    const stepEl = document.getElementById("stepper-" + i);
+                    if (!stepEl) continue;
+                    const circle = stepEl.querySelector(".step-circle");
+                    stepEl.classList.remove("active", "done");
+                    if (circle)
+                        circle.classList.remove("active", "done", "pending");
+                    if (i < actual) {
+                        stepEl.classList.add("done");
+                        if (circle) {
+                            circle.classList.add("done");
+                            circle.textContent = "✓";
+                        }
+                        stepEl.querySelector(".step-label").style.color =
+                            "#276749";
+                    } else if (i === actual) {
+                        stepEl.classList.add("active");
+                        if (circle) {
+                            circle.classList.add("active");
+                            circle.textContent = String(i);
+                        }
+                    } else {
+                        if (circle) {
+                            circle.classList.add("pending");
+                            circle.textContent = String(i);
+                        }
+                        stepEl.querySelector(".step-label").style.color =
+                            "#a0aec0";
+                    }
+                }
+            }
+        </script>
+
+        <script src="../../js/docente.js"></script>
+    </body>
+</html>

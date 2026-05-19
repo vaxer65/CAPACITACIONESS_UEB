@@ -1,0 +1,1033 @@
+<!doctype html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Perfil y Soporte | UEB</title>
+        <link rel="stylesheet" href="../../styles.css" />
+        <style>
+            :root {
+                --blue-inst: #003366;
+                --blue-mid: #004a8f;
+                --blue-light: #1a6abf;
+                --orange-cta: #ff6600;
+                --orange-light: #ff8533;
+                --neutral-bg: #f5f7fa;
+                --white: #ffffff;
+                --shadow-sm: 0 2px 8px rgba(0, 51, 102, 0.08);
+                --shadow-md: 0 8px 24px rgba(0, 51, 102, 0.14);
+                --shadow-lg: 0 16px 48px rgba(0, 51, 102, 0.18);
+                --radius: 16px;
+                --radius-sm: 10px;
+            }
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            body {
+                font-family:
+                    "Segoe UI",
+                    system-ui,
+                    -apple-system,
+                    sans-serif;
+                background: var(--neutral-bg);
+            }
+
+            /* ── NAVBAR ── */
+            .top-navbar {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 0 28px;
+                height: 64px;
+                background: linear-gradient(
+                    135deg,
+                    var(--blue-inst) 0%,
+                    var(--blue-mid) 60%,
+                    var(--blue-light) 100%
+                );
+                box-shadow: 0 4px 20px rgba(0, 51, 102, 0.35);
+                position: sticky;
+                top: 0;
+                z-index: 1000;
+            }
+            .logo-area {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+            }
+            .logo-box {
+                width: 38px;
+                height: 38px;
+                background: linear-gradient(
+                    135deg,
+                    var(--orange-cta),
+                    var(--orange-light)
+                );
+                border-radius: 10px;
+                font-size: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                box-shadow: 0 4px 12px rgba(255, 102, 0, 0.4);
+            }
+            .logo-box::after {
+                content: "🎓";
+            }
+            .logo-area h2 {
+                color: #fff;
+                font-size: 17px;
+                font-weight: 700;
+            }
+            .search-area input {
+                background: rgba(255, 255, 255, 0.15);
+                border: 1px solid rgba(255, 255, 255, 0.25);
+                border-radius: 24px;
+                padding: 8px 18px;
+                color: #fff;
+                font-size: 13px;
+                width: 280px;
+                outline: none;
+                transition: all 0.3s;
+            }
+            .search-area input::placeholder {
+                color: rgba(255, 255, 255, 0.65);
+            }
+            .user-area {
+                display: flex;
+                align-items: center;
+                gap: 16px;
+            }
+            .notif-bell {
+                position: relative;
+                cursor: pointer;
+                background: rgba(255, 255, 255, 0.12);
+                border-radius: 50%;
+                width: 38px;
+                height: 38px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 17px;
+            }
+            .notif-badge {
+                position: absolute;
+                top: -3px;
+                right: -3px;
+                background: var(--orange-cta);
+                color: #fff;
+                font-size: 10px;
+                font-weight: 700;
+                width: 18px;
+                height: 18px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border: 2px solid var(--blue-inst);
+            }
+            .user-info {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-end;
+            }
+            .user-name {
+                color: #fff;
+                font-size: 13px;
+                font-weight: 600;
+            }
+            .avatar {
+                width: 38px;
+                height: 38px;
+                border-radius: 50%;
+                background: linear-gradient(135deg, var(--orange-cta), #ff9933);
+                color: #fff;
+                font-weight: 700;
+                font-size: 13px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+            }
+
+            /* ── APP BODY ── */
+            .app-body {
+                display: flex;
+                flex: 1;
+                min-height: calc(100vh - 64px);
+            }
+
+            /* ── SIDEBAR ── */
+            .sidebar {
+                width: 240px;
+                background: linear-gradient(
+                    180deg,
+                    var(--blue-inst) 0%,
+                    #002244 100%
+                );
+                display: flex;
+                flex-direction: column;
+                padding: 20px 0;
+                box-shadow: 4px 0 24px rgba(0, 0, 0, 0.18);
+                position: sticky;
+                top: 64px;
+                height: calc(100vh - 64px);
+                overflow-y: auto;
+                flex-shrink: 0;
+            }
+            .sidebar-brand {
+                padding: 0 20px 20px;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+                margin-bottom: 8px;
+            }
+            .sidebar-brand span {
+                color: rgba(255, 255, 255, 0.45);
+                font-size: 10px;
+                text-transform: uppercase;
+                letter-spacing: 1.5px;
+                font-weight: 600;
+            }
+            .nav-links {
+                list-style: none;
+                padding: 0;
+                flex: 1;
+            }
+            .nav-links li {
+                margin: 2px 12px;
+            }
+            .nav-links a {
+                display: flex;
+                align-items: center;
+                gap: 11px;
+                padding: 11px 14px;
+                border-radius: var(--radius-sm);
+                color: rgba(255, 255, 255, 0.65);
+                text-decoration: none;
+                font-size: 13.5px;
+                font-weight: 500;
+                transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            .nav-links a:hover {
+                color: #fff;
+                background: rgba(255, 255, 255, 0.1);
+                transform: translateX(3px);
+            }
+            .nav-links a.active {
+                background: var(--orange-cta);
+                color: #fff;
+                font-weight: 700;
+                box-shadow: 0 4px 14px rgba(255, 102, 0, 0.4);
+            }
+            .nav-links a.active:hover {
+                transform: none;
+            }
+            .nav-icon {
+                width: 20px;
+                text-align: center;
+                font-size: 16px;
+            }
+            .bottom-links {
+                margin-top: auto;
+                border-top: 1px solid rgba(255, 255, 255, 0.08);
+                padding-top: 10px;
+            }
+            .nav-links a.text-red {
+                color: rgba(255, 120, 120, 0.8);
+            }
+            .nav-links a.text-red:hover {
+                color: #ff6b6b;
+                background: rgba(255, 80, 80, 0.12);
+            }
+            .sidebar-section-label {
+                padding: 12px 26px 4px;
+                color: rgba(255, 255, 255, 0.3);
+                font-size: 10px;
+                text-transform: uppercase;
+                letter-spacing: 1.5px;
+                font-weight: 600;
+            }
+
+            /* ── CONTENT ── */
+            .content {
+                flex: 1;
+                padding: 28px 32px;
+                overflow-y: auto;
+            }
+
+            /* ── LAYOUT ── */
+            .perfil-layout {
+                display: grid;
+                grid-template-columns: 1fr 280px;
+                gap: 24px;
+            }
+
+            /* ── AVATAR SECTION ── */
+            .avatar-card {
+                background: linear-gradient(
+                    135deg,
+                    var(--blue-inst),
+                    var(--blue-mid)
+                );
+                border-radius: var(--radius);
+                padding: 32px 28px;
+                display: flex;
+                align-items: center;
+                gap: 24px;
+                margin-bottom: 20px;
+                position: relative;
+                overflow: hidden;
+                animation: fadeInDown 0.45s ease both;
+                box-shadow: var(--shadow-md);
+            }
+            .avatar-card::before {
+                content: "";
+                position: absolute;
+                top: -50%;
+                right: -50px;
+                width: 200px;
+                height: 200px;
+                background: rgba(255, 255, 255, 0.04);
+                border-radius: 50%;
+            }
+            .avatar-big-wrap {
+                position: relative;
+                flex-shrink: 0;
+            }
+            .avatar-big {
+                width: 80px;
+                height: 80px;
+                border-radius: 50%;
+                background: linear-gradient(135deg, var(--orange-cta), #ff9933);
+                color: #fff;
+                font-size: 26px;
+                font-weight: 800;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                box-shadow:
+                    0 0 0 4px rgba(255, 255, 255, 0.2),
+                    0 8px 24px rgba(0, 0, 0, 0.2);
+            }
+            .avatar-change-btn {
+                position: absolute;
+                bottom: -2px;
+                right: -2px;
+                width: 26px;
+                height: 26px;
+                border-radius: 50%;
+                background: var(--orange-cta);
+                color: #fff;
+                font-size: 13px;
+                border: 2px solid #fff;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                cursor: pointer;
+                transition: transform 0.2s;
+            }
+            .avatar-change-btn:hover {
+                transform: scale(1.15);
+            }
+            .avatar-info {
+                flex: 1;
+                z-index: 1;
+            }
+            .avatar-info h3 {
+                color: #fff;
+                font-size: 20px;
+                font-weight: 800;
+                margin-bottom: 4px;
+            }
+            .avatar-info p {
+                color: rgba(255, 255, 255, 0.65);
+                font-size: 13px;
+                margin-bottom: 12px;
+            }
+            .avatar-badges {
+                display: flex;
+                gap: 8px;
+                flex-wrap: wrap;
+            }
+            .badge-pill {
+                background: rgba(255, 255, 255, 0.12);
+                color: rgba(255, 255, 255, 0.85);
+                font-size: 11px;
+                font-weight: 600;
+                padding: 4px 12px;
+                border-radius: 20px;
+                border: 1px solid rgba(255, 255, 255, 0.15);
+            }
+
+            /* ── COLLAPSIBLE SECTIONS ── */
+            .collapsible-section {
+                background: var(--white);
+                border-radius: var(--radius);
+                box-shadow: var(--shadow-sm);
+                border: 1px solid rgba(0, 51, 102, 0.06);
+                margin-bottom: 16px;
+                overflow: hidden;
+                animation: fadeInUp 0.5s ease both;
+            }
+            .collapsible-section:nth-child(1) {
+                animation-delay: 0.1s;
+            }
+            .collapsible-section:nth-child(2) {
+                animation-delay: 0.2s;
+            }
+            .collapsible-header {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 18px 24px;
+                cursor: pointer;
+                transition: background 0.2s;
+                user-select: none;
+            }
+            .collapsible-header:hover {
+                background: rgba(0, 51, 102, 0.02);
+            }
+            .collapsible-header-left {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+            }
+            .collapsible-header-icon {
+                width: 36px;
+                height: 36px;
+                border-radius: 10px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 18px;
+            }
+            .icon-blue {
+                background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+            }
+            .icon-orange {
+                background: linear-gradient(135deg, #ffedd5, #fed7aa);
+            }
+            .collapsible-header h3 {
+                font-size: 15px;
+                font-weight: 700;
+                color: var(--blue-inst);
+            }
+            .collapsible-header p {
+                font-size: 12px;
+                color: #9ca3af;
+                margin-top: 1px;
+            }
+            .collapse-chevron {
+                font-size: 14px;
+                color: #9ca3af;
+                transition: transform 0.3s;
+                display: inline-block;
+            }
+            .collapse-chevron.open {
+                transform: rotate(180deg);
+            }
+            .collapsible-body {
+                padding: 0 24px 24px;
+                display: none;
+            }
+            .collapsible-body.open {
+                display: block;
+            }
+
+            /* ── FORM ELEMENTS ── */
+            .form-grid-2 {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 14px;
+            }
+            .form-group {
+                margin-bottom: 0;
+            }
+            .label-sm {
+                font-size: 11px;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+                color: var(--blue-inst);
+                display: block;
+                margin-bottom: 5px;
+            }
+            .form-input {
+                width: 100%;
+                padding: 10px 14px;
+                border: 2px solid rgba(0, 51, 102, 0.12);
+                border-radius: 10px;
+                font-size: 13px;
+                outline: none;
+                transition: border-color 0.2s;
+                background: var(--white);
+                font-family: inherit;
+            }
+            .form-input:focus {
+                border-color: var(--blue-light);
+                box-shadow: 0 0 0 3px rgba(26, 106, 191, 0.1);
+            }
+            .form-input[readonly] {
+                background: var(--neutral-bg);
+                color: #6b7280;
+            }
+            .form-select,
+            .form-textarea {
+                width: 100%;
+                padding: 10px 14px;
+                border: 2px solid rgba(0, 51, 102, 0.12);
+                border-radius: 10px;
+                font-size: 13px;
+                outline: none;
+                transition: border-color 0.2s;
+                background: var(--white);
+                font-family: inherit;
+            }
+            .form-textarea {
+                resize: vertical;
+            }
+            .form-select:focus,
+            .form-textarea:focus {
+                border-color: var(--blue-light);
+            }
+            .btn-save {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                background: linear-gradient(
+                    135deg,
+                    var(--orange-cta),
+                    var(--orange-light)
+                );
+                color: #fff;
+                border: none;
+                border-radius: 12px;
+                padding: 12px 26px;
+                font-size: 14px;
+                font-weight: 700;
+                cursor: pointer;
+                box-shadow: 0 4px 14px rgba(255, 102, 0, 0.35);
+                transition: all 0.25s;
+                margin-top: 16px;
+            }
+            .btn-save:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 20px rgba(255, 102, 0, 0.45);
+            }
+
+            /* ── SUPPORT STEPS ── */
+            .support-steps {
+                margin-bottom: 18px;
+            }
+            .support-step {
+                display: flex;
+                gap: 14px;
+                align-items: flex-start;
+                margin-bottom: 14px;
+            }
+            .step-num {
+                width: 32px;
+                height: 32px;
+                border-radius: 50%;
+                flex-shrink: 0;
+                background: linear-gradient(
+                    135deg,
+                    var(--blue-inst),
+                    var(--blue-light)
+                );
+                color: #fff;
+                font-size: 13px;
+                font-weight: 800;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            .step-content p:first-child {
+                font-size: 13px;
+                font-weight: 700;
+                color: #1f2937;
+                margin-bottom: 2px;
+            }
+            .step-content p:last-child {
+                font-size: 12px;
+                color: #6b7280;
+                line-height: 1.5;
+            }
+            .btn-support {
+                display: block;
+                width: 100%;
+                padding: 12px;
+                background: linear-gradient(
+                    135deg,
+                    var(--blue-inst),
+                    var(--blue-mid)
+                );
+                border: none;
+                border-radius: 12px;
+                color: #fff;
+                font-size: 14px;
+                font-weight: 700;
+                cursor: pointer;
+                box-shadow: 0 4px 14px rgba(0, 51, 102, 0.3);
+                transition: all 0.25s;
+                margin-top: 14px;
+            }
+            .btn-support:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 20px rgba(0, 51, 102, 0.4);
+            }
+
+            /* ── ASIDE STATS ── */
+            .aside-stats-card {
+                background: linear-gradient(
+                    135deg,
+                    var(--blue-inst),
+                    var(--blue-mid)
+                );
+                border-radius: var(--radius);
+                padding: 24px;
+                margin-bottom: 16px;
+                animation: fadeInRight 0.5s ease 0.2s both;
+            }
+            .aside-stats-card .card-title {
+                color: rgba(255, 255, 255, 0.7);
+                font-size: 10px;
+                text-transform: uppercase;
+                letter-spacing: 1.5px;
+                font-weight: 600;
+                margin-bottom: 14px;
+            }
+            .stat-row-pill {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 10px;
+                padding: 10px 14px;
+                margin-bottom: 8px;
+            }
+            .stat-row-pill:last-child {
+                margin-bottom: 0;
+            }
+            .stat-row-label {
+                font-size: 12px;
+                color: rgba(255, 255, 255, 0.7);
+                display: flex;
+                align-items: center;
+                gap: 6px;
+            }
+            .stat-row-val {
+                font-size: 16px;
+                font-weight: 800;
+                color: #fff;
+            }
+
+            /* ── ASIDE STREAK ── */
+            .streak-card {
+                background: linear-gradient(135deg, #fff7ed, #fff3e0);
+                border: 2px solid rgba(255, 102, 0, 0.15);
+                border-radius: var(--radius);
+                padding: 20px;
+                animation: fadeInRight 0.5s ease 0.3s both;
+            }
+            .streak-card h4 {
+                font-size: 14px;
+                font-weight: 800;
+                color: var(--orange-cta);
+                margin-bottom: 6px;
+            }
+            .streak-card p {
+                font-size: 12px;
+                color: #92400e;
+                line-height: 1.5;
+            }
+            .streak-num {
+                font-size: 40px;
+                font-weight: 900;
+                color: var(--orange-cta);
+                margin: 8px 0;
+                line-height: 1;
+            }
+            .streak-sub {
+                font-size: 11px;
+                color: #b45309;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                font-weight: 600;
+            }
+
+            /* ── TOAST ── */
+            .toast {
+                position: fixed;
+                bottom: 24px;
+                right: 24px;
+                background: var(--blue-inst);
+                color: #fff;
+                padding: 14px 22px;
+                border-radius: 12px;
+                font-size: 14px;
+                font-weight: 500;
+                box-shadow: var(--shadow-md);
+                transform: translateY(80px);
+                opacity: 0;
+                transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+                z-index: 9999;
+            }
+            .toast.show {
+                transform: translateY(0);
+                opacity: 1;
+            }
+
+            /* ── ANIMATIONS ── */
+            @keyframes fadeInDown {
+                from {
+                    opacity: 0;
+                    transform: translateY(-20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            @keyframes fadeInRight {
+                from {
+                    opacity: 0;
+                    transform: translateX(20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateX(0);
+                }
+            }
+        </style>
+    </head>
+    <body style="margin: 0; background: var(--neutral-bg)">
+        <!-- ══ NAVBAR ══ -->
+        <header class="top-navbar">
+            <div class="logo-area">
+                <div class="logo-box"></div>
+                <h2>Capacitación UEB</h2>
+            </div>
+            <div class="search-area">
+                <input type="text" placeholder="🔍 Buscar..." />
+            </div>
+            <div class="user-area">
+                <div class="notif-bell">
+                    🔔<span class="notif-badge">2</span>
+                </div>
+                <div class="user-info">
+                    <span class="user-name">Valentín Valle</span>
+                </div>
+                <div class="avatar">VV</div>
+            </div>
+        </header>
+
+        <div class="app-body">
+            <!-- ══ SIDEBAR ══ -->
+            <nav class="sidebar" id="sidebar">
+                <div class="sidebar-brand"><span>Menú principal</span></div>
+                <div class="sidebar-section-label">Navegación</div>
+                <ul class="nav-links">
+                    <li>
+                        <a href="dashboard.html" class="nav-link"
+                            ><span class="nav-icon">📊</span> Dashboard</a
+                        >
+                    </li>
+                    <li>
+                        <a href="catalogo.html" class="nav-link"
+                            ><span class="nav-icon">📚</span> Catálogo</a
+                        >
+                    </li>
+                    <li>
+                        <a href="aula.html" class="nav-link"
+                            ><span class="nav-icon">💻</span> Aula Virtual</a
+                        >
+                    </li>
+                    <li>
+                        <a href="certificados.html" class="nav-link"
+                            ><span class="nav-icon">🎓</span> Certificados</a
+                        >
+                    </li>
+                </ul>
+                <div class="sidebar-section-label">Cuenta</div>
+                <ul class="nav-links bottom-links">
+                    <li>
+                        <a href="perfil.html" class="nav-link active"
+                            ><span class="nav-icon">👤</span> Perfil &amp;
+                            Soporte</a
+                        >
+                    </li>
+                    <li>
+                        <a href="../login.html" class="text-red"
+                            ><span class="nav-icon">🚪</span> Cerrar Sesión</a
+                        >
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- ══ MAIN ══ -->
+            <main class="content">
+                <!-- Avatar banner -->
+                <div class="avatar-card">
+                    <div class="avatar-big-wrap">
+                        <div class="avatar-big">VV</div>
+                        <div
+                            class="avatar-change-btn"
+                            title="Cambiar foto"
+                            onclick="
+                                mostrarToast('📷 Función de carga próximamente')
+                            "
+                        >
+                            ✎
+                        </div>
+                    </div>
+                    <div class="avatar-info">
+                        <h3>Valentín Valle</h3>
+                        <p>Ingeniería en Software · Sexto A · UEB</p>
+                        <div class="avatar-badges">
+                            <span class="badge-pill">🎓 Estudiante</span>
+                            <span class="badge-pill">⚡ 2 cursos activos</span>
+                            <span class="badge-pill">🏆 2 certificados</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="perfil-layout">
+                    <div>
+                        <!-- Section 1: Datos personales -->
+                        <div class="collapsible-section">
+                            <div
+                                class="collapsible-header"
+                                onclick="toggleSection(this)"
+                            >
+                                <div class="collapsible-header-left">
+                                    <div
+                                        class="collapsible-header-icon icon-blue"
+                                    >
+                                        👤
+                                    </div>
+                                    <div>
+                                        <h3>Datos Personales</h3>
+                                        <p>
+                                            Información de tu cuenta
+                                            universitaria
+                                        </p>
+                                    </div>
+                                </div>
+                                <span class="collapse-chevron open">▼</span>
+                            </div>
+                            <div class="collapsible-body open">
+                                <div
+                                    class="form-grid-2"
+                                    style="margin-bottom: 14px"
+                                >
+                                    <div class="form-group">
+                                        <label class="label-sm"
+                                            >Nombre completo</label
+                                        >
+                                        <input
+                                            type="text"
+                                            value="Valentín Valle"
+                                            class="form-input"
+                                        />
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="label-sm"
+                                            >Correo institucional</label
+                                        >
+                                        <input
+                                            type="text"
+                                            value="vvalle.sis@ueb.edu.ec"
+                                            class="form-input"
+                                            readonly
+                                        />
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="label-sm">Carrera</label>
+                                        <input
+                                            type="text"
+                                            value="Ingeniería en Software"
+                                            class="form-input"
+                                            readonly
+                                        />
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="label-sm">Semestre</label>
+                                        <input
+                                            type="text"
+                                            value="Sexto A"
+                                            class="form-input"
+                                            readonly
+                                        />
+                                    </div>
+                                </div>
+                                <button
+                                    class="btn-save"
+                                    onclick="
+                                        mostrarToast(
+                                            '✅ Perfil actualizado correctamente',
+                                        )
+                                    "
+                                >
+                                    ✓ Guardar cambios
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Section 2: Soporte técnico -->
+                        <div class="collapsible-section">
+                            <div
+                                class="collapsible-header"
+                                onclick="toggleSection(this)"
+                            >
+                                <div class="collapsible-header-left">
+                                    <div
+                                        class="collapsible-header-icon icon-orange"
+                                    >
+                                        🛠️
+                                    </div>
+                                    <div>
+                                        <h3>Soporte Técnico</h3>
+                                        <p>
+                                            Reporta problemas o solicita ayuda
+                                        </p>
+                                    </div>
+                                </div>
+                                <span class="collapse-chevron open">▼</span>
+                            </div>
+                            <div class="collapsible-body open">
+                                <div class="support-steps">
+                                    <div class="support-step">
+                                        <div class="step-num">1</div>
+                                        <div class="step-content">
+                                            <p>
+                                                Selecciona el tipo de problema
+                                            </p>
+                                            <p>
+                                                Elige la categoría que mejor
+                                                describe tu situación.
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="support-step">
+                                        <div class="step-num">2</div>
+                                        <div class="step-content">
+                                            <p>Describe con detalle</p>
+                                            <p>
+                                                Cuéntanos qué ocurrió, incluye
+                                                pasos para reproducirlo.
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="support-step">
+                                        <div class="step-num">3</div>
+                                        <div class="step-content">
+                                            <p>Envía tu solicitud</p>
+                                            <p>
+                                                Recibirás respuesta en tu correo
+                                                en menos de 24 horas hábiles.
+                                            </p>
+                                        </div>
+                                    </div>
+                                </div>
+                                <label class="label-sm"
+                                    >Tipo de problema:</label
+                                >
+                                <select
+                                    class="form-select"
+                                    style="margin-bottom: 12px"
+                                >
+                                    <option>Acceso a un curso</option>
+                                    <option>Error en el sistema</option>
+                                    <option>Problema con certificado</option>
+                                    <option>Otro</option>
+                                </select>
+                                <label class="label-sm"
+                                    >Describe tu problema:</label
+                                >
+                                <textarea
+                                    class="form-textarea"
+                                    rows="4"
+                                    placeholder="Describe el problema con el mayor detalle posible..."
+                                ></textarea>
+                                <button
+                                    class="btn-support"
+                                    onclick="
+                                        mostrarToast(
+                                            '📬 Solicitud enviada al equipo de soporte.',
+                                        )
+                                    "
+                                >
+                                    Enviar solicitud →
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Aside -->
+                    <aside>
+                        <div class="aside-stats-card">
+                            <p class="card-title">📊 Tu actividad</p>
+                            <div class="stat-row-pill">
+                                <span class="stat-row-label"
+                                    >🎓 Completados</span
+                                >
+                                <span class="stat-row-val">2</span>
+                            </div>
+                            <div class="stat-row-pill">
+                                <span class="stat-row-label">📚 Activos</span>
+                                <span class="stat-row-val">2</span>
+                            </div>
+                            <div class="stat-row-pill">
+                                <span class="stat-row-label"
+                                    >⏱️ Horas totales</span
+                                >
+                                <span class="stat-row-val">70</span>
+                            </div>
+                            <div class="stat-row-pill">
+                                <span class="stat-row-label"
+                                    >⭐ Calificación</span
+                                >
+                                <span class="stat-row-val">4.8</span>
+                            </div>
+                        </div>
+
+                        <div class="streak-card">
+                            <h4>🔥 Racha de estudio</h4>
+                            <div class="streak-num">12</div>
+                            <span class="streak-sub">días consecutivos</span>
+                            <p style="margin-top: 10px">
+                                ¡Increíble! Sigue así para desbloquear tu
+                                insignia de constancia.
+                            </p>
+                        </div>
+                    </aside>
+                </div>
+            </main>
+        </div>
+
+        <div id="toast" class="toast" role="alert"></div>
+
+        <script>
+            function toggleSection(header) {
+                const chevron = header.querySelector(".collapse-chevron");
+                const body = header.nextElementSibling;
+                const isOpen = body.classList.contains("open");
+                body.classList.toggle("open", !isOpen);
+                chevron.classList.toggle("open", !isOpen);
+            }
+        </script>
+
+        <script src="../../js/perfil.js"></script>
+    </body>
+</html>

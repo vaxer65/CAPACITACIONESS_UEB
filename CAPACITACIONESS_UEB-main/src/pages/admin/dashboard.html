@@ -1,0 +1,1466 @@
+<!doctype html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Panel de Control | Administrador UEB</title>
+        <link rel="stylesheet" href="../../styles.css" />
+        <style>
+            /* ====================================================
+           DASHBOARD ADMIN — ESTILOS EXCLUSIVOS
+        ==================================================== */
+
+            /* --- Navbar enriquecida --- */
+            .top-navbar {
+                background: linear-gradient(
+                    135deg,
+                    #001a40 0%,
+                    #003366 55%,
+                    #004a8f 100%
+                ) !important;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+                position: relative;
+                overflow: hidden;
+            }
+            .top-navbar::before {
+                content: "";
+                position: absolute;
+                top: -40px;
+                right: -40px;
+                width: 160px;
+                height: 160px;
+                border-radius: 50%;
+                background: rgba(255, 102, 0, 0.12);
+                pointer-events: none;
+            }
+            .top-navbar::after {
+                content: "";
+                position: absolute;
+                bottom: -50px;
+                left: 30%;
+                width: 200px;
+                height: 200px;
+                border-radius: 50%;
+                background: rgba(255, 255, 255, 0.04);
+                pointer-events: none;
+            }
+            .admin-panel-badge {
+                display: inline-flex;
+                align-items: center;
+                gap: 6px;
+                background: linear-gradient(135deg, #ff6600, #e84d00);
+                color: #fff;
+                font-size: 10px;
+                font-weight: 800;
+                letter-spacing: 1.5px;
+                text-transform: uppercase;
+                padding: 4px 11px;
+                border-radius: 999px;
+                box-shadow: 0 3px 12px rgba(255, 102, 0, 0.5);
+                margin-left: 10px;
+                animation: badgePulse 2.4s ease-in-out infinite;
+            }
+            @keyframes badgePulse {
+                0%,
+                100% {
+                    box-shadow: 0 3px 12px rgba(255, 102, 0, 0.5);
+                }
+                50% {
+                    box-shadow: 0 3px 22px rgba(255, 102, 0, 0.85);
+                }
+            }
+            .logo-box-modern {
+                width: 36px;
+                height: 36px;
+                background: linear-gradient(135deg, #ff6600, #e84d00);
+                border-radius: 10px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 18px;
+                box-shadow: 0 4px 14px rgba(255, 102, 0, 0.5);
+                flex-shrink: 0;
+            }
+
+            /* --- Sidebar moderno --- */
+            .sidebar {
+                background: linear-gradient(
+                    180deg,
+                    #001e4a 0%,
+                    #002d6b 100%
+                ) !important;
+                border-right: none !important;
+                box-shadow: 4px 0 24px rgba(0, 0, 0, 0.2);
+            }
+            .sidebar-section-label {
+                font-size: 9px;
+                font-weight: 700;
+                letter-spacing: 2px;
+                text-transform: uppercase;
+                color: rgba(255, 255, 255, 0.35);
+                padding: 20px 18px 6px;
+            }
+            .nav-links li a {
+                color: rgba(255, 255, 255, 0.72) !important;
+                border-radius: 10px !important;
+                margin: 2px 10px !important;
+                padding: 10px 14px !important;
+                transition: all 0.22s ease !important;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+            .nav-links li a:hover,
+            .nav-links li a.active {
+                background: linear-gradient(
+                    135deg,
+                    #003f8a,
+                    #0055b8
+                ) !important;
+                color: #fff !important;
+                box-shadow: 0 4px 14px rgba(0, 80, 180, 0.4) !important;
+                transform: translateX(3px);
+            }
+            .nav-icon-wrap {
+                width: 32px;
+                height: 32px;
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 8px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 15px;
+                flex-shrink: 0;
+                transition: background 0.22s ease;
+            }
+            .nav-links li a.active .nav-icon-wrap,
+            .nav-links li a:hover .nav-icon-wrap {
+                background: rgba(255, 255, 255, 0.2);
+            }
+            .nav-links li a.text-red {
+                color: #fc8181 !important;
+            }
+            .nav-links li a.text-red:hover {
+                background: rgba(229, 62, 62, 0.18) !important;
+                box-shadow: none !important;
+            }
+
+            /* --- Animaciones de entrada --- */
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(24px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            .fade-up {
+                animation: fadeInUp 0.55s ease both;
+            }
+            .delay-1 {
+                animation-delay: 0.08s;
+            }
+            .delay-2 {
+                animation-delay: 0.16s;
+            }
+            .delay-3 {
+                animation-delay: 0.24s;
+            }
+            .delay-4 {
+                animation-delay: 0.32s;
+            }
+            .delay-5 {
+                animation-delay: 0.4s;
+            }
+            .delay-6 {
+                animation-delay: 0.48s;
+            }
+
+            /* --- Stats cards mejoradas --- */
+            .stat-card-v2 {
+                background: #fff;
+                border-radius: 16px;
+                padding: 22px 22px 20px;
+                display: flex;
+                align-items: center;
+                gap: 18px;
+                box-shadow:
+                    0 4px 24px rgba(0, 0, 0, 0.07),
+                    0 1px 4px rgba(0, 0, 0, 0.04);
+                border: 1px solid rgba(226, 232, 240, 0.8);
+                transition:
+                    transform 0.3s ease,
+                    box-shadow 0.3s ease;
+                position: relative;
+                overflow: hidden;
+                flex: 1;
+                min-width: 0;
+            }
+            .stat-card-v2::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 3px;
+                border-radius: 16px 16px 0 0;
+            }
+            .stat-card-v2.blue::before {
+                background: linear-gradient(90deg, #003366, #0070cc);
+            }
+            .stat-card-v2.orange::before {
+                background: linear-gradient(90deg, #ff6600, #ff9900);
+            }
+            .stat-card-v2.green::before {
+                background: linear-gradient(90deg, #38a169, #68d391);
+            }
+            .stat-card-v2.purple::before {
+                background: linear-gradient(90deg, #6b46c1, #9f7aea);
+            }
+            .stat-card-v2:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 12px 36px rgba(0, 0, 0, 0.12);
+            }
+            .stat-icon-v2 {
+                width: 52px;
+                height: 52px;
+                border-radius: 14px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 24px;
+                flex-shrink: 0;
+                position: relative;
+            }
+            .stat-icon-v2.blue {
+                background: linear-gradient(135deg, #ebf8ff, #bee3f8);
+            }
+            .stat-icon-v2.orange {
+                background: linear-gradient(135deg, #fff5eb, #ffd7b5);
+            }
+            .stat-icon-v2.green {
+                background: linear-gradient(135deg, #f0fff4, #c6f6d5);
+            }
+            .stat-icon-v2.purple {
+                background: linear-gradient(135deg, #faf5ff, #e9d8fd);
+            }
+            .stat-icon-v2::after {
+                content: "";
+                position: absolute;
+                inset: 0;
+                border-radius: 14px;
+                opacity: 0;
+                transition: opacity 0.3s ease;
+            }
+            .stat-card-v2.blue .stat-icon-v2::after {
+                background: radial-gradient(
+                    circle,
+                    rgba(0, 112, 204, 0.15) 0%,
+                    transparent 70%
+                );
+            }
+            .stat-card-v2.orange .stat-icon-v2::after {
+                background: radial-gradient(
+                    circle,
+                    rgba(255, 102, 0, 0.15) 0%,
+                    transparent 70%
+                );
+            }
+            .stat-card-v2.green .stat-icon-v2::after {
+                background: radial-gradient(
+                    circle,
+                    rgba(56, 161, 105, 0.15) 0%,
+                    transparent 70%
+                );
+            }
+            .stat-card-v2:hover .stat-icon-v2::after {
+                opacity: 1;
+            }
+            .stat-num {
+                font-size: 28px;
+                font-weight: 800;
+                color: #1a202c;
+                line-height: 1;
+            }
+            .stat-label {
+                font-size: 12px;
+                color: #718096;
+                margin-top: 4px;
+                font-weight: 500;
+            }
+            .stat-trend {
+                font-size: 11px;
+                font-weight: 600;
+                padding: 3px 8px;
+                border-radius: 999px;
+                margin-top: 6px;
+                display: inline-block;
+            }
+            .trend-up {
+                background: #f0fff4;
+                color: #38a169;
+            }
+            .trend-down {
+                background: #fff5f5;
+                color: #e53e3e;
+            }
+            .stat-card-v2 .stat-bg-icon {
+                position: absolute;
+                right: 16px;
+                top: 50%;
+                transform: translateY(-50%);
+                font-size: 56px;
+                opacity: 0.05;
+                pointer-events: none;
+            }
+
+            /* --- Section title decorada --- */
+            .sec-title {
+                font-size: 15px;
+                font-weight: 700;
+                color: #003366;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                margin: 0 0 16px;
+            }
+            .sec-title::before {
+                content: "";
+                width: 4px;
+                height: 18px;
+                background: linear-gradient(180deg, #003366, #ff6600);
+                border-radius: 4px;
+                flex-shrink: 0;
+            }
+
+            /* --- Gráfico de barras CSS --- */
+            .chart-card {
+                background: #fff;
+                border-radius: 16px;
+                padding: 24px;
+                box-shadow: 0 4px 24px rgba(0, 0, 0, 0.07);
+                border: 1px solid rgba(226, 232, 240, 0.8);
+            }
+            .bar-chart-container {
+                display: flex;
+                flex-direction: column;
+                gap: 14px;
+                margin-top: 12px;
+            }
+            .bar-row {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+            }
+            .bar-label {
+                font-size: 12px;
+                font-weight: 600;
+                color: #4a5568;
+                min-width: 90px;
+            }
+            .bar-track {
+                flex: 1;
+                height: 28px;
+                background: #f0f4f8;
+                border-radius: 8px;
+                overflow: hidden;
+                position: relative;
+            }
+            .bar-fill {
+                height: 100%;
+                border-radius: 8px;
+                display: flex;
+                align-items: center;
+                padding-left: 10px;
+                font-size: 11px;
+                font-weight: 700;
+                color: #fff;
+                transition: width 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            .bar-fill.b-blue {
+                background: linear-gradient(90deg, #003366, #0070cc);
+            }
+            .bar-fill.b-orange {
+                background: linear-gradient(90deg, #ff6600, #ff9900);
+            }
+            .bar-fill.b-green {
+                background: linear-gradient(90deg, #38a169, #48bb78);
+            }
+            .bar-pct {
+                font-size: 12px;
+                font-weight: 700;
+                color: #4a5568;
+                min-width: 36px;
+                text-align: right;
+            }
+
+            /* --- Tabla de actividad reciente --- */
+            .table-modern {
+                width: 100%;
+                border-collapse: collapse;
+                font-size: 13px;
+            }
+            .table-modern thead tr {
+                background: linear-gradient(135deg, #f8fafc, #edf2f7);
+                border-bottom: 2px solid #e2e8f0;
+            }
+            .table-modern thead th {
+                padding: 12px 16px;
+                color: #003366;
+                font-weight: 700;
+                font-size: 11px;
+                text-transform: uppercase;
+                letter-spacing: 0.6px;
+            }
+            .table-modern tbody tr {
+                border-bottom: 1px solid #f0f4f8;
+                transition: background 0.18s ease;
+            }
+            .table-modern tbody tr:hover {
+                background: #f8faff;
+            }
+            .table-modern tbody td {
+                padding: 12px 16px;
+                color: #4a5568;
+            }
+            .table-modern tbody td:first-child {
+                font-weight: 600;
+                color: #2d3748;
+            }
+            .ts-badge {
+                font-size: 10px;
+                font-weight: 600;
+                padding: 3px 9px;
+                border-radius: 999px;
+                display: inline-block;
+            }
+            .ts-nuevo {
+                background: #ebf8ff;
+                color: #2b6cb0;
+            }
+            .ts-aprob {
+                background: #f0fff4;
+                color: #276749;
+            }
+            .ts-mod {
+                background: #fffaf0;
+                color: #c05621;
+            }
+            .ts-insc {
+                background: #faf5ff;
+                color: #553c9a;
+            }
+
+            /* --- Aside métricas rápidas --- */
+            .quick-metric {
+                background: #fff;
+                border-radius: 14px;
+                padding: 16px 18px;
+                display: flex;
+                align-items: center;
+                gap: 14px;
+                box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+                border: 1px solid rgba(226, 232, 240, 0.8);
+                margin-bottom: 12px;
+                transition: transform 0.25s ease;
+            }
+            .quick-metric:hover {
+                transform: translateX(4px);
+            }
+            .qm-icon {
+                width: 40px;
+                height: 40px;
+                border-radius: 10px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 18px;
+                flex-shrink: 0;
+            }
+            .qm-val {
+                font-size: 20px;
+                font-weight: 800;
+                color: #1a202c;
+                line-height: 1;
+            }
+            .qm-label {
+                font-size: 11px;
+                color: #718096;
+                margin-top: 3px;
+            }
+
+            /* --- Card curso popular --- */
+            .demand-card {
+                background: #fff;
+                border-radius: 16px;
+                padding: 20px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                gap: 16px;
+                box-shadow: 0 4px 24px rgba(0, 0, 0, 0.07);
+                border: 1px solid rgba(226, 232, 240, 0.8);
+                margin-bottom: 10px;
+                transition: all 0.3s ease;
+                border-left: 4px solid #003366;
+            }
+            .demand-card:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 10px 30px rgba(0, 51, 102, 0.12);
+            }
+
+            /* --- Highlight / CTA card --- */
+            .cta-aside-card {
+                background: linear-gradient(135deg, #001e4a 0%, #003580 100%);
+                border-radius: 16px;
+                padding: 24px;
+                color: #fff;
+                position: relative;
+                overflow: hidden;
+                box-shadow: 0 8px 28px rgba(0, 51, 102, 0.35);
+            }
+            .cta-aside-card::before {
+                content: "";
+                position: absolute;
+                top: -30px;
+                right: -30px;
+                width: 120px;
+                height: 120px;
+                border-radius: 50%;
+                background: rgba(255, 102, 0, 0.18);
+            }
+            .cta-aside-card::after {
+                content: "";
+                position: absolute;
+                bottom: -40px;
+                left: -20px;
+                width: 100px;
+                height: 100px;
+                border-radius: 50%;
+                background: rgba(255, 255, 255, 0.05);
+            }
+            .cta-aside-card .cta-label {
+                font-size: 10px;
+                font-weight: 800;
+                letter-spacing: 2px;
+                text-transform: uppercase;
+                color: #ffaa66;
+            }
+            .cta-aside-card h4 {
+                color: #fff;
+                font-size: 14px;
+                margin: 8px 0 6px;
+            }
+            .cta-aside-card p {
+                font-size: 12px;
+                color: rgba(255, 255, 255, 0.7);
+                margin-bottom: 18px;
+            }
+            .cta-aside-card .btn-cta-white {
+                width: 100%;
+                background: linear-gradient(135deg, #ff6600, #e84d00);
+                color: #fff;
+                border: none;
+                border-radius: 10px;
+                padding: 11px;
+                font-size: 13px;
+                font-weight: 700;
+                cursor: pointer;
+                box-shadow: 0 4px 14px rgba(255, 102, 0, 0.5);
+                transition: all 0.25s ease;
+                text-decoration: none;
+                display: block;
+                text-align: center;
+            }
+            .cta-aside-card .btn-cta-white:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 6px 20px rgba(255, 102, 0, 0.65);
+            }
+
+            /* --- Welcome header --- */
+            .welcome-hero {
+                background: linear-gradient(
+                    135deg,
+                    #001e4a 0%,
+                    #003580 60%,
+                    #004a8f 100%
+                );
+                border-radius: 18px;
+                padding: 28px 30px;
+                color: #fff;
+                position: relative;
+                overflow: hidden;
+                margin-bottom: 24px;
+                box-shadow: 0 8px 30px rgba(0, 51, 102, 0.3);
+            }
+            .welcome-hero::before {
+                content: "";
+                position: absolute;
+                top: -60px;
+                right: -60px;
+                width: 220px;
+                height: 220px;
+                border-radius: 50%;
+                background: rgba(255, 102, 0, 0.12);
+            }
+            .welcome-hero::after {
+                content: "";
+                position: absolute;
+                bottom: -40px;
+                left: 20%;
+                width: 160px;
+                height: 160px;
+                border-radius: 50%;
+                background: rgba(255, 255, 255, 0.04);
+            }
+            .welcome-hero h1 {
+                font-size: 22px;
+                font-weight: 800;
+                color: #fff;
+                margin: 0 0 8px;
+            }
+            .welcome-hero p {
+                font-size: 13px;
+                color: rgba(255, 255, 255, 0.75);
+                margin: 0;
+            }
+            .welcome-hero .hero-icon {
+                position: absolute;
+                right: 30px;
+                top: 50%;
+                transform: translateY(-50%);
+                font-size: 64px;
+                opacity: 0.15;
+            }
+
+            /* --- Stats row --- */
+            .stats-row-v2 {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+                gap: 14px;
+                margin-bottom: 24px;
+            }
+
+            /* --- Content layout --- */
+            .content-grid {
+                display: grid;
+                grid-template-columns: 1fr 300px;
+                gap: 20px;
+            }
+            @media (max-width: 900px) {
+                .content-grid {
+                    grid-template-columns: 1fr;
+                }
+            }
+
+            /* --- Tabla wrapper --- */
+            .table-wrapper {
+                background: #fff;
+                border-radius: 16px;
+                overflow: hidden;
+                box-shadow: 0 4px 24px rgba(0, 0, 0, 0.07);
+                border: 1px solid rgba(226, 232, 240, 0.8);
+            }
+        </style>
+    </head>
+    <body class="flex-column" style="margin: 0">
+        <!-- ======================== NAVBAR ======================== -->
+        <header
+            class="top-navbar"
+            style="
+                background: linear-gradient(
+                    135deg,
+                    #001a40 0%,
+                    #003366 55%,
+                    #004a8f 100%
+                ) !important;
+            "
+        >
+            <div
+                class="logo-area"
+                style="display: flex; align-items: center; gap: 12px"
+            >
+                <div class="logo-box-modern">🎓</div>
+                <div
+                    style="
+                        display: flex;
+                        flex-direction: column;
+                        line-height: 1.2;
+                    "
+                >
+                    <h2
+                        style="
+                            margin: 0;
+                            font-size: 16px;
+                            color: #fff;
+                            font-weight: 800;
+                            letter-spacing: -0.3px;
+                        "
+                    >
+                        Capacitación UEB
+                        <span class="admin-panel-badge">⚙ Panel Admin</span>
+                    </h2>
+                    <span
+                        style="
+                            font-size: 10px;
+                            color: rgba(255, 255, 255, 0.55);
+                            letter-spacing: 0.5px;
+                        "
+                        >Sistema de Gestión Académica</span
+                    >
+                </div>
+            </div>
+            <div
+                class="user-area"
+                style="display: flex; align-items: center; gap: 14px"
+            >
+                <div style="text-align: right">
+                    <span
+                        class="user-name"
+                        style="
+                            color: #fff;
+                            display: block;
+                            font-weight: 700;
+                            font-size: 14px;
+                        "
+                        >Coordinador Académico</span
+                    >
+                    <span
+                        class="user-role"
+                        style="color: rgba(255, 255, 255, 0.6); font-size: 11px"
+                        >Módulo de Control Global</span
+                    >
+                </div>
+                <div
+                    class="avatar"
+                    style="
+                        background: linear-gradient(135deg, #ff6600, #e84d00);
+                        border: 2px solid rgba(255, 255, 255, 0.3);
+                        color: #fff;
+                        font-weight: 800;
+                        box-shadow: 0 4px 14px rgba(255, 102, 0, 0.45);
+                    "
+                >
+                    AD
+                </div>
+            </div>
+        </header>
+
+        <div
+            class="app-body"
+            style="display: flex; flex: 1; overflow: hidden; position: relative"
+        >
+            <!-- ======================== SIDEBAR ======================== -->
+            <nav class="sidebar" id="sidebar">
+                <div
+                    class="sidebar-indicator"
+                    style="color: rgba(255, 255, 255, 0.4)"
+                >
+                    ▶
+                </div>
+                <div class="sidebar-section-label">Navegación</div>
+                <ul class="nav-links" style="padding: 0 4px">
+                    <li>
+                        <a href="dashboard.html" class="nav-link active">
+                            <span class="nav-icon-wrap">📊</span>
+                            <span>Métricas Globales</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="gestion-cursos.html" class="nav-link">
+                            <span class="nav-icon-wrap">📝</span>
+                            <span>Gestión de Cursos</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="reportes.html" class="nav-link">
+                            <span class="nav-icon-wrap">📈</span>
+                            <span>Reportes Académicos</span>
+                        </a>
+                    </li>
+                </ul>
+                <div class="sidebar-section-label" style="margin-top: auto">
+                    Sistema
+                </div>
+                <ul class="nav-links bottom-links" style="padding: 0 4px">
+                    <li>
+                        <a href="../login.html" class="nav-link text-red">
+                            <span
+                                class="nav-icon-wrap"
+                                style="background: rgba(229, 62, 62, 0.15)"
+                                >🚪</span
+                            >
+                            <span>Cerrar Panel</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- ======================== MAIN ======================== -->
+            <main class="content" style="overflow-y: auto">
+                <!-- Welcome Hero -->
+                <div class="welcome-hero fade-up">
+                    <div class="hero-icon">⚙️</div>
+                    <h1>Panel de Administración General</h1>
+                    <p>
+                        Resumen en tiempo real del estado de capacitaciones en
+                        la universidad.
+                    </p>
+                </div>
+
+                <!-- Stats Row -->
+                <div class="stats-row-v2">
+                    <div class="stat-card-v2 blue fade-up delay-1">
+                        <div class="stat-icon-v2 blue">👥</div>
+                        <div>
+                            <div class="stat-num" id="count-alumnos">0</div>
+                            <div class="stat-label">Alumnos Matriculados</div>
+                            <span class="stat-trend trend-up"
+                                >↑ +8% este mes</span
+                            >
+                        </div>
+                        <span class="stat-bg-icon">👥</span>
+                    </div>
+                    <div class="stat-card-v2 orange fade-up delay-2">
+                        <div class="stat-icon-v2 orange">📖</div>
+                        <div>
+                            <div class="stat-num" id="count-cursos">0</div>
+                            <div class="stat-label">Cursos Activos</div>
+                            <span class="stat-trend trend-up">↑ +2 nuevos</span>
+                        </div>
+                        <span class="stat-bg-icon">📖</span>
+                    </div>
+                    <div class="stat-card-v2 green fade-up delay-3">
+                        <div class="stat-icon-v2 green">🎓</div>
+                        <div>
+                            <div class="stat-num" id="count-certs">0</div>
+                            <div class="stat-label">Certificados Emitidos</div>
+                            <span class="stat-trend trend-up"
+                                >↑ +34 este ciclo</span
+                            >
+                        </div>
+                        <span class="stat-bg-icon">🎓</span>
+                    </div>
+                    <div class="stat-card-v2 purple fade-up delay-4">
+                        <div
+                            class="stat-icon-v2 purple"
+                            style="
+                                background: linear-gradient(
+                                    135deg,
+                                    #faf5ff,
+                                    #e9d8fd
+                                );
+                            "
+                        >
+                            📋
+                        </div>
+                        <div>
+                            <div class="stat-num" id="count-pend">0</div>
+                            <div class="stat-label">Propuestas Pendientes</div>
+                            <span class="stat-trend trend-down"
+                                >↓ 2 urgentes</span
+                            >
+                        </div>
+                        <span class="stat-bg-icon">📋</span>
+                    </div>
+                </div>
+
+                <!-- Content Grid -->
+                <div class="content-grid">
+                    <!-- LEFT COLUMN -->
+                    <div>
+                        <!-- Cursos con mayor demanda -->
+                        <div
+                            class="chart-card fade-up delay-2"
+                            style="margin-bottom: 20px"
+                        >
+                            <p class="sec-title">🏆 Cursos con Mayor Demanda</p>
+
+                            <div class="demand-card">
+                                <div>
+                                    <span
+                                        class="tag tag-blue"
+                                        style="font-size: 10px"
+                                        >Software</span
+                                    >
+                                    <h4
+                                        style="
+                                            margin: 6px 0 2px;
+                                            font-size: 14px;
+                                            color: #1a202c;
+                                        "
+                                    >
+                                        Desarrollo de Aplicaciones con React
+                                    </h4>
+                                    <p
+                                        style="
+                                            font-size: 11px;
+                                            color: #718096;
+                                            margin: 0;
+                                        "
+                                    >
+                                        Docente: Ing. Carlos Méndez
+                                    </p>
+                                </div>
+                                <div style="text-align: right; flex-shrink: 0">
+                                    <p
+                                        style="
+                                            font-size: 16px;
+                                            font-weight: 800;
+                                            color: #003366;
+                                            margin: 0;
+                                        "
+                                    >
+                                        12 Alumnos
+                                    </p>
+                                    <span
+                                        class="badge badge-blue"
+                                        style="
+                                            font-size: 10px;
+                                            margin-top: 4px;
+                                            display: inline-block;
+                                        "
+                                        >Cupos al 95%</span
+                                    >
+                                </div>
+                            </div>
+
+                            <div
+                                class="demand-card"
+                                style="border-left-color: #ff6600"
+                            >
+                                <div>
+                                    <span
+                                        class="tag tag-orange"
+                                        style="font-size: 10px"
+                                        >Marketing</span
+                                    >
+                                    <h4
+                                        style="
+                                            margin: 6px 0 2px;
+                                            font-size: 14px;
+                                            color: #1a202c;
+                                        "
+                                    >
+                                        Estrategias de Marketing Digital 2026
+                                    </h4>
+                                    <p
+                                        style="
+                                            font-size: 11px;
+                                            color: #718096;
+                                            margin: 0;
+                                        "
+                                    >
+                                        Docente: Lic. Ana Valdiviezo
+                                    </p>
+                                </div>
+                                <div style="text-align: right; flex-shrink: 0">
+                                    <p
+                                        style="
+                                            font-size: 16px;
+                                            font-weight: 800;
+                                            color: #ff6600;
+                                            margin: 0;
+                                        "
+                                    >
+                                        8 Alumnos
+                                    </p>
+                                    <span
+                                        class="badge"
+                                        style="
+                                            background: #fff5eb;
+                                            color: #c05621;
+                                            font-size: 10px;
+                                            margin-top: 4px;
+                                            display: inline-block;
+                                        "
+                                        >Cupos al 78%</span
+                                    >
+                                </div>
+                            </div>
+
+                            <div
+                                class="demand-card"
+                                style="border-left-color: #38a169"
+                            >
+                                <div>
+                                    <span
+                                        class="tag tag-green"
+                                        style="font-size: 10px"
+                                        >Administración</span
+                                    >
+                                    <h4
+                                        style="
+                                            margin: 6px 0 2px;
+                                            font-size: 14px;
+                                            color: #1a202c;
+                                        "
+                                    >
+                                        Gestión de Proyectos con PMBOK
+                                    </h4>
+                                    <p
+                                        style="
+                                            font-size: 11px;
+                                            color: #718096;
+                                            margin: 0;
+                                        "
+                                    >
+                                        Docente: Mg. Roberto Cárdenas
+                                    </p>
+                                </div>
+                                <div style="text-align: right; flex-shrink: 0">
+                                    <p
+                                        style="
+                                            font-size: 16px;
+                                            font-weight: 800;
+                                            color: #38a169;
+                                            margin: 0;
+                                        "
+                                    >
+                                        4 Alumnos
+                                    </p>
+                                    <span
+                                        class="badge"
+                                        style="
+                                            background: #f0fff4;
+                                            color: #276749;
+                                            font-size: 10px;
+                                            margin-top: 4px;
+                                            display: inline-block;
+                                        "
+                                        >Cupos al 62%</span
+                                    >
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Distribución por categoría - Gráfico Barras CSS -->
+                        <div
+                            class="chart-card fade-up delay-3"
+                            style="margin-bottom: 20px"
+                        >
+                            <p class="sec-title">
+                                📊 Distribución por Categoría
+                            </p>
+                            <div class="bar-chart-container">
+                                <div class="bar-row">
+                                    <span class="bar-label">💻 Software</span>
+                                    <div class="bar-track">
+                                        <div
+                                            class="bar-fill b-blue"
+                                            id="bar-software"
+                                            style="width: 0%"
+                                        >
+                                            60%
+                                        </div>
+                                    </div>
+                                    <span class="bar-pct">60%</span>
+                                </div>
+                                <div class="bar-row">
+                                    <span class="bar-label">📣 Marketing</span>
+                                    <div class="bar-track">
+                                        <div
+                                            class="bar-fill b-orange"
+                                            id="bar-marketing"
+                                            style="width: 0%"
+                                        >
+                                            25%
+                                        </div>
+                                    </div>
+                                    <span class="bar-pct">25%</span>
+                                </div>
+                                <div class="bar-row">
+                                    <span class="bar-label">🏢 Admin.</span>
+                                    <div class="bar-track">
+                                        <div
+                                            class="bar-fill b-green"
+                                            id="bar-admin"
+                                            style="width: 0%"
+                                        >
+                                            15%
+                                        </div>
+                                    </div>
+                                    <span class="bar-pct">15%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Actividad Reciente -->
+                        <div class="table-wrapper fade-up delay-4">
+                            <div
+                                style="
+                                    padding: 18px 20px 12px;
+                                    border-bottom: 1px solid #f0f4f8;
+                                "
+                            >
+                                <p class="sec-title" style="margin: 0">
+                                    🕐 Actividad Reciente
+                                </p>
+                            </div>
+                            <div style="overflow-x: auto">
+                                <table class="table-modern">
+                                    <thead>
+                                        <tr>
+                                            <th>Evento</th>
+                                            <th>Usuario</th>
+                                            <th>Módulo</th>
+                                            <th>Estado</th>
+                                            <th>Timestamp</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Nuevo curso creado</td>
+                                            <td style="color: #718096">
+                                                Ing. Méndez
+                                            </td>
+                                            <td>Gestión Cursos</td>
+                                            <td>
+                                                <span class="ts-badge ts-nuevo"
+                                                    >Nuevo</span
+                                                >
+                                            </td>
+                                            <td
+                                                style="
+                                                    color: #a0aec0;
+                                                    font-size: 11px;
+                                                "
+                                            >
+                                                Hoy, 14:32
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Propuesta aprobada</td>
+                                            <td style="color: #718096">
+                                                Lic. Valdiviezo
+                                            </td>
+                                            <td>Revisión</td>
+                                            <td>
+                                                <span class="ts-badge ts-aprob"
+                                                    >Aprobado</span
+                                                >
+                                            </td>
+                                            <td
+                                                style="
+                                                    color: #a0aec0;
+                                                    font-size: 11px;
+                                                "
+                                            >
+                                                Hoy, 12:10
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Cupos modificados</td>
+                                            <td style="color: #718096">
+                                                Admin
+                                            </td>
+                                            <td>Gestión Cursos</td>
+                                            <td>
+                                                <span class="ts-badge ts-mod"
+                                                    >Modificado</span
+                                                >
+                                            </td>
+                                            <td
+                                                style="
+                                                    color: #a0aec0;
+                                                    font-size: 11px;
+                                                "
+                                            >
+                                                Ayer, 18:05
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Inscripción masiva</td>
+                                            <td style="color: #718096">
+                                                Coordinación
+                                            </td>
+                                            <td>Matriculación</td>
+                                            <td>
+                                                <span class="ts-badge ts-insc"
+                                                    >Inscripción</span
+                                                >
+                                            </td>
+                                            <td
+                                                style="
+                                                    color: #a0aec0;
+                                                    font-size: 11px;
+                                                "
+                                            >
+                                                Ayer, 10:47
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Reporte exportado</td>
+                                            <td style="color: #718096">
+                                                Admin
+                                            </td>
+                                            <td>Reportes</td>
+                                            <td>
+                                                <span class="ts-badge ts-aprob"
+                                                    >Completado</span
+                                                >
+                                            </td>
+                                            <td
+                                                style="
+                                                    color: #a0aec0;
+                                                    font-size: 11px;
+                                                "
+                                            >
+                                                12/06, 09:22
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- /LEFT COLUMN -->
+
+                    <!-- RIGHT COLUMN (Aside) -->
+                    <div>
+                        <!-- CTA Card -->
+                        <div
+                            class="cta-aside-card fade-up delay-2"
+                            style="margin-bottom: 18px"
+                        >
+                            <p class="cta-label">⚡ Operaciones de Control</p>
+                            <h4>¿Necesitas agregar una nueva capacitación?</h4>
+                            <p>
+                                Registra asignaturas, adjunta horarios y asigna
+                                facilitadores para el ciclo actual.
+                            </p>
+                            <a href="gestion-cursos.html" class="btn-cta-white"
+                                >+ Crear Nuevo Curso</a
+                            >
+                        </div>
+
+                        <!-- Métricas rápidas -->
+                        <div style="margin-bottom: 14px">
+                            <p
+                                class="sec-title fade-up delay-3"
+                                style="margin-bottom: 12px"
+                            >
+                                ⚡ Métricas Rápidas
+                            </p>
+                        </div>
+
+                        <div class="quick-metric fade-up delay-3">
+                            <div
+                                class="qm-icon"
+                                style="
+                                    background: linear-gradient(
+                                        135deg,
+                                        #f0fff4,
+                                        #c6f6d5
+                                    );
+                                "
+                            >
+                                ✅
+                            </div>
+                            <div>
+                                <div
+                                    class="qm-val"
+                                    style="color: #38a169"
+                                    id="count-aprob"
+                                >
+                                    0%
+                                </div>
+                                <div class="qm-label">Tasa de Aprobación</div>
+                            </div>
+                        </div>
+
+                        <div class="quick-metric fade-up delay-4">
+                            <div
+                                class="qm-icon"
+                                style="
+                                    background: linear-gradient(
+                                        135deg,
+                                        #fffaf0,
+                                        #feebc8
+                                    );
+                                "
+                            >
+                                ⏳
+                            </div>
+                            <div>
+                                <div
+                                    class="qm-val"
+                                    style="color: #c05621"
+                                    id="count-rev"
+                                >
+                                    0
+                                </div>
+                                <div class="qm-label">
+                                    Cursos Pendientes de Revisión
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="quick-metric fade-up delay-5">
+                            <div
+                                class="qm-icon"
+                                style="
+                                    background: linear-gradient(
+                                        135deg,
+                                        #ebf8ff,
+                                        #bee3f8
+                                    );
+                                "
+                            >
+                                👨‍🏫
+                            </div>
+                            <div>
+                                <div
+                                    class="qm-val"
+                                    style="color: #003366"
+                                    id="count-doc"
+                                >
+                                    0
+                                </div>
+                                <div class="qm-label">Docentes Activos</div>
+                            </div>
+                        </div>
+
+                        <div class="quick-metric fade-up delay-6">
+                            <div
+                                class="qm-icon"
+                                style="
+                                    background: linear-gradient(
+                                        135deg,
+                                        #faf5ff,
+                                        #e9d8fd
+                                    );
+                                "
+                            >
+                                🏅
+                            </div>
+                            <div>
+                                <div class="qm-val" style="color: #6b46c1">
+                                    4.8
+                                </div>
+                                <div class="qm-label">
+                                    Satisfacción Promedio (/ 5)
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Mini alerta -->
+                        <div
+                            style="
+                                background: linear-gradient(
+                                    135deg,
+                                    #fff5eb,
+                                    #ffe0cc
+                                );
+                                border: 1px solid #ffd7b5;
+                                border-radius: 14px;
+                                padding: 16px;
+                                margin-top: 6px;
+                            "
+                            class="fade-up delay-5"
+                        >
+                            <p
+                                style="
+                                    font-size: 11px;
+                                    font-weight: 700;
+                                    color: #c05621;
+                                    margin: 0 0 4px;
+                                "
+                            >
+                                ⚠ PENDIENTE URGENTE
+                            </p>
+                            <p
+                                style="
+                                    font-size: 12px;
+                                    color: #744210;
+                                    margin: 0;
+                                "
+                            >
+                                2 propuestas de cursos llevan +5 días sin
+                                revisión.
+                            </p>
+                            <a
+                                href="gestion-cursos.html"
+                                style="
+                                    font-size: 11px;
+                                    color: #c05621;
+                                    font-weight: 700;
+                                    text-decoration: none;
+                                    display: inline-block;
+                                    margin-top: 8px;
+                                "
+                                >Revisar ahora →</a
+                            >
+                        </div>
+                    </div>
+                    <!-- /RIGHT COLUMN -->
+                </div>
+                <!-- /content-grid -->
+            </main>
+        </div>
+
+        <!-- CountUp + BarChart Animation (JS inline, sin script externo) -->
+        <script>
+            // CountUp animation
+            function animateCount(id, target, suffix, duration) {
+                const el = document.getElementById(id);
+                if (!el) return;
+                const start = 0;
+                const step = target / (duration / 16);
+                let current = start;
+                const timer = setInterval(() => {
+                    current += step;
+                    if (current >= target) {
+                        current = target;
+                        clearInterval(timer);
+                    }
+                    el.textContent =
+                        Math.floor(current).toLocaleString() + (suffix || "");
+                }, 16);
+            }
+
+            // Bar chart animation
+            function animateBars() {
+                const bars = [
+                    { id: "bar-software", width: "60%" },
+                    { id: "bar-marketing", width: "25%" },
+                    { id: "bar-admin", width: "15%" },
+                ];
+                bars.forEach((b, i) => {
+                    setTimeout(
+                        () => {
+                            const el = document.getElementById(b.id);
+                            if (el) el.style.width = b.width;
+                        },
+                        300 + i * 120,
+                    );
+                });
+            }
+
+            // IntersectionObserver trigger
+            const observer = new IntersectionObserver(
+                (entries) => {
+                    entries.forEach((entry) => {
+                        if (entry.isIntersecting) {
+                            animateCount("count-alumnos", 90, "", 90);
+                            animateCount("count-cursos", 4, "", 900);
+                            animateCount("count-certs", 12, "", 1200);
+                            animateCount("count-pend", 5, "", 700);
+                            animateCount("count-aprob", 87, "%", 1100);
+                            animateCount("count-rev", 3, "", 600);
+                            animateCount("count-doc", 12, "", 800);
+                            animateBars();
+                            observer.disconnect();
+                        }
+                    });
+                },
+                { threshold: 0.1 },
+            );
+
+            const statsSection = document.querySelector(".stats-row-v2");
+            if (statsSection) observer.observe(statsSection);
+        </script>
+    </body>
+</html>

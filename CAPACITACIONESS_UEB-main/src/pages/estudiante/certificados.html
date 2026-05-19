@@ -1,0 +1,928 @@
+<!doctype html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Mis Certificados | UEB</title>
+        <link rel="stylesheet" href="../../styles.css" />
+        <style>
+            :root {
+                --blue-inst: #003366;
+                --blue-mid: #004a8f;
+                --blue-light: #1a6abf;
+                --orange-cta: #ff6600;
+                --orange-light: #ff8533;
+                --neutral-bg: #f5f7fa;
+                --white: #ffffff;
+                --shadow-sm: 0 2px 8px rgba(0, 51, 102, 0.08);
+                --shadow-md: 0 8px 24px rgba(0, 51, 102, 0.14);
+                --shadow-lg: 0 16px 48px rgba(0, 51, 102, 0.18);
+                --radius: 16px;
+                --radius-sm: 10px;
+            }
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            body {
+                font-family:
+                    "Segoe UI",
+                    system-ui,
+                    -apple-system,
+                    sans-serif;
+                background: var(--neutral-bg);
+            }
+
+            /* ── NAVBAR ── */
+            .top-navbar {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 0 28px;
+                height: 64px;
+                background: linear-gradient(
+                    135deg,
+                    var(--blue-inst) 0%,
+                    var(--blue-mid) 60%,
+                    var(--blue-light) 100%
+                );
+                box-shadow: 0 4px 20px rgba(0, 51, 102, 0.35);
+                position: sticky;
+                top: 0;
+                z-index: 1000;
+            }
+            .logo-area {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+            }
+            .logo-box {
+                width: 38px;
+                height: 38px;
+                background: linear-gradient(
+                    135deg,
+                    var(--orange-cta),
+                    var(--orange-light)
+                );
+                border-radius: 10px;
+                font-size: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                box-shadow: 0 4px 12px rgba(255, 102, 0, 0.4);
+            }
+            .logo-box::after {
+                content: "🎓";
+            }
+            .logo-area h2 {
+                color: #fff;
+                font-size: 17px;
+                font-weight: 700;
+            }
+            .search-area input {
+                background: rgba(255, 255, 255, 0.15);
+                border: 1px solid rgba(255, 255, 255, 0.25);
+                border-radius: 24px;
+                padding: 8px 18px;
+                color: #fff;
+                font-size: 13px;
+                width: 280px;
+                outline: none;
+                transition: all 0.3s;
+            }
+            .search-area input::placeholder {
+                color: rgba(255, 255, 255, 0.65);
+            }
+            .user-area {
+                display: flex;
+                align-items: center;
+                gap: 16px;
+            }
+            .notif-bell {
+                position: relative;
+                cursor: pointer;
+                background: rgba(255, 255, 255, 0.12);
+                border-radius: 50%;
+                width: 38px;
+                height: 38px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 17px;
+            }
+            .notif-badge {
+                position: absolute;
+                top: -3px;
+                right: -3px;
+                background: var(--orange-cta);
+                color: #fff;
+                font-size: 10px;
+                font-weight: 700;
+                width: 18px;
+                height: 18px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border: 2px solid var(--blue-inst);
+            }
+            .user-info {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-end;
+            }
+            .user-name {
+                color: #fff;
+                font-size: 13px;
+                font-weight: 600;
+            }
+            .avatar {
+                width: 38px;
+                height: 38px;
+                border-radius: 50%;
+                background: linear-gradient(135deg, var(--orange-cta), #ff9933);
+                color: #fff;
+                font-weight: 700;
+                font-size: 13px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+            }
+
+            /* ── APP BODY ── */
+            .app-body {
+                display: flex;
+                flex: 1;
+                min-height: calc(100vh - 64px);
+            }
+
+            /* ── SIDEBAR ── */
+            .sidebar {
+                width: 240px;
+                background: linear-gradient(
+                    180deg,
+                    var(--blue-inst) 0%,
+                    #002244 100%
+                );
+                display: flex;
+                flex-direction: column;
+                padding: 20px 0;
+                box-shadow: 4px 0 24px rgba(0, 0, 0, 0.18);
+                position: sticky;
+                top: 64px;
+                height: calc(100vh - 64px);
+                overflow-y: auto;
+                flex-shrink: 0;
+            }
+            .sidebar-brand {
+                padding: 0 20px 20px;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+                margin-bottom: 8px;
+            }
+            .sidebar-brand span {
+                color: rgba(255, 255, 255, 0.45);
+                font-size: 10px;
+                text-transform: uppercase;
+                letter-spacing: 1.5px;
+                font-weight: 600;
+            }
+            .nav-links {
+                list-style: none;
+                padding: 0;
+                flex: 1;
+            }
+            .nav-links li {
+                margin: 2px 12px;
+            }
+            .nav-links a {
+                display: flex;
+                align-items: center;
+                gap: 11px;
+                padding: 11px 14px;
+                border-radius: var(--radius-sm);
+                color: rgba(255, 255, 255, 0.65);
+                text-decoration: none;
+                font-size: 13.5px;
+                font-weight: 500;
+                transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            .nav-links a:hover {
+                color: #fff;
+                background: rgba(255, 255, 255, 0.1);
+                transform: translateX(3px);
+            }
+            .nav-links a.active {
+                background: var(--orange-cta);
+                color: #fff;
+                font-weight: 700;
+                box-shadow: 0 4px 14px rgba(255, 102, 0, 0.4);
+            }
+            .nav-links a.active:hover {
+                transform: none;
+            }
+            .nav-icon {
+                width: 20px;
+                text-align: center;
+                font-size: 16px;
+            }
+            .bottom-links {
+                margin-top: auto;
+                border-top: 1px solid rgba(255, 255, 255, 0.08);
+                padding-top: 10px;
+            }
+            .nav-links a.text-red {
+                color: rgba(255, 120, 120, 0.8);
+            }
+            .nav-links a.text-red:hover {
+                color: #ff6b6b;
+                background: rgba(255, 80, 80, 0.12);
+            }
+            .sidebar-section-label {
+                padding: 12px 26px 4px;
+                color: rgba(255, 255, 255, 0.3);
+                font-size: 10px;
+                text-transform: uppercase;
+                letter-spacing: 1.5px;
+                font-weight: 600;
+            }
+
+            /* ── CONTENT ── */
+            .content {
+                flex: 1;
+                padding: 28px 32px;
+                overflow-y: auto;
+            }
+
+            /* ── PAGE HEADER ── */
+            .page-header {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-bottom: 20px;
+                animation: fadeInDown 0.45s ease both;
+            }
+            .page-header h2 {
+                font-size: 22px;
+                font-weight: 800;
+                color: var(--blue-inst);
+            }
+            .badge-count {
+                background: linear-gradient(
+                    135deg,
+                    var(--blue-mid),
+                    var(--blue-light)
+                );
+                color: #fff;
+                font-size: 11px;
+                font-weight: 700;
+                padding: 3px 11px;
+                border-radius: 20px;
+            }
+
+            /* ── ALERT ── */
+            .alert-info {
+                background: linear-gradient(135deg, #dbeafe, #eff6ff);
+                border-left: 4px solid var(--blue-light);
+                border-radius: 12px;
+                padding: 14px 18px;
+                font-size: 13px;
+                color: #1e40af;
+                margin-bottom: 24px;
+                line-height: 1.5;
+                animation: fadeInUp 0.45s ease 0.05s both;
+            }
+
+            /* ── CERT LAYOUT ── */
+            .cert-layout {
+                display: grid;
+                grid-template-columns: 1fr 280px;
+                gap: 24px;
+            }
+
+            /* ── CERT CARD (completed) ── */
+            .cert-card {
+                background: var(--white);
+                border-radius: var(--radius);
+                overflow: hidden;
+                box-shadow: var(--shadow-sm);
+                border: 1px solid rgba(0, 51, 102, 0.07);
+                margin-bottom: 18px;
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                animation: fadeInUp 0.5s ease both;
+            }
+            .cert-card:hover {
+                transform: translateY(-4px);
+                box-shadow: var(--shadow-md);
+            }
+            .cert-card:nth-child(1) {
+                animation-delay: 0.1s;
+            }
+            .cert-card:nth-child(2) {
+                animation-delay: 0.2s;
+            }
+
+            /* ── CERTIFICATE INNER ── */
+            .cert-inner {
+                background: linear-gradient(135deg, #fafafa, #f0f4ff);
+                border: 8px solid transparent;
+                border-image: linear-gradient(135deg, #c9a227, #e8d484, #c9a227)
+                    1;
+                margin: 14px;
+                border-radius: 10px;
+                padding: 24px 26px;
+                position: relative;
+                overflow: hidden;
+            }
+            .cert-inner::before {
+                content: "";
+                position: absolute;
+                inset: 0;
+                background:
+                    radial-gradient(
+                        circle at 5% 50%,
+                        rgba(201, 162, 39, 0.06) 0%,
+                        transparent 50%
+                    ),
+                    radial-gradient(
+                        circle at 95% 50%,
+                        rgba(0, 51, 102, 0.04) 0%,
+                        transparent 50%
+                    );
+            }
+            .cert-corner {
+                position: absolute;
+                width: 40px;
+                height: 40px;
+                opacity: 0.25;
+            }
+            .cert-corner.tl {
+                top: 6px;
+                left: 6px;
+                border-top: 3px solid #c9a227;
+                border-left: 3px solid #c9a227;
+                border-radius: 4px 0 0 0;
+            }
+            .cert-corner.tr {
+                top: 6px;
+                right: 6px;
+                border-top: 3px solid #c9a227;
+                border-right: 3px solid #c9a227;
+                border-radius: 0 4px 0 0;
+            }
+            .cert-corner.bl {
+                bottom: 6px;
+                left: 6px;
+                border-bottom: 3px solid #c9a227;
+                border-left: 3px solid #c9a227;
+                border-radius: 0 0 0 4px;
+            }
+            .cert-corner.br {
+                bottom: 6px;
+                right: 6px;
+                border-bottom: 3px solid #c9a227;
+                border-right: 3px solid #c9a227;
+                border-radius: 0 0 4px 0;
+            }
+            .cert-top-row {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-bottom: 12px;
+            }
+            .cert-logo-area {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+            .cert-logo-box {
+                width: 32px;
+                height: 32px;
+                border-radius: 8px;
+                background: linear-gradient(
+                    135deg,
+                    var(--blue-inst),
+                    var(--blue-light)
+                );
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 16px;
+                color: #fff;
+            }
+            .cert-logo-text {
+                font-size: 11px;
+                font-weight: 800;
+                color: var(--blue-inst);
+                text-transform: uppercase;
+                letter-spacing: 1px;
+            }
+            .cert-status-badge {
+                display: flex;
+                align-items: center;
+                gap: 5px;
+                background: linear-gradient(135deg, #dcfce7, #bbf7d0);
+                color: #15803d;
+                border-radius: 20px;
+                padding: 4px 12px;
+                font-size: 11px;
+                font-weight: 700;
+            }
+            .cert-divider {
+                height: 1px;
+                background: linear-gradient(
+                    90deg,
+                    transparent,
+                    rgba(201, 162, 39, 0.3),
+                    transparent
+                );
+                margin: 10px 0;
+            }
+            .cert-title {
+                font-size: 16px;
+                font-weight: 800;
+                color: var(--blue-inst);
+                margin-bottom: 6px;
+            }
+            .cert-meta {
+                font-size: 12px;
+                color: #6b7280;
+                line-height: 1.6;
+            }
+            .cert-meta strong {
+                color: #374151;
+            }
+            .cert-actions {
+                padding: 14px 22px 16px;
+                display: flex;
+                justify-content: flex-end;
+            }
+            .btn-download {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                background: linear-gradient(
+                    135deg,
+                    var(--orange-cta),
+                    var(--orange-light)
+                );
+                color: #fff;
+                border: none;
+                border-radius: 24px;
+                padding: 10px 22px;
+                font-size: 13px;
+                font-weight: 700;
+                cursor: pointer;
+                box-shadow: 0 4px 14px rgba(255, 102, 0, 0.35);
+                transition: all 0.3s;
+                position: relative;
+                overflow: hidden;
+            }
+            .btn-download::after {
+                content: "";
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                width: 0;
+                height: 0;
+                background: rgba(255, 255, 255, 0.2);
+                border-radius: 50%;
+                transform: translate(-50%, -50%);
+                transition:
+                    width 0.4s,
+                    height 0.4s;
+            }
+            .btn-download:hover::after {
+                width: 180px;
+                height: 80px;
+            }
+            .btn-download:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 20px rgba(255, 102, 0, 0.45);
+            }
+
+            /* ── PENDING CERT CARD ── */
+            .cert-card-pending {
+                background: var(--white);
+                border-radius: var(--radius);
+                padding: 22px;
+                box-shadow: var(--shadow-sm);
+                border: 2px dashed rgba(0, 51, 102, 0.12);
+                margin-bottom: 18px;
+                display: flex;
+                align-items: center;
+                gap: 18px;
+                animation: fadeInUp 0.5s ease 0.2s both;
+            }
+            .pending-icon-box {
+                width: 50px;
+                height: 50px;
+                border-radius: 14px;
+                background: linear-gradient(135deg, #f3f4f6, #e5e7eb);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 22px;
+                flex-shrink: 0;
+            }
+            .pending-info {
+                flex: 1;
+            }
+            .pending-info strong {
+                font-size: 14px;
+                color: #374151;
+                display: block;
+                margin-bottom: 4px;
+            }
+            .pending-info small {
+                font-size: 12px;
+                color: #9ca3af;
+                display: block;
+                margin-bottom: 8px;
+            }
+            .pending-bar-wrap {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+            .pending-bar-bg {
+                flex: 1;
+                height: 7px;
+                background: #f3f4f6;
+                border-radius: 10px;
+                overflow: hidden;
+            }
+            .pending-bar-fill {
+                height: 100%;
+                background: linear-gradient(90deg, #d1d5db, #9ca3af);
+                border-radius: 10px;
+            }
+            .pending-bar-pct {
+                font-size: 11px;
+                font-weight: 700;
+                color: #6b7280;
+            }
+            .btn-disabled {
+                padding: 9px 18px;
+                border-radius: 24px;
+                border: 2px solid #e5e7eb;
+                background: #f9fafb;
+                color: #9ca3af;
+                font-size: 12px;
+                font-weight: 600;
+                cursor: not-allowed;
+                opacity: 0.7;
+                white-space: nowrap;
+            }
+
+            /* ── ASIDE STATS ── */
+            .aside-stats-card {
+                background: linear-gradient(
+                    135deg,
+                    var(--blue-inst),
+                    var(--blue-mid)
+                );
+                border-radius: var(--radius);
+                padding: 24px;
+                margin-bottom: 18px;
+                animation: fadeInRight 0.5s ease 0.2s both;
+            }
+            .aside-stats-card h4 {
+                color: rgba(255, 255, 255, 0.75);
+                font-size: 10px;
+                text-transform: uppercase;
+                letter-spacing: 1.5px;
+                font-weight: 600;
+                margin-bottom: 16px;
+            }
+            .stat-pill {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 10px;
+                padding: 12px 16px;
+                margin-bottom: 8px;
+            }
+            .stat-pill:last-child {
+                margin-bottom: 0;
+            }
+            .stat-pill-label {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                font-size: 13px;
+                color: rgba(255, 255, 255, 0.75);
+            }
+            .stat-pill-val {
+                font-size: 18px;
+                font-weight: 800;
+                color: #fff;
+            }
+            .aside-tip-card {
+                background: var(--white);
+                border-radius: var(--radius);
+                padding: 20px;
+                box-shadow: var(--shadow-sm);
+                border: 1px solid rgba(0, 51, 102, 0.06);
+                animation: fadeInRight 0.5s ease 0.3s both;
+            }
+            .aside-tip-card h4 {
+                font-size: 14px;
+                font-weight: 800;
+                color: var(--blue-inst);
+                margin-bottom: 10px;
+            }
+            .aside-tip-card p {
+                font-size: 13px;
+                color: #6b7280;
+                line-height: 1.6;
+            }
+
+            /* ── TOAST ── */
+            .toast {
+                position: fixed;
+                bottom: 24px;
+                right: 24px;
+                background: var(--blue-inst);
+                color: #fff;
+                padding: 14px 22px;
+                border-radius: 12px;
+                font-size: 14px;
+                font-weight: 500;
+                box-shadow: var(--shadow-md);
+                transform: translateY(80px);
+                opacity: 0;
+                transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+                z-index: 9999;
+            }
+            .toast.show {
+                transform: translateY(0);
+                opacity: 1;
+            }
+
+            /* ── ANIMATIONS ── */
+            @keyframes fadeInDown {
+                from {
+                    opacity: 0;
+                    transform: translateY(-20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            @keyframes fadeInRight {
+                from {
+                    opacity: 0;
+                    transform: translateX(20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateX(0);
+                }
+            }
+        </style>
+    </head>
+    <body style="margin: 0; background: var(--neutral-bg)">
+        <!-- ══ NAVBAR ══ -->
+        <header class="top-navbar">
+            <div class="logo-area">
+                <div class="logo-box"></div>
+                <h2>Capacitación UEB</h2>
+            </div>
+            <div class="search-area">
+                <input type="text" placeholder="🔍 Buscar..." />
+            </div>
+            <div class="user-area">
+                <div class="notif-bell">
+                    🔔<span class="notif-badge">2</span>
+                </div>
+                <div class="user-info">
+                    <span class="user-name">Valentín Valle</span>
+                </div>
+                <div class="avatar">VV</div>
+            </div>
+        </header>
+
+        <div class="app-body">
+            <!-- ══ SIDEBAR ══ -->
+            <nav class="sidebar" id="sidebar">
+                <div class="sidebar-brand"><span>Menú principal</span></div>
+                <div class="sidebar-section-label">Navegación</div>
+                <ul class="nav-links">
+                    <li>
+                        <a href="dashboard.html" class="nav-link"
+                            ><span class="nav-icon">📊</span> Dashboard</a
+                        >
+                    </li>
+                    <li>
+                        <a href="catalogo.html" class="nav-link"
+                            ><span class="nav-icon">📚</span> Catálogo</a
+                        >
+                    </li>
+                    <li>
+                        <a href="aula.html" class="nav-link"
+                            ><span class="nav-icon">💻</span> Aula Virtual</a
+                        >
+                    </li>
+                    <li>
+                        <a href="certificados.html" class="nav-link active"
+                            ><span class="nav-icon">🎓</span> Certificados</a
+                        >
+                    </li>
+                </ul>
+                <div class="sidebar-section-label">Cuenta</div>
+                <ul class="nav-links bottom-links">
+                    <li>
+                        <a href="perfil.html" class="nav-link"
+                            ><span class="nav-icon">👤</span> Perfil &amp;
+                            Soporte</a
+                        >
+                    </li>
+                    <li>
+                        <a href="../login.html" class="text-red"
+                            ><span class="nav-icon">🚪</span> Cerrar Sesión</a
+                        >
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- ══ MAIN ══ -->
+            <main class="content">
+                <div class="page-header">
+                    <h2>🎓 Mis Certificados</h2>
+                    <span class="badge-count">3 obtenidos</span>
+                </div>
+
+                <div class="alert-info">
+                    💡 Los certificados se generan automáticamente al completar
+                    el 100% del curso y aprobar la evaluación final.
+                </div>
+
+                <div class="cert-layout">
+                    <!-- Left: certificates -->
+                    <div>
+                        <!-- Certificado completado 1 -->
+                        <div class="cert-card">
+                            <div class="cert-inner">
+                                <div class="cert-corner tl"></div>
+                                <div class="cert-corner tr"></div>
+                                <div class="cert-corner bl"></div>
+                                <div class="cert-corner br"></div>
+                                <div class="cert-top-row">
+                                    <div class="cert-logo-area">
+                                        <div class="cert-logo-box">🎓</div>
+                                        <span class="cert-logo-text"
+                                            >UEB · Certificado Oficial</span
+                                        >
+                                    </div>
+                                    <div class="cert-status-badge">
+                                        ✓ Completado
+                                    </div>
+                                </div>
+                                <div class="cert-divider"></div>
+                                <p class="cert-title">
+                                    Desarrollo de Microservicios
+                                </p>
+                                <p class="cert-meta">
+                                    <strong>Facultad:</strong> Informática
+                                    &nbsp;·&nbsp;
+                                    <strong>Completado:</strong> 15 marzo
+                                    2026<br />
+                                    <strong>Docente:</strong> Ing. María
+                                    Rodríguez &nbsp;·&nbsp;
+                                    <strong>Horas:</strong> 40 hrs
+                                </p>
+                            </div>
+                            <div class="cert-actions">
+                                <button
+                                    class="btn-download"
+                                    onclick="
+                                        descargarCert(
+                                            'Desarrollo de Microservicios',
+                                        )
+                                    "
+                                >
+                                    ⬇ Descargar PDF
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Certificado completado 2 -->
+                        <div class="cert-card">
+                            <div class="cert-inner">
+                                <div class="cert-corner tl"></div>
+                                <div class="cert-corner tr"></div>
+                                <div class="cert-corner bl"></div>
+                                <div class="cert-corner br"></div>
+                                <div class="cert-top-row">
+                                    <div class="cert-logo-area">
+                                        <div class="cert-logo-box">🎓</div>
+                                        <span class="cert-logo-text"
+                                            >UEB · Certificado Oficial</span
+                                        >
+                                    </div>
+                                    <div class="cert-status-badge">
+                                        ✓ Completado
+                                    </div>
+                                </div>
+                                <div class="cert-divider"></div>
+                                <p class="cert-title">Python Nivel 1</p>
+                                <p class="cert-meta">
+                                    <strong>Facultad:</strong> Sistemas
+                                    &nbsp;·&nbsp;
+                                    <strong>Completado:</strong> 10 enero
+                                    2026<br />
+                                    <strong>Docente:</strong> Ing. Carlos Flores
+                                    &nbsp;·&nbsp; <strong>Horas:</strong> 30 hrs
+                                </p>
+                            </div>
+                            <div class="cert-actions">
+                                <button
+                                    class="btn-download"
+                                    onclick="descargarCert('Python Nivel 1')"
+                                >
+                                    ⬇ Descargar PDF
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Certificado pendiente -->
+                        <div class="cert-card-pending">
+                            <div class="pending-icon-box">⏳</div>
+                            <div class="pending-info">
+                                <strong>Marketing Digital 2026</strong>
+                                <small>En progreso · 40% completado</small>
+                                <div class="pending-bar-wrap">
+                                    <div class="pending-bar-bg">
+                                        <div
+                                            class="pending-bar-fill"
+                                            style="width: 40%"
+                                        ></div>
+                                    </div>
+                                    <span class="pending-bar-pct">40%</span>
+                                </div>
+                            </div>
+                            <button class="btn-disabled" disabled>
+                                No disponible
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Right: aside stats -->
+                    <aside>
+                        <div class="aside-stats-card">
+                            <h4>📊 Tus estadísticas</h4>
+                            <div class="stat-pill">
+                                <span class="stat-pill-label"
+                                    >🏆 Completados</span
+                                >
+                                <span class="stat-pill-val">2</span>
+                            </div>
+                            <div class="stat-pill">
+                                <span class="stat-pill-label"
+                                    >⏱️ Horas totales</span
+                                >
+                                <span class="stat-pill-val">70</span>
+                            </div>
+                            <div class="stat-pill">
+                                <span class="stat-pill-label">📅 Este año</span>
+                                <span class="stat-pill-val">2</span>
+                            </div>
+                            <div class="stat-pill">
+                                <span class="stat-pill-label"
+                                    >🔥 Racha activa</span
+                                >
+                                <span class="stat-pill-val">12d</span>
+                            </div>
+                        </div>
+                        <div class="aside-tip-card">
+                            <h4>💡 ¿Sabías que?</h4>
+                            <p>
+                                Puedes compartir tus certificados en LinkedIn
+                                directamente desde el PDF descargado. ¡Cada
+                                certificado incluye un código QR de
+                                verificación!
+                            </p>
+                        </div>
+                    </aside>
+                </div>
+            </main>
+        </div>
+
+        <div id="toast" class="toast" role="alert"></div>
+        <script src="../../js/certificados.js"></script>
+    </body>
+</html>

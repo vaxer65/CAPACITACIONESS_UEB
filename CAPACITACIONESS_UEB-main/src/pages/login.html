@@ -1,0 +1,1269 @@
+<!doctype html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Acceso al Sistema | UEB</title>
+        <link rel="stylesheet" href="../styles.css" />
+        <style>
+            /* ═══════════════════════════════════════════════
+           RESET Y BASE
+        ═══════════════════════════════════════════════ */
+            *,
+            *::before,
+            *::after {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+
+            body {
+                min-height: 100vh;
+                display: flex;
+                flex-direction: column;
+                font-family:
+                    "Inter", "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+                overflow-x: hidden;
+                position: relative;
+            }
+
+            /* ═══════════════════════════════════════════════
+           FONDO ANIMADO GRADIENTE + FORMAS CSS
+        ═══════════════════════════════════════════════ */
+            .login-bg {
+                position: fixed;
+                inset: 0;
+                z-index: 0;
+                background: linear-gradient(
+                    135deg,
+                    #001224 0%,
+                    #002a55 35%,
+                    #003d80 65%,
+                    #001a40 100%
+                );
+                animation: bgShift 14s ease-in-out infinite;
+                overflow: hidden;
+            }
+            @keyframes bgShift {
+                0% {
+                    background: linear-gradient(
+                        135deg,
+                        #001224 0%,
+                        #002a55 35%,
+                        #003d80 65%,
+                        #001a40 100%
+                    );
+                }
+                25% {
+                    background: linear-gradient(
+                        155deg,
+                        #001a33 0%,
+                        #003366 40%,
+                        #004d99 70%,
+                        #001224 100%
+                    );
+                }
+                50% {
+                    background: linear-gradient(
+                        115deg,
+                        #00122a 0%,
+                        #002244 35%,
+                        #0055a5 65%,
+                        #001a33 100%
+                    );
+                }
+                75% {
+                    background: linear-gradient(
+                        145deg,
+                        #001830 0%,
+                        #003060 40%,
+                        #004080 70%,
+                        #001224 100%
+                    );
+                }
+                100% {
+                    background: linear-gradient(
+                        135deg,
+                        #001224 0%,
+                        #002a55 35%,
+                        #003d80 65%,
+                        #001a40 100%
+                    );
+                }
+            }
+
+            /* Formas geométricas decorativas — CSS puro */
+            .bg-shape {
+                position: absolute;
+                pointer-events: none;
+                border-radius: 50%;
+            }
+            .bg-shape-1 {
+                width: 600px;
+                height: 600px;
+                background: radial-gradient(
+                    circle,
+                    rgba(0, 136, 204, 0.18) 0%,
+                    transparent 65%
+                );
+                top: -200px;
+                right: -150px;
+                animation: shapeDrift1 12s ease-in-out infinite;
+            }
+            .bg-shape-2 {
+                width: 400px;
+                height: 400px;
+                background: radial-gradient(
+                    circle,
+                    rgba(255, 102, 0, 0.12) 0%,
+                    transparent 65%
+                );
+                bottom: -100px;
+                left: -100px;
+                animation: shapeDrift2 16s ease-in-out infinite;
+            }
+            .bg-shape-3 {
+                width: 250px;
+                height: 250px;
+                background: radial-gradient(
+                    circle,
+                    rgba(0, 180, 216, 0.1) 0%,
+                    transparent 65%
+                );
+                top: 40%;
+                left: 5%;
+                animation: shapeDrift1 10s ease-in-out infinite 3s;
+            }
+            .bg-shape-4 {
+                width: 180px;
+                height: 180px;
+                background: radial-gradient(
+                    circle,
+                    rgba(255, 102, 0, 0.08) 0%,
+                    transparent 65%
+                );
+                top: 15%;
+                right: 20%;
+                animation: shapeDrift2 8s ease-in-out infinite 1s;
+            }
+
+            /* Cuadrícula geométrica SVG inline como background */
+            .bg-grid {
+                position: absolute;
+                inset: 0;
+                background-image:
+                    linear-gradient(
+                        rgba(255, 255, 255, 0.025) 1px,
+                        transparent 1px
+                    ),
+                    linear-gradient(
+                        90deg,
+                        rgba(255, 255, 255, 0.025) 1px,
+                        transparent 1px
+                    );
+                background-size: 60px 60px;
+                animation: gridMove 20s linear infinite;
+            }
+            @keyframes gridMove {
+                from {
+                    background-position: 0 0;
+                }
+                to {
+                    background-position: 60px 60px;
+                }
+            }
+
+            /* Líneas diagonales decorativas */
+            .bg-line {
+                position: absolute;
+                height: 1px;
+                background: linear-gradient(
+                    90deg,
+                    transparent,
+                    rgba(255, 255, 255, 0.06),
+                    transparent
+                );
+                pointer-events: none;
+            }
+            .bg-line-1 {
+                width: 50%;
+                top: 25%;
+                left: 15%;
+                animation: lineFade 6s ease-in-out infinite;
+            }
+            .bg-line-2 {
+                width: 35%;
+                top: 55%;
+                right: 10%;
+                animation: lineFade 8s ease-in-out infinite 2s;
+            }
+            .bg-line-3 {
+                width: 40%;
+                top: 75%;
+                left: 5%;
+                animation: lineFade 7s ease-in-out infinite 4s;
+            }
+
+            /* Partículas puntiformes */
+            .bg-particle {
+                position: absolute;
+                border-radius: 50%;
+                background: rgba(255, 255, 255, 0.2);
+                pointer-events: none;
+            }
+            .bg-particle-1 {
+                width: 4px;
+                height: 4px;
+                top: 20%;
+                left: 18%;
+                animation: particleFloat 5s ease-in-out infinite;
+            }
+            .bg-particle-2 {
+                width: 6px;
+                height: 6px;
+                top: 65%;
+                left: 70%;
+                animation: particleFloat 7s ease-in-out infinite 1s;
+            }
+            .bg-particle-3 {
+                width: 3px;
+                height: 3px;
+                top: 40%;
+                right: 15%;
+                animation: particleFloat 6s ease-in-out infinite 2s;
+            }
+            .bg-particle-4 {
+                width: 5px;
+                height: 5px;
+                bottom: 25%;
+                left: 30%;
+                animation: particleFloat 9s ease-in-out infinite 0.5s;
+            }
+            .bg-particle-5 {
+                width: 4px;
+                height: 4px;
+                top: 80%;
+                right: 35%;
+                animation: particleFloat 4s ease-in-out infinite 3s;
+            }
+
+            @keyframes shapeDrift1 {
+                0%,
+                100% {
+                    transform: translate(0, 0) rotate(0deg);
+                }
+                50% {
+                    transform: translate(-30px, 40px) rotate(12deg);
+                }
+            }
+            @keyframes shapeDrift2 {
+                0%,
+                100% {
+                    transform: translate(0, 0) scale(1);
+                }
+                50% {
+                    transform: translate(25px, -25px) scale(1.1);
+                }
+            }
+            @keyframes lineFade {
+                0%,
+                100% {
+                    opacity: 0;
+                    transform: scaleX(0.5);
+                }
+                50% {
+                    opacity: 1;
+                    transform: scaleX(1);
+                }
+            }
+            @keyframes particleFloat {
+                0%,
+                100% {
+                    transform: translateY(0);
+                    opacity: 0.2;
+                }
+                50% {
+                    transform: translateY(-18px);
+                    opacity: 0.6;
+                }
+            }
+
+            /* ═══════════════════════════════════════════════
+           NAVBAR LOGIN
+        ═══════════════════════════════════════════════ */
+            .login-navbar {
+                position: relative;
+                z-index: 10;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 20px 40px;
+                flex-shrink: 0;
+            }
+            .login-navbar-logo {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                text-decoration: none;
+            }
+            .login-navbar-badge {
+                width: 36px;
+                height: 36px;
+                background: linear-gradient(135deg, #ff6600 0%, #e84d00 100%);
+                border-radius: 9px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 17px;
+                box-shadow: 0 4px 14px rgba(255, 102, 0, 0.35);
+            }
+            .login-navbar-title {
+                font-size: 14px;
+                font-weight: 700;
+                color: rgba(255, 255, 255, 0.92);
+                letter-spacing: -0.2px;
+            }
+            .login-navbar-sub {
+                font-size: 11px;
+                color: rgba(255, 255, 255, 0.45);
+            }
+            .login-navbar-help {
+                font-size: 12px;
+                color: rgba(255, 255, 255, 0.5);
+                text-decoration: none;
+                padding: 6px 14px;
+                border: 1px solid rgba(255, 255, 255, 0.15);
+                border-radius: 999px;
+                transition: all 0.2s ease;
+            }
+            .login-navbar-help:hover {
+                color: rgba(255, 255, 255, 0.85);
+                border-color: rgba(255, 255, 255, 0.35);
+                background: rgba(255, 255, 255, 0.07);
+            }
+
+            /* ═══════════════════════════════════════════════
+           CONTENEDOR PRINCIPAL
+        ═══════════════════════════════════════════════ */
+            .login-main {
+                flex: 1;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                position: relative;
+                z-index: 5;
+                padding: 30px 20px 50px;
+            }
+
+            /* ═══════════════════════════════════════════════
+           PANTALLA DE SELECCIÓN DE ROL
+        ═══════════════════════════════════════════════ */
+            .roles-screen {
+                width: 100%;
+                max-width: 860px;
+                text-align: center;
+                animation: screenEnter 0.55s cubic-bezier(0.34, 1.56, 0.64, 1)
+                    both;
+            }
+            @keyframes screenEnter {
+                from {
+                    opacity: 0;
+                    transform: translateY(30px) scale(0.97);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0) scale(1);
+                }
+            }
+            @keyframes screenExit {
+                from {
+                    opacity: 1;
+                    transform: translateY(0) scale(1);
+                }
+                to {
+                    opacity: 0;
+                    transform: translateY(-20px) scale(0.97);
+                }
+            }
+            .roles-eyebrow {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                font-size: 11px;
+                font-weight: 700;
+                letter-spacing: 1.5px;
+                text-transform: uppercase;
+                color: rgba(255, 255, 255, 0.5);
+                margin-bottom: 16px;
+            }
+            .roles-eyebrow-line {
+                width: 28px;
+                height: 1px;
+                background: rgba(255, 255, 255, 0.25);
+            }
+            .roles-title {
+                font-size: clamp(22px, 3.5vw, 32px);
+                font-weight: 800;
+                color: #ffffff;
+                letter-spacing: -0.5px;
+                margin-bottom: 8px;
+            }
+            .roles-subtitle {
+                font-size: 14px;
+                color: rgba(255, 255, 255, 0.55);
+                margin-bottom: 40px;
+                line-height: 1.6;
+            }
+
+            .roles-grid {
+                display: grid;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 20px;
+                margin-bottom: 32px;
+            }
+            @media (max-width: 640px) {
+                .roles-grid {
+                    grid-template-columns: 1fr;
+                    max-width: 340px;
+                    margin: 0 auto 32px;
+                }
+            }
+
+            .role-card {
+                position: relative;
+                background: rgba(255, 255, 255, 0.07);
+                border: 1.5px solid rgba(255, 255, 255, 0.12);
+                border-radius: 20px;
+                padding: 36px 24px 30px;
+                cursor: pointer;
+                text-align: center;
+                transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+                overflow: hidden;
+                backdrop-filter: blur(6px);
+                -webkit-backdrop-filter: blur(6px);
+            }
+            /* Entrada escalonada */
+            .role-card:nth-child(1) {
+                animation: roleCardIn 0.6s ease 0.1s both;
+            }
+            .role-card:nth-child(2) {
+                animation: roleCardIn 0.6s ease 0.22s both;
+            }
+            .role-card:nth-child(3) {
+                animation: roleCardIn 0.6s ease 0.34s both;
+            }
+            @keyframes roleCardIn {
+                from {
+                    opacity: 0;
+                    transform: translateY(40px) scale(0.92);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0) scale(1);
+                }
+            }
+
+            /* Borde animado al hover */
+            .role-card::before {
+                content: "";
+                position: absolute;
+                inset: -1px;
+                border-radius: 21px;
+                background: conic-gradient(
+                    from 180deg at 50% 50%,
+                    #003366 0deg,
+                    #0070cc 90deg,
+                    #ff6600 180deg,
+                    #003366 360deg
+                );
+                opacity: 0;
+                transition: opacity 0.35s ease;
+                z-index: 0;
+                animation: borderSpin 3s linear infinite;
+            }
+            @keyframes borderSpin {
+                from {
+                    transform: rotate(0deg);
+                }
+                to {
+                    transform: rotate(360deg);
+                }
+            }
+            .role-card::after {
+                content: "";
+                position: absolute;
+                inset: 1.5px;
+                border-radius: 19px;
+                background: linear-gradient(
+                    135deg,
+                    rgba(0, 30, 70, 0.95) 0%,
+                    rgba(0, 20, 50, 0.98) 100%
+                );
+                z-index: 1;
+            }
+            .role-card:hover {
+                transform: translateY(-10px) scale(1.03);
+                box-shadow:
+                    0 24px 60px rgba(0, 0, 0, 0.4),
+                    0 0 0 1px rgba(255, 255, 255, 0.08),
+                    0 0 40px rgba(0, 112, 204, 0.2);
+            }
+            .role-card:hover::before {
+                opacity: 1;
+            }
+
+            .role-card-inner {
+                position: relative;
+                z-index: 2;
+            }
+            .role-icon-wrap {
+                width: 68px;
+                height: 68px;
+                border-radius: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 28px;
+                margin: 0 auto 18px auto;
+                position: relative;
+                transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            }
+            .role-card:hover .role-icon-wrap {
+                transform: scale(1.15) rotate(-5deg);
+            }
+            .role-icon-wrap.blue {
+                background: linear-gradient(135deg, #003366 0%, #0070cc 100%);
+                box-shadow: 0 8px 24px rgba(0, 51, 102, 0.5);
+            }
+            .role-icon-wrap.orange {
+                background: linear-gradient(135deg, #cc4400 0%, #ff8833 100%);
+                box-shadow: 0 8px 24px rgba(255, 102, 0, 0.5);
+            }
+            .role-icon-wrap.teal {
+                background: linear-gradient(135deg, #1a5276 0%, #0088cc 100%);
+                box-shadow: 0 8px 24px rgba(0, 136, 204, 0.5);
+            }
+            .role-name {
+                font-size: 16px;
+                font-weight: 700;
+                color: #ffffff;
+                margin-bottom: 6px;
+            }
+            .role-desc {
+                font-size: 12.5px;
+                color: rgba(255, 255, 255, 0.5);
+                line-height: 1.5;
+            }
+            .role-arrow {
+                display: inline-flex;
+                align-items: center;
+                gap: 4px;
+                font-size: 11px;
+                font-weight: 600;
+                color: rgba(255, 255, 255, 0.35);
+                margin-top: 14px;
+                transition:
+                    color 0.25s ease,
+                    transform 0.25s ease;
+            }
+            .role-card:hover .role-arrow {
+                color: #ff8533;
+                transform: translateX(4px);
+            }
+
+            .roles-back-link {
+                display: inline-flex;
+                align-items: center;
+                gap: 6px;
+                font-size: 12.5px;
+                color: rgba(255, 255, 255, 0.4);
+                text-decoration: none;
+                transition: color 0.2s ease;
+            }
+            .roles-back-link:hover {
+                color: rgba(255, 255, 255, 0.75);
+            }
+
+            /* ═══════════════════════════════════════════════
+           FORMULARIO DE LOGIN — GLASS MORPHISM
+        ═══════════════════════════════════════════════ */
+            .form-screen {
+                width: 100%;
+                max-width: 440px;
+                animation: screenEnter 0.55s cubic-bezier(0.34, 1.56, 0.64, 1)
+                    both;
+            }
+            .login-glass-card {
+                background: rgba(255, 255, 255, 0.1);
+                backdrop-filter: blur(28px) saturate(160%);
+                -webkit-backdrop-filter: blur(28px) saturate(160%);
+                border: 1.5px solid rgba(255, 255, 255, 0.18);
+                border-radius: 28px;
+                padding: 40px 38px;
+                box-shadow:
+                    0 32px 80px rgba(0, 0, 0, 0.35),
+                    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+                    0 0 0 1px rgba(255, 255, 255, 0.05);
+                position: relative;
+                overflow: hidden;
+            }
+            .login-glass-card::before {
+                content: "";
+                position: absolute;
+                top: -50%;
+                left: -50%;
+                width: 200%;
+                height: 200%;
+                background: radial-gradient(
+                    ellipse at 50% 0%,
+                    rgba(0, 112, 204, 0.1) 0%,
+                    transparent 60%
+                );
+                pointer-events: none;
+            }
+
+            .login-card-header {
+                text-align: center;
+                margin-bottom: 28px;
+                position: relative;
+                z-index: 1;
+            }
+            .login-card-icon {
+                width: 58px;
+                height: 58px;
+                border-radius: 16px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 26px;
+                margin: 0 auto 14px;
+                background: linear-gradient(135deg, #003366 0%, #0070cc 100%);
+                box-shadow: 0 10px 28px rgba(0, 51, 102, 0.4);
+                animation: iconPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) 0.2s
+                    both;
+            }
+            @keyframes iconPop {
+                from {
+                    transform: scale(0.5) rotate(-15deg);
+                    opacity: 0;
+                }
+                to {
+                    transform: scale(1) rotate(0deg);
+                    opacity: 1;
+                }
+            }
+            .login-card-title {
+                font-size: 21px;
+                font-weight: 800;
+                color: #ffffff;
+                margin-bottom: 4px;
+                letter-spacing: -0.4px;
+            }
+            .login-card-desc {
+                font-size: 13px;
+                color: rgba(255, 255, 255, 0.55);
+                line-height: 1.5;
+            }
+
+            /* Campos de input con icono */
+            .input-label {
+                display: block;
+                font-size: 11.5px;
+                font-weight: 600;
+                color: rgba(255, 255, 255, 0.65);
+                text-transform: uppercase;
+                letter-spacing: 0.8px;
+                margin-bottom: 7px;
+                position: relative;
+                z-index: 1;
+            }
+            .input-wrapper {
+                position: relative;
+                margin-bottom: 18px;
+                z-index: 1;
+            }
+            .input-icon {
+                position: absolute;
+                left: 14px;
+                top: 50%;
+                transform: translateY(-50%);
+                font-size: 15px;
+                pointer-events: none;
+                z-index: 2;
+                transition: all 0.25s ease;
+            }
+            .input-modern {
+                width: 100%;
+                background: rgba(255, 255, 255, 0.08);
+                border: 1.5px solid rgba(255, 255, 255, 0.15);
+                border-radius: 12px;
+                padding: 13px 14px 13px 42px;
+                font-size: 14px;
+                color: #ffffff;
+                outline: none;
+                transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+                font-family: inherit;
+            }
+            .input-modern::placeholder {
+                color: rgba(255, 255, 255, 0.3);
+            }
+            .input-modern:focus {
+                background: rgba(255, 255, 255, 0.13);
+                border-color: rgba(0, 180, 255, 0.6);
+                box-shadow:
+                    0 0 0 3px rgba(0, 112, 204, 0.2),
+                    0 4px 16px rgba(0, 0, 0, 0.15);
+                transform: translateY(-1px);
+            }
+            .input-wrapper:focus-within .input-icon {
+                transform: translateY(-50%) scale(1.15);
+            }
+            .input-modern:-webkit-autofill,
+            .input-modern:-webkit-autofill:focus {
+                -webkit-box-shadow: 0 0 0 1000px rgba(0, 40, 80, 0.8) inset;
+                -webkit-text-fill-color: #ffffff;
+            }
+
+            .login-options-row {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 22px;
+                position: relative;
+                z-index: 1;
+            }
+            .remember-label {
+                display: flex;
+                align-items: center;
+                gap: 7px;
+                font-size: 12px;
+                color: rgba(255, 255, 255, 0.55);
+                cursor: pointer;
+            }
+            .remember-label input[type="checkbox"] {
+                width: 14px;
+                height: 14px;
+                accent-color: #ff6600;
+            }
+            .forgot-link {
+                font-size: 12px;
+                color: rgba(255, 255, 255, 0.5);
+                text-decoration: none;
+                transition: color 0.2s ease;
+            }
+            .forgot-link:hover {
+                color: #ff8533;
+            }
+
+            /* Botón de submit con loading */
+            .submit-btn {
+                width: 100%;
+                padding: 14px;
+                background: linear-gradient(135deg, #ff6600 0%, #e84d00 100%);
+                color: #ffffff;
+                font-size: 14.5px;
+                font-weight: 700;
+                border: none;
+                border-radius: 12px;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 10px;
+                box-shadow: 0 8px 24px rgba(255, 102, 0, 0.4);
+                transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+                position: relative;
+                overflow: hidden;
+                letter-spacing: 0.2px;
+                z-index: 1;
+            }
+            .submit-btn::before {
+                content: "";
+                position: absolute;
+                top: 50%;
+                left: -60%;
+                width: 40%;
+                height: 100%;
+                background: linear-gradient(
+                    90deg,
+                    transparent,
+                    rgba(255, 255, 255, 0.18),
+                    transparent
+                );
+                transform: translateY(-50%) skewX(-20deg);
+                transition: left 0.5s ease;
+            }
+            .submit-btn:hover::before {
+                left: 120%;
+            }
+            .submit-btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 14px 36px rgba(255, 102, 0, 0.55);
+            }
+            .submit-btn:active {
+                transform: translateY(0);
+            }
+            .submit-btn.loading {
+                background: linear-gradient(135deg, #555 0%, #333 100%);
+                pointer-events: none;
+                box-shadow: none;
+            }
+            .spinner {
+                width: 16px;
+                height: 16px;
+                border: 2.5px solid rgba(255, 255, 255, 0.3);
+                border-top-color: #ffffff;
+                border-radius: 50%;
+                animation: spin 0.7s linear infinite;
+                display: none;
+            }
+            .submit-btn.loading .spinner {
+                display: block;
+            }
+            .submit-btn.loading .btn-text::after {
+                content: "Verificando...";
+            }
+            .submit-btn:not(.loading) .btn-text::after {
+                content: "";
+            }
+            @keyframes spin {
+                to {
+                    transform: rotate(360deg);
+                }
+            }
+
+            /* Divisor */
+            .divider-row {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                margin: 20px 0;
+                position: relative;
+                z-index: 1;
+            }
+            .divider-line {
+                flex: 1;
+                height: 1px;
+                background: rgba(255, 255, 255, 0.12);
+            }
+            .divider-text {
+                font-size: 11px;
+                color: rgba(255, 255, 255, 0.35);
+                white-space: nowrap;
+                letter-spacing: 1px;
+            }
+
+            /* Botón volver */
+            .back-btn {
+                width: 100%;
+                padding: 11px;
+                background: transparent;
+                border: 1.5px solid rgba(255, 255, 255, 0.1);
+                border-radius: 12px;
+                color: rgba(255, 255, 255, 0.45);
+                font-size: 13px;
+                font-weight: 500;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 8px;
+                transition: all 0.25s ease;
+                font-family: inherit;
+                position: relative;
+                z-index: 1;
+            }
+            .back-btn:hover {
+                color: rgba(255, 255, 255, 0.75);
+                border-color: rgba(255, 255, 255, 0.22);
+                background: rgba(255, 255, 255, 0.05);
+            }
+
+            /* Rol badge en el formulario */
+            .rol-badge {
+                display: inline-flex;
+                align-items: center;
+                gap: 6px;
+                font-size: 11px;
+                font-weight: 600;
+                letter-spacing: 1px;
+                text-transform: uppercase;
+                padding: 5px 12px;
+                border-radius: 999px;
+                margin-bottom: 16px;
+                position: relative;
+                z-index: 1;
+            }
+            .rol-badge.estudiante {
+                background: rgba(0, 112, 204, 0.2);
+                color: #60b4ff;
+                border: 1px solid rgba(0, 112, 204, 0.3);
+            }
+            .rol-badge.docente {
+                background: rgba(255, 102, 0, 0.18);
+                color: #ffaa66;
+                border: 1px solid rgba(255, 102, 0, 0.3);
+            }
+            .rol-badge.admin {
+                background: rgba(0, 180, 140, 0.18);
+                color: #5ee8c4;
+                border: 1px solid rgba(0, 180, 140, 0.28);
+            }
+
+            /* ═══════════════════════════════════════════════
+           TOAST
+        ═══════════════════════════════════════════════ */
+            #toast {
+                position: fixed;
+                bottom: 30px;
+                left: 50%;
+                transform: translateX(-50%) translateY(80px);
+                background: rgba(15, 30, 60, 0.92);
+                backdrop-filter: blur(16px);
+                -webkit-backdrop-filter: blur(16px);
+                color: #ffffff;
+                font-size: 13.5px;
+                font-weight: 500;
+                padding: 14px 28px;
+                border-radius: 999px;
+                border: 1px solid rgba(255, 255, 255, 0.14);
+                box-shadow: 0 16px 50px rgba(0, 0, 0, 0.4);
+                z-index: 9999;
+                opacity: 0;
+                transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+                max-width: 90vw;
+                text-align: center;
+                white-space: nowrap;
+            }
+            #toast.show {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+
+            /* ═══════════════════════════════════════════════
+           FOOTER MINIMAL
+        ═══════════════════════════════════════════════ */
+            .login-footer {
+                position: relative;
+                z-index: 5;
+                text-align: center;
+                padding: 16px 20px 24px;
+                font-size: 11.5px;
+                color: rgba(255, 255, 255, 0.25);
+            }
+            .login-footer a {
+                color: rgba(255, 255, 255, 0.4);
+                text-decoration: none;
+                margin: 0 8px;
+                transition: color 0.2s ease;
+            }
+            .login-footer a:hover {
+                color: rgba(255, 255, 255, 0.7);
+            }
+        </style>
+    </head>
+    <body>
+        <!-- ▓▓▓ FONDO ANIMADO ▓▓▓ -->
+        <div class="login-bg" aria-hidden="true">
+            <div class="bg-grid"></div>
+            <div class="bg-shape bg-shape-1"></div>
+            <div class="bg-shape bg-shape-2"></div>
+            <div class="bg-shape bg-shape-3"></div>
+            <div class="bg-shape bg-shape-4"></div>
+            <div class="bg-line bg-line-1"></div>
+            <div class="bg-line bg-line-2"></div>
+            <div class="bg-line bg-line-3"></div>
+            <div class="bg-particle bg-particle-1"></div>
+            <div class="bg-particle bg-particle-2"></div>
+            <div class="bg-particle bg-particle-3"></div>
+            <div class="bg-particle bg-particle-4"></div>
+            <div class="bg-particle bg-particle-5"></div>
+        </div>
+
+        <!-- ▓▓▓ NAVBAR ▓▓▓ -->
+        <header class="login-navbar">
+            <a href="index.html" class="login-navbar-logo">
+                <div class="login-navbar-badge">🎓</div>
+                <div>
+                    <div class="login-navbar-title">
+                        Plataforma de Capacitación UEB
+                    </div>
+                    <div class="login-navbar-sub">
+                        Universidad Estatal de Bolívar
+                    </div>
+                </div>
+            </a>
+            <a href="#" class="login-navbar-help">Ayuda ↗</a>
+        </header>
+
+        <!-- ▓▓▓ CONTENIDO PRINCIPAL ▓▓▓ -->
+        <main class="login-main">
+            <!-- ── PANTALLA 1: SELECCIÓN DE ROL ── -->
+            <div id="pantalla-roles" class="roles-screen">
+                <div class="roles-eyebrow">
+                    <span class="roles-eyebrow-line"></span>
+                    Acceso institucional
+                    <span class="roles-eyebrow-line"></span>
+                </div>
+                <h2 class="roles-title">Selecciona tu Perfil Institucional</h2>
+                <p class="roles-subtitle">
+                    Elige tu rol correspondiente para personalizar tu entorno de
+                    acceso a la plataforma.
+                </p>
+
+                <div class="roles-grid">
+                    <div
+                        class="role-card"
+                        onclick="configurarLogin('estudiante')"
+                    >
+                        <div class="role-card-inner">
+                            <div class="role-icon-wrap blue">🎓</div>
+                            <div class="role-name">Estudiante</div>
+                            <div class="role-desc">
+                                Revisar cursos, aula virtual y seguimiento de
+                                progreso.
+                            </div>
+                            <div class="role-arrow">Acceder →</div>
+                        </div>
+                    </div>
+                    <div class="role-card" onclick="configurarLogin('docente')">
+                        <div class="role-card-inner">
+                            <div class="role-icon-wrap orange">👨‍🏫</div>
+                            <div class="role-name">Docente</div>
+                            <div class="role-desc">
+                                Postular capacitaciones, calificar y gestionar
+                                contenido.
+                            </div>
+                            <div class="role-arrow">Acceder →</div>
+                        </div>
+                    </div>
+                    <div class="role-card" onclick="configurarLogin('admin')">
+                        <div class="role-card-inner">
+                            <div class="role-icon-wrap teal">⚙️</div>
+                            <div class="role-name">Administrador</div>
+                            <div class="role-desc">
+                                Control total: métricas, gestión CRUD y
+                                configuración.
+                            </div>
+                            <div class="role-arrow">Acceder →</div>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="index.html" class="roles-back-link"
+                    >← Volver a la página principal</a
+                >
+            </div>
+
+            <!-- ── PANTALLA 2: FORMULARIO DE LOGIN ── -->
+            <div
+                id="pantalla-formulario"
+                class="form-screen"
+                style="display: none"
+            >
+                <div class="login-glass-card">
+                    <div class="login-card-header">
+                        <div class="login-card-icon" id="login-card-icon">
+                            🛡️
+                        </div>
+                        <div
+                            id="rol-badge-display"
+                            class="rol-badge estudiante"
+                            style="margin-top: 2px"
+                        >
+                            <span id="rol-badge-icon">🎓</span>
+                            <span id="rol-badge-text">Estudiante</span>
+                        </div>
+                        <h2 class="login-card-title" id="login-titulo-dinamico">
+                            Acceso Estudiantil
+                        </h2>
+                        <p class="login-card-desc" id="login-desc-dinamica">
+                            Ingresa tus credenciales de la UEB para continuar
+                        </p>
+                    </div>
+
+                    <form onsubmit="ejecutarAutenticacion(event)" novalidate>
+                        <label class="input-label" id="label-usuario"
+                            >Usuario / Correo</label
+                        >
+                        <div class="input-wrapper">
+                            <span class="input-icon">👤</span>
+                            <input
+                                id="login-input-user"
+                                type="text"
+                                class="input-modern"
+                                placeholder="ejemplo@ueb.edu.ec"
+                                required
+                                autocomplete="username"
+                            />
+                        </div>
+
+                        <label class="input-label">Contraseña</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon">🔒</span>
+                            <input
+                                id="login-input-pass"
+                                type="password"
+                                class="input-modern"
+                                placeholder="••••••••"
+                                required
+                                autocomplete="current-password"
+                            />
+                        </div>
+
+                        <div class="login-options-row">
+                            <label class="remember-label">
+                                <input type="checkbox" /> Recordarme
+                            </label>
+                            <a href="#" class="forgot-link"
+                                >En caso de no poder iniciar sesión contactarse
+                                con el cordinador de su facultad</a
+                            >
+                        </div>
+
+                        <button
+                            type="submit"
+                            class="submit-btn"
+                            id="submit-btn"
+                        >
+                            <div class="spinner" id="btn-spinner"></div>
+                            <span class="btn-text" id="btn-text"
+                                >Iniciar Sesión →</span
+                            >
+                        </button>
+                    </form>
+
+                    <div class="divider-row">
+                        <div class="divider-line"></div>
+                        <span class="divider-text">O CONTINUAR CON</span>
+                        <div class="divider-line"></div>
+                    </div>
+
+                    <button class="back-btn" onclick="regresarASeleccion()">
+                        ← Volver a cambiar de rol
+                    </button>
+                </div>
+            </div>
+        </main>
+
+        <!-- ▓▓▓ FOOTER ▓▓▓ -->
+        <footer class="login-footer">
+            <span>© 2026 UEB Capacitación</span>
+            <a href="#">Privacidad</a>
+            <a href="#">Términos</a>
+            <a href="#">Soporte</a>
+        </footer>
+
+        <!-- ▓▓▓ TOAST ▓▓▓ -->
+        <div id="toast" role="alert" aria-live="polite"></div>
+
+        <!-- ▓▓▓ SCRIPT INLINE: animaciones de transición entre pantallas ▓▓▓ -->
+        <script>
+            // ── Override de configurarLogin para añadir animaciones y efectos ──
+            // (La lógica real sigue viviendo en login.js; aquí solo manejamos UI extra)
+
+            // Personalización de la UI del formulario según rol (complementa login.js)
+            function _actualizarUIFormulario(rol) {
+                const iconEl = document.getElementById("login-card-icon");
+                const badgeEl = document.getElementById("rol-badge-display");
+                const badgeIcon = document.getElementById("rol-badge-icon");
+                const badgeText = document.getElementById("rol-badge-text");
+                const formScreen = document.getElementById(
+                    "pantalla-formulario",
+                );
+
+                badgeEl.className = "rol-badge " + rol;
+
+                if (rol === "admin") {
+                    iconEl.textContent = "⚙️";
+                    badgeIcon.textContent = "⚙️";
+                    badgeText.textContent = "Administrador";
+                } else if (rol === "docente") {
+                    iconEl.textContent = "👨‍🏫";
+                    badgeIcon.textContent = "👨‍🏫";
+                    badgeText.textContent = "Docente";
+                } else {
+                    iconEl.textContent = "🎓";
+                    badgeIcon.textContent = "🎓";
+                    badgeText.textContent = "Estudiante";
+                }
+
+                // Reiniciar animación del ícono
+                iconEl.style.animation = "none";
+                requestAnimationFrame(() => {
+                    iconEl.style.animation =
+                        "iconPop 0.5s cubic-bezier(0.34,1.56,0.64,1) both";
+                });
+
+                formScreen.style.animation =
+                    "screenEnter 0.55s cubic-bezier(0.34,1.56,0.64,1) both";
+            }
+
+            // ── Botón loading al submit ──────────────────────────────────────────
+            document
+                .querySelector("form")
+                .addEventListener("submit", function () {
+                    const btn = document.getElementById("submit-btn");
+                    const spinner = document.getElementById("btn-spinner");
+                    const txtEl = document.getElementById("btn-text");
+
+                    btn.classList.add("loading");
+                    spinner.style.display = "block";
+                    txtEl.textContent = "Verificando...";
+
+                    // La lógica real de login.js restablecerá el estado si hay error
+                    setTimeout(() => {
+                        btn.classList.remove("loading");
+                        spinner.style.display = "none";
+                        txtEl.textContent = "Iniciar Sesión →";
+                    }, 2200);
+                });
+        </script>
+
+        <!-- ▓▓▓ LOGIN.JS — Lógica principal de autenticación ▓▓▓ -->
+        <script src="../js/login.js"></script>
+
+        <!-- ▓▓▓ PATCH: envolver configurarLogin para aplicar UI extra ▓▓▓ -->
+        <script>
+            (function () {
+                const _originalConfigurar = configurarLogin;
+
+                // Re-definir para envolver con lógica visual
+                window.configurarLogin = function (rol) {
+                    const rolesScreen =
+                        document.getElementById("pantalla-roles");
+                    const formScreen = document.getElementById(
+                        "pantalla-formulario",
+                    );
+
+                    // Animación de salida para la pantalla de roles
+                    rolesScreen.style.animation = "screenExit 0.35s ease both";
+
+                    setTimeout(() => {
+                        // Llamar la lógica original de login.js
+                        _originalConfigurar(rol);
+                        // Aplicar personalización visual extra
+                        _actualizarUIFormulario(rol);
+                    }, 300);
+                };
+
+                const _originalRegresar = regresarASeleccion;
+                window.regresarASeleccion = function () {
+                    const rolesScreen =
+                        document.getElementById("pantalla-roles");
+                    const formScreen = document.getElementById(
+                        "pantalla-formulario",
+                    );
+
+                    formScreen.style.animation = "screenExit 0.30s ease both";
+
+                    setTimeout(() => {
+                        _originalRegresar();
+                        rolesScreen.style.animation =
+                            "screenEnter 0.50s cubic-bezier(0.34,1.56,0.64,1) both";
+                    }, 260);
+                };
+            })();
+        </script>
+    </body>
+</html>

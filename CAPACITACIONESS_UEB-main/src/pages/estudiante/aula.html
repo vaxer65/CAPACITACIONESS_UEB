@@ -1,0 +1,1022 @@
+<!doctype html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Aula Virtual | UEB</title>
+        <link class="styles" rel="stylesheet" href="../../styles.css" />
+        <style>
+            :root {
+                --blue-inst: #003366;
+                --blue-mid: #004a8f;
+                --blue-light: #1a6abf;
+                --orange-cta: #ff6600;
+                --orange-light: #ff8533;
+                --neutral-bg: #f5f7fa;
+                --white: #ffffff;
+                --shadow-sm: 0 2px 8px rgba(0, 51, 102, 0.08);
+                --shadow-md: 0 8px 24px rgba(0, 51, 102, 0.14);
+                --shadow-lg: 0 16px 48px rgba(0, 51, 102, 0.18);
+                --radius: 16px;
+                --radius-sm: 10px;
+            }
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            body {
+                font-family:
+                    "Segoe UI",
+                    system-ui,
+                    -apple-system,
+                    sans-serif;
+                background: var(--neutral-bg);
+            }
+
+            /* ── PAGE PROGRESS STRIP ── */
+            .page-progress-strip {
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 3px;
+                width: 0%;
+                background: linear-gradient(90deg, var(--orange-cta), #ffaa00);
+                z-index: 9999;
+                transition: width 0.3s ease;
+                box-shadow: 0 0 8px rgba(255, 102, 0, 0.5);
+            }
+
+            /* ── NAVBAR ── */
+            .top-navbar {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 0 28px;
+                height: 64px;
+                background: linear-gradient(
+                    135deg,
+                    var(--blue-inst) 0%,
+                    var(--blue-mid) 60%,
+                    var(--blue-light) 100%
+                );
+                box-shadow: 0 4px 20px rgba(0, 51, 102, 0.35);
+                position: sticky;
+                top: 0;
+                z-index: 1000;
+            }
+            .logo-area {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+            }
+            .logo-box {
+                width: 38px;
+                height: 38px;
+                background: linear-gradient(
+                    135deg,
+                    var(--orange-cta),
+                    var(--orange-light)
+                );
+                border-radius: 10px;
+                font-size: 18px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                box-shadow: 0 4px 12px rgba(255, 102, 0, 0.4);
+            }
+            .logo-box::after {
+                content: "🎓";
+            }
+            .logo-area h2 {
+                color: #fff;
+                font-size: 17px;
+                font-weight: 700;
+            }
+            .search-area input {
+                background: rgba(255, 255, 255, 0.15);
+                border: 1px solid rgba(255, 255, 255, 0.25);
+                border-radius: 24px;
+                padding: 8px 18px;
+                color: #fff;
+                font-size: 13px;
+                width: 280px;
+                outline: none;
+                transition: all 0.3s;
+            }
+            .search-area input::placeholder {
+                color: rgba(255, 255, 255, 0.65);
+            }
+            .search-area input:focus {
+                background: rgba(255, 255, 255, 0.22);
+                width: 320px;
+            }
+            .user-area {
+                display: flex;
+                align-items: center;
+                gap: 16px;
+            }
+            .notif-bell {
+                position: relative;
+                cursor: pointer;
+                background: rgba(255, 255, 255, 0.12);
+                border-radius: 50%;
+                width: 38px;
+                height: 38px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 17px;
+                transition: background 0.2s;
+            }
+            .notif-bell:hover {
+                background: rgba(255, 255, 255, 0.22);
+            }
+            .notif-badge {
+                position: absolute;
+                top: -3px;
+                right: -3px;
+                background: var(--orange-cta);
+                color: #fff;
+                font-size: 10px;
+                font-weight: 700;
+                width: 18px;
+                height: 18px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border: 2px solid var(--blue-inst);
+            }
+            .user-info {
+                display: flex;
+                flex-direction: column;
+                align-items: flex-end;
+            }
+            .user-name {
+                color: #fff;
+                font-size: 13px;
+                font-weight: 600;
+            }
+            .user-role {
+                color: rgba(255, 255, 255, 0.65);
+                font-size: 11px;
+            }
+            .avatar {
+                width: 38px;
+                height: 38px;
+                border-radius: 50%;
+                background: linear-gradient(135deg, var(--orange-cta), #ff9933);
+                color: #fff;
+                font-weight: 700;
+                font-size: 13px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.3);
+                cursor: pointer;
+            }
+
+            /* ── APP BODY ── */
+            .app-body {
+                display: flex;
+                flex: 1;
+                min-height: calc(100vh - 64px);
+            }
+
+            /* ── SIDEBAR ── */
+            .sidebar {
+                width: 240px;
+                background: linear-gradient(
+                    180deg,
+                    var(--blue-inst) 0%,
+                    #002244 100%
+                );
+                display: flex;
+                flex-direction: column;
+                padding: 20px 0;
+                box-shadow: 4px 0 24px rgba(0, 0, 0, 0.18);
+                position: sticky;
+                top: 64px;
+                height: calc(100vh - 64px);
+                overflow-y: auto;
+                flex-shrink: 0;
+            }
+            .sidebar-brand {
+                padding: 0 20px 20px;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+                margin-bottom: 8px;
+            }
+            .sidebar-brand span {
+                color: rgba(255, 255, 255, 0.45);
+                font-size: 10px;
+                text-transform: uppercase;
+                letter-spacing: 1.5px;
+                font-weight: 600;
+            }
+            .nav-links {
+                list-style: none;
+                padding: 0;
+                flex: 1;
+            }
+            .nav-links li {
+                margin: 2px 12px;
+            }
+            .nav-links a {
+                display: flex;
+                align-items: center;
+                gap: 11px;
+                padding: 11px 14px;
+                border-radius: var(--radius-sm);
+                color: rgba(255, 255, 255, 0.65);
+                text-decoration: none;
+                font-size: 13.5px;
+                font-weight: 500;
+                transition: all 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            .nav-links a:hover {
+                color: #fff;
+                background: rgba(255, 255, 255, 0.1);
+                transform: translateX(3px);
+            }
+            .nav-links a.active {
+                background: var(--orange-cta);
+                color: #fff;
+                font-weight: 700;
+                box-shadow: 0 4px 14px rgba(255, 102, 0, 0.4);
+            }
+            .nav-links a.active:hover {
+                transform: none;
+            }
+            .nav-icon {
+                width: 20px;
+                text-align: center;
+                font-size: 16px;
+            }
+            .bottom-links {
+                margin-top: auto;
+                border-top: 1px solid rgba(255, 255, 255, 0.08);
+                padding-top: 10px;
+            }
+            .nav-links a.text-red {
+                color: rgba(255, 120, 120, 0.8);
+            }
+            .nav-links a.text-red:hover {
+                color: #ff6b6b;
+                background: rgba(255, 80, 80, 0.12);
+            }
+            .sidebar-section-label {
+                padding: 12px 26px 4px;
+                color: rgba(255, 255, 255, 0.3);
+                font-size: 10px;
+                text-transform: uppercase;
+                letter-spacing: 1.5px;
+                font-weight: 600;
+            }
+
+            /* ── CONTENT ── */
+            .content {
+                flex: 1;
+                padding: 28px 32px;
+                overflow-y: auto;
+            }
+
+            /* ── AULA LAYOUT ── */
+            .aula-layout {
+                display: grid;
+                grid-template-columns: 1fr 280px;
+                gap: 24px;
+                margin-top: 20px;
+            }
+
+            /* ── PAGE HEADER ── */
+            .aula-page-header {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                margin-bottom: 0;
+                animation: fadeInDown 0.45s ease both;
+            }
+            .aula-page-header h2 {
+                font-size: 22px;
+                font-weight: 800;
+                color: var(--blue-inst);
+            }
+            .course-badge {
+                background: linear-gradient(
+                    135deg,
+                    var(--blue-mid),
+                    var(--blue-light)
+                );
+                color: #fff;
+                font-size: 12px;
+                font-weight: 700;
+                padding: 6px 16px;
+                border-radius: 20px;
+                box-shadow: 0 4px 12px rgba(0, 74, 143, 0.3);
+            }
+
+            /* ── VIDEO PLACEHOLDER ── */
+            .video-immersive {
+                background: #0a0a1a;
+                border-radius: var(--radius);
+                min-height: 380px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                position: relative;
+                overflow: hidden;
+                box-shadow: var(--shadow-lg);
+                animation: fadeInUp 0.5s ease 0.1s both;
+                cursor: pointer;
+            }
+            /* Starfield CSS */
+            .video-immersive::before {
+                content: "";
+                position: absolute;
+                inset: 0;
+                background:
+                    radial-gradient(
+                        circle at 20% 30%,
+                        rgba(0, 51, 102, 0.4) 0%,
+                        transparent 50%
+                    ),
+                    radial-gradient(
+                        circle at 80% 70%,
+                        rgba(255, 102, 0, 0.06) 0%,
+                        transparent 50%
+                    );
+            }
+            .stars-layer {
+                position: absolute;
+                inset: 0;
+                pointer-events: none;
+                background-image:
+                    radial-gradient(
+                        1px 1px at 15% 20%,
+                        rgba(255, 255, 255, 0.8) 0%,
+                        transparent 100%
+                    ),
+                    radial-gradient(
+                        1px 1px at 45% 60%,
+                        rgba(255, 255, 255, 0.6) 0%,
+                        transparent 100%
+                    ),
+                    radial-gradient(
+                        1px 1px at 70% 15%,
+                        rgba(255, 255, 255, 0.9) 0%,
+                        transparent 100%
+                    ),
+                    radial-gradient(
+                        1.5px 1.5px at 85% 45%,
+                        rgba(255, 255, 255, 0.7) 0%,
+                        transparent 100%
+                    ),
+                    radial-gradient(
+                        1px 1px at 30% 80%,
+                        rgba(255, 255, 255, 0.5) 0%,
+                        transparent 100%
+                    ),
+                    radial-gradient(
+                        1px 1px at 60% 35%,
+                        rgba(255, 255, 255, 0.8) 0%,
+                        transparent 100%
+                    ),
+                    radial-gradient(
+                        1.5px 1.5px at 10% 55%,
+                        rgba(255, 255, 255, 0.6) 0%,
+                        transparent 100%
+                    ),
+                    radial-gradient(
+                        1px 1px at 90% 80%,
+                        rgba(255, 255, 255, 0.7) 0%,
+                        transparent 100%
+                    ),
+                    radial-gradient(
+                        1px 1px at 50% 10%,
+                        rgba(255, 255, 255, 0.9) 0%,
+                        transparent 100%
+                    ),
+                    radial-gradient(
+                        1px 1px at 75% 90%,
+                        rgba(255, 255, 255, 0.5) 0%,
+                        transparent 100%
+                    ),
+                    radial-gradient(
+                        1px 1px at 25% 45%,
+                        rgba(255, 255, 255, 0.6) 0%,
+                        transparent 100%
+                    ),
+                    radial-gradient(
+                        1.5px 1.5px at 55% 75%,
+                        rgba(255, 255, 255, 0.8) 0%,
+                        transparent 100%
+                    );
+            }
+            .video-center {
+                position: relative;
+                z-index: 2;
+                text-align: center;
+            }
+            .play-btn-wrap {
+                position: relative;
+                display: inline-block;
+                margin-bottom: 20px;
+            }
+            .play-ring {
+                position: absolute;
+                inset: -14px;
+                border: 2px solid rgba(255, 102, 0, 0.5);
+                border-radius: 50%;
+                animation: pulseRing 2s ease-out infinite;
+            }
+            .play-ring-2 {
+                position: absolute;
+                inset: -28px;
+                border: 1.5px solid rgba(255, 102, 0, 0.25);
+                border-radius: 50%;
+                animation: pulseRing 2s ease-out 0.4s infinite;
+            }
+            .play-circle {
+                width: 72px;
+                height: 72px;
+                background: linear-gradient(
+                    135deg,
+                    var(--orange-cta),
+                    var(--orange-light)
+                );
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 28px;
+                cursor: pointer;
+                box-shadow:
+                    0 0 30px rgba(255, 102, 0, 0.5),
+                    0 8px 24px rgba(255, 102, 0, 0.3);
+                transition: transform 0.2s;
+                position: relative;
+                z-index: 1;
+            }
+            .play-circle:hover {
+                transform: scale(1.08);
+            }
+            #aula-titulo {
+                color: #fff;
+                font-size: 17px;
+                font-weight: 700;
+                line-height: 1.45;
+            }
+            #aula-titulo span {
+                font-size: 12px;
+                font-weight: 400;
+                opacity: 0.55;
+            }
+
+            /* ── PROGRESS CARD ── */
+            .progress-card {
+                background: var(--white);
+                border-radius: var(--radius);
+                padding: 24px;
+                box-shadow: var(--shadow-sm);
+                border: 1px solid rgba(0, 51, 102, 0.06);
+                margin-top: 18px;
+                animation: fadeInUp 0.5s ease 0.25s both;
+            }
+            .progress-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                margin-bottom: 12px;
+            }
+            .progress-header p {
+                font-size: 14px;
+                font-weight: 700;
+                color: var(--blue-inst);
+            }
+            #aula-progreso-texto {
+                font-size: 14px;
+                font-weight: 800;
+                color: var(--orange-cta);
+            }
+            .progress-bar-bg {
+                height: 14px;
+                border-radius: 10px;
+                background: #f3f4f6;
+                overflow: hidden;
+                position: relative;
+            }
+            #aula-progreso-barra {
+                height: 100%;
+                background: linear-gradient(90deg, var(--orange-cta), #ffaa00);
+                border-radius: 10px;
+                transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+                position: relative;
+                overflow: hidden;
+            }
+            #aula-progreso-barra::after {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: -100%;
+                width: 100%;
+                height: 100%;
+                background: linear-gradient(
+                    90deg,
+                    transparent,
+                    rgba(255, 255, 255, 0.5),
+                    transparent
+                );
+                animation: shimmer 2s infinite;
+            }
+
+            /* ── MODULES DOTS ── */
+            .modulos-section {
+                margin-top: 20px;
+            }
+            .modulos-section p {
+                font-size: 12px;
+                color: #9ca3af;
+                font-weight: 600;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                margin-bottom: 10px;
+            }
+            #modulos-dots {
+                display: flex;
+                gap: 8px;
+                flex-wrap: wrap;
+            }
+
+            /* ── NAV BUTTONS ── */
+            .nav-buttons {
+                display: flex;
+                gap: 12px;
+                margin-top: 22px;
+            }
+            .btn-nav-prev {
+                flex: 1;
+                padding: 13px;
+                border-radius: 12px;
+                border: 2px solid rgba(0, 51, 102, 0.18);
+                background: transparent;
+                color: var(--blue-inst);
+                font-size: 14px;
+                font-weight: 700;
+                cursor: pointer;
+                transition: all 0.25s;
+            }
+            .btn-nav-prev:hover {
+                background: rgba(0, 51, 102, 0.05);
+                transform: translateX(-2px);
+            }
+            .btn-nav-next {
+                flex: 2;
+                padding: 13px;
+                border-radius: 12px;
+                background: linear-gradient(
+                    135deg,
+                    var(--orange-cta),
+                    var(--orange-light)
+                );
+                border: none;
+                color: #fff;
+                font-size: 14px;
+                font-weight: 700;
+                cursor: pointer;
+                box-shadow: 0 4px 14px rgba(255, 102, 0, 0.35);
+                transition: all 0.25s;
+            }
+            .btn-nav-next:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 20px rgba(255, 102, 0, 0.45);
+            }
+
+            /* ── EVAL CARD ── */
+            .eval-card {
+                display: flex;
+                align-items: center;
+                gap: 16px;
+                background: linear-gradient(135deg, #eff6ff, #dbeafe);
+                border: 1.5px solid rgba(0, 51, 102, 0.15);
+                border-radius: var(--radius);
+                padding: 18px 22px;
+                margin-top: 18px;
+                animation: fadeInUp 0.5s ease 0.35s both;
+            }
+            .eval-card-icon {
+                font-size: 28px;
+            }
+            .eval-card-text p:first-child {
+                font-size: 14px;
+                font-weight: 700;
+                color: var(--blue-inst);
+            }
+            .eval-card-text p:last-child {
+                font-size: 12px;
+                color: #6b7280;
+                margin-top: 2px;
+            }
+            .btn-eval {
+                margin-left: auto;
+                padding: 10px 22px;
+                border-radius: 24px;
+                background: linear-gradient(
+                    135deg,
+                    var(--blue-inst),
+                    var(--blue-mid)
+                );
+                border: none;
+                color: #fff;
+                font-size: 13px;
+                font-weight: 700;
+                cursor: pointer;
+                white-space: nowrap;
+                box-shadow: 0 4px 12px rgba(0, 51, 102, 0.3);
+                transition: all 0.25s;
+            }
+            .btn-eval:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 8px 18px rgba(0, 51, 102, 0.4);
+            }
+
+            /* ── MODULE LIST PANEL ── */
+            .modulos-panel {
+                background: var(--white);
+                border-radius: var(--radius);
+                padding: 20px;
+                box-shadow: var(--shadow-sm);
+                border: 1px solid rgba(0, 51, 102, 0.06);
+                animation: fadeInRight 0.5s ease 0.2s both;
+            }
+            .modulos-panel h4 {
+                font-size: 13px;
+                font-weight: 800;
+                color: var(--blue-inst);
+                margin-bottom: 14px;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
+            .modulo-item {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                padding: 10px 12px;
+                border-radius: var(--radius-sm);
+                cursor: pointer;
+                transition: all 0.2s;
+                margin-bottom: 4px;
+            }
+            .modulo-item:hover {
+                background: rgba(0, 51, 102, 0.05);
+            }
+            .modulo-item.active {
+                background: linear-gradient(135deg, #eff6ff, #dbeafe);
+            }
+            .modulo-num {
+                width: 28px;
+                height: 28px;
+                border-radius: 50%;
+                background: #e5e7eb;
+                color: #6b7280;
+                font-size: 11px;
+                font-weight: 800;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+            }
+            .modulo-item.active .modulo-num {
+                background: var(--orange-cta);
+                color: #fff;
+            }
+            .modulo-item.completed .modulo-num {
+                background: #dcfce7;
+                color: #15803d;
+            }
+            .modulo-info p:first-child {
+                font-size: 12.5px;
+                font-weight: 600;
+                color: #374151;
+            }
+            .modulo-info p:last-child {
+                font-size: 11px;
+                color: #9ca3af;
+                margin-top: 1px;
+            }
+            .modulo-item.active .modulo-info p:first-child {
+                color: var(--blue-inst);
+            }
+
+            /* ── TOAST ── */
+            .toast {
+                position: fixed;
+                bottom: 24px;
+                right: 24px;
+                background: var(--blue-inst);
+                color: #fff;
+                padding: 14px 22px;
+                border-radius: 12px;
+                font-size: 14px;
+                font-weight: 500;
+                box-shadow: var(--shadow-md);
+                transform: translateY(80px);
+                opacity: 0;
+                transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+                z-index: 9999;
+            }
+            .toast.show {
+                transform: translateY(0);
+                opacity: 1;
+            }
+
+            /* ── ANIMATIONS ── */
+            @keyframes fadeInDown {
+                from {
+                    opacity: 0;
+                    transform: translateY(-20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            @keyframes fadeInRight {
+                from {
+                    opacity: 0;
+                    transform: translateX(20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateX(0);
+                }
+            }
+            @keyframes shimmer {
+                0% {
+                    left: -100%;
+                }
+                100% {
+                    left: 200%;
+                }
+            }
+            @keyframes pulseRing {
+                0% {
+                    transform: scale(1);
+                    opacity: 0.7;
+                }
+                100% {
+                    transform: scale(1.5);
+                    opacity: 0;
+                }
+            }
+        </style>
+    </head>
+    <body style="margin: 0; background: var(--neutral-bg)">
+        <!-- Page progress strip -->
+        <div class="page-progress-strip" id="page-progress-strip"></div>
+
+        <!-- ══ NAVBAR ══ -->
+        <header class="top-navbar">
+            <div class="logo-area">
+                <div class="logo-box"></div>
+                <h2>Capacitación UEB</h2>
+            </div>
+            <div class="search-area">
+                <input
+                    type="text"
+                    placeholder="🔍 Buscar cursos, materiales..."
+                />
+            </div>
+            <div class="user-area">
+                <div class="notif-bell" title="Notificaciones">
+                    🔔<span class="notif-badge">2</span>
+                </div>
+                <div class="user-info">
+                    <span class="user-name">Valentín Valle</span>
+                    <span class="user-role">Estudiante · Sexto A</span>
+                </div>
+                <div class="avatar" title="Ver perfil">VV</div>
+            </div>
+        </header>
+
+        <div class="app-body">
+            <!-- ══ SIDEBAR ══ -->
+            <nav class="sidebar" id="sidebar">
+                <div class="sidebar-brand"><span>Menú principal</span></div>
+                <div class="sidebar-section-label">Navegación</div>
+                <ul class="nav-links">
+                    <li>
+                        <a href="dashboard.html" class="nav-link"
+                            ><span class="nav-icon">📊</span> Dashboard</a
+                        >
+                    </li>
+                    <li>
+                        <a href="catalogo.html" class="nav-link"
+                            ><span class="nav-icon">📚</span> Catálogo</a
+                        >
+                    </li>
+                    <li>
+                        <a href="aula.html" class="nav-link active"
+                            ><span class="nav-icon">💻</span> Aula Virtual</a
+                        >
+                    </li>
+                    <li>
+                        <a href="certificados.html" class="nav-link"
+                            ><span class="nav-icon">🎓</span> Certificados</a
+                        >
+                    </li>
+                </ul>
+                <div class="sidebar-section-label">Cuenta</div>
+                <ul class="nav-links bottom-links">
+                    <li>
+                        <a href="perfil.html" class="nav-link"
+                            ><span class="nav-icon">👤</span> Perfil &amp;
+                            Soporte</a
+                        >
+                    </li>
+                    <li>
+                        <a href="../login.html" class="text-red"
+                            ><span class="nav-icon">🚪</span> Cerrar Sesión</a
+                        >
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- ══ MAIN ══ -->
+            <main class="content">
+                <section
+                    id="aula-view"
+                    class="view-section active"
+                    style="display: block"
+                >
+                    <!-- Page header -->
+                    <div class="aula-page-header">
+                        <h2>💻 Aula Virtual Interactiva</h2>
+                        <span class="course-badge"
+                            >Desarrollo de Microservicios</span
+                        >
+                    </div>
+
+                    <div class="aula-layout">
+                        <!-- Left column -->
+                        <div>
+                            <!-- Immersive video player -->
+                            <div
+                                class="video-immersive"
+                                onclick="
+                                    this.style.outline =
+                                        '3px solid var(--orange-cta)'
+                                "
+                            >
+                                <div class="stars-layer"></div>
+                                <div class="video-center">
+                                    <div class="play-btn-wrap">
+                                        <div class="play-ring"></div>
+                                        <div class="play-ring-2"></div>
+                                        <div class="play-circle">▶</div>
+                                    </div>
+                                    <p id="aula-titulo">
+                                        Módulo 1: Introducción a
+                                        Microservicios<br />
+                                        <span
+                                            >[Visualizador de video sin
+                                            distracciones]</span
+                                        >
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Progress card -->
+                            <div class="progress-card">
+                                <div class="progress-header">
+                                    <p>📊 Progreso del curso</p>
+                                    <p id="aula-progreso-texto">
+                                        20% completado
+                                    </p>
+                                </div>
+                                <div class="progress-bar-bg">
+                                    <div
+                                        id="aula-progreso-barra"
+                                        style="width: 20%"
+                                    ></div>
+                                </div>
+
+                                <div class="modulos-section">
+                                    <p>Módulos del curso:</p>
+                                    <div id="modulos-dots"></div>
+                                </div>
+
+                                <div class="nav-buttons">
+                                    <button
+                                        class="btn-nav-prev"
+                                        onclick="cambiarModulo(-1)"
+                                    >
+                                        ← Anterior
+                                    </button>
+                                    <button
+                                        class="btn-nav-next"
+                                        onclick="cambiarModulo(1)"
+                                    >
+                                        Siguiente Módulo →
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Evaluation card -->
+                            <div class="eval-card">
+                                <div class="eval-card-icon">📝</div>
+                                <div class="eval-card-text">
+                                    <p>Evaluación del módulo</p>
+                                    <p>
+                                        Responde las preguntas de validación
+                                        para asegurar tus conocimientos.
+                                    </p>
+                                </div>
+                                <button
+                                    class="btn-eval"
+                                    onclick="irAEvaluacion()"
+                                >
+                                    Ir a la evaluación →
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Right column: module list panel -->
+                        <div>
+                            <div class="modulos-panel">
+                                <h4>📋 Lista de Módulos</h4>
+                                <div id="modulos-lista">
+                                    <div
+                                        class="modulo-item completed"
+                                        onclick="cambiarModulo(-999)"
+                                    >
+                                        <div class="modulo-num">✓</div>
+                                        <div class="modulo-info">
+                                            <p>Módulo 1: Introducción</p>
+                                            <p>Completado · 15 min</p>
+                                        </div>
+                                    </div>
+                                    <div class="modulo-item active">
+                                        <div class="modulo-num">2</div>
+                                        <div class="modulo-info">
+                                            <p>Módulo 2: Arquitectura</p>
+                                            <p>En progreso · 20 min</p>
+                                        </div>
+                                    </div>
+                                    <div class="modulo-item">
+                                        <div class="modulo-num">3</div>
+                                        <div class="modulo-info">
+                                            <p>Módulo 3: Docker</p>
+                                            <p>Pendiente · 25 min</p>
+                                        </div>
+                                    </div>
+                                    <div class="modulo-item">
+                                        <div class="modulo-num">4</div>
+                                        <div class="modulo-info">
+                                            <p>Módulo 4: APIs REST</p>
+                                            <p>Pendiente · 30 min</p>
+                                        </div>
+                                    </div>
+                                    <div class="modulo-item">
+                                        <div class="modulo-num">5</div>
+                                        <div class="modulo-info">
+                                            <p>Módulo 5: Evaluación Final</p>
+                                            <p>Bloqueado · 20 min</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+
+        <div id="toast" class="toast" role="alert"></div>
+
+        <script>
+            // ── Page progress strip tied to scroll ──
+            window.addEventListener("scroll", () => {
+                const el = document.getElementById("page-progress-strip");
+                if (!el) return;
+                const scrolled = document.documentElement.scrollTop;
+                const total =
+                    document.documentElement.scrollHeight - window.innerHeight;
+                el.style.width =
+                    (total > 0 ? (scrolled / total) * 100 : 0) + "%";
+            });
+        </script>
+
+        <script src="../../js/aula.js"></script>
+    </body>
+</html>

@@ -1,0 +1,1185 @@
+<!doctype html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Gestión de Cursos | Administrador UEB</title>
+        <link rel="stylesheet" href="../../styles.css" />
+        <style>
+            /* ====================================================
+           GESTIÓN DE CURSOS — ESTILOS EXCLUSIVOS
+        ==================================================== */
+
+            /* --- Navbar --- */
+            .top-navbar {
+                background: linear-gradient(
+                    135deg,
+                    #001a40 0%,
+                    #003366 55%,
+                    #004a8f 100%
+                ) !important;
+                box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
+                position: relative;
+                overflow: hidden;
+            }
+            .top-navbar::before {
+                content: "";
+                position: absolute;
+                top: -40px;
+                right: -40px;
+                width: 160px;
+                height: 160px;
+                border-radius: 50%;
+                background: rgba(255, 102, 0, 0.12);
+                pointer-events: none;
+            }
+            .admin-panel-badge {
+                display: inline-flex;
+                align-items: center;
+                gap: 6px;
+                background: linear-gradient(135deg, #ff6600, #e84d00);
+                color: #fff;
+                font-size: 10px;
+                font-weight: 800;
+                letter-spacing: 1.5px;
+                text-transform: uppercase;
+                padding: 4px 11px;
+                border-radius: 999px;
+                box-shadow: 0 3px 12px rgba(255, 102, 0, 0.5);
+                margin-left: 10px;
+                animation: badgePulse 2.4s ease-in-out infinite;
+            }
+            @keyframes badgePulse {
+                0%,
+                100% {
+                    box-shadow: 0 3px 12px rgba(255, 102, 0, 0.5);
+                }
+                50% {
+                    box-shadow: 0 3px 22px rgba(255, 102, 0, 0.85);
+                }
+            }
+            .logo-box-modern {
+                width: 36px;
+                height: 36px;
+                background: linear-gradient(135deg, #ff6600, #e84d00);
+                border-radius: 10px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 18px;
+                box-shadow: 0 4px 14px rgba(255, 102, 0, 0.5);
+                flex-shrink: 0;
+            }
+
+            /* --- Sidebar --- */
+            .sidebar {
+                background: linear-gradient(
+                    180deg,
+                    #001e4a 0%,
+                    #002d6b 100%
+                ) !important;
+                border-right: none !important;
+                box-shadow: 4px 0 24px rgba(0, 0, 0, 0.2);
+            }
+            .sidebar-section-label {
+                font-size: 9px;
+                font-weight: 700;
+                letter-spacing: 2px;
+                text-transform: uppercase;
+                color: rgba(255, 255, 255, 0.35);
+                padding: 20px 18px 6px;
+            }
+            .nav-links li a {
+                color: rgba(255, 255, 255, 0.72) !important;
+                border-radius: 10px !important;
+                margin: 2px 10px !important;
+                padding: 10px 14px !important;
+                transition: all 0.22s ease !important;
+                display: flex;
+                align-items: center;
+                gap: 10px;
+            }
+            .nav-links li a:hover,
+            .nav-links li a.active {
+                background: linear-gradient(
+                    135deg,
+                    #003f8a,
+                    #0055b8
+                ) !important;
+                color: #fff !important;
+                box-shadow: 0 4px 14px rgba(0, 80, 180, 0.4) !important;
+                transform: translateX(3px);
+            }
+            .nav-icon-wrap {
+                width: 32px;
+                height: 32px;
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 8px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 15px;
+                flex-shrink: 0;
+                transition: background 0.22s ease;
+            }
+            .nav-links li a.active .nav-icon-wrap,
+            .nav-links li a:hover .nav-icon-wrap {
+                background: rgba(255, 255, 255, 0.2);
+            }
+            .nav-links li a.text-red {
+                color: #fc8181 !important;
+            }
+            .nav-links li a.text-red:hover {
+                background: rgba(229, 62, 62, 0.18) !important;
+                box-shadow: none !important;
+            }
+
+            /* --- Animaciones --- */
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(22px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            @keyframes modalIn {
+                from {
+                    opacity: 0;
+                    transform: scale(0.93) translateY(16px);
+                }
+                to {
+                    opacity: 1;
+                    transform: scale(1) translateY(0);
+                }
+            }
+            .fade-up {
+                animation: fadeInUp 0.5s ease both;
+            }
+            .delay-1 {
+                animation-delay: 0.07s;
+            }
+            .delay-2 {
+                animation-delay: 0.14s;
+            }
+            .delay-3 {
+                animation-delay: 0.21s;
+            }
+
+            /* --- Hero header page --- */
+            .page-hero {
+                background: linear-gradient(
+                    135deg,
+                    #001e4a 0%,
+                    #003580 60%,
+                    #004a8f 100%
+                );
+                border-radius: 18px;
+                padding: 24px 28px;
+                color: #fff;
+                position: relative;
+                overflow: hidden;
+                margin-bottom: 22px;
+                box-shadow: 0 8px 30px rgba(0, 51, 102, 0.3);
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .page-hero::before {
+                content: "";
+                position: absolute;
+                top: -50px;
+                right: -50px;
+                width: 200px;
+                height: 200px;
+                border-radius: 50%;
+                background: rgba(255, 102, 0, 0.1);
+            }
+            .page-hero h2 {
+                font-size: 20px;
+                font-weight: 800;
+                color: #fff;
+                margin: 0 0 6px;
+            }
+            .page-hero p {
+                font-size: 12px;
+                color: rgba(255, 255, 255, 0.7);
+                margin: 0;
+            }
+            .page-hero .btn-hero {
+                background: linear-gradient(135deg, #ff6600, #e84d00);
+                color: #fff;
+                border: none;
+                border-radius: 12px;
+                padding: 12px 22px;
+                font-size: 13px;
+                font-weight: 700;
+                cursor: pointer;
+                box-shadow: 0 4px 16px rgba(255, 102, 0, 0.5);
+                transition: all 0.25s ease;
+                white-space: nowrap;
+                flex-shrink: 0;
+            }
+            .page-hero .btn-hero:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 7px 22px rgba(255, 102, 0, 0.65);
+            }
+
+            /* --- Barra de filtros/búsqueda --- */
+            .toolbar {
+                background: #fff;
+                border-radius: 14px;
+                padding: 16px 20px;
+                display: flex;
+                flex-wrap: wrap;
+                gap: 12px;
+                align-items: center;
+                box-shadow: 0 2px 16px rgba(0, 0, 0, 0.06);
+                border: 1px solid rgba(226, 232, 240, 0.8);
+                margin-bottom: 20px;
+            }
+            .toolbar-search {
+                flex: 1;
+                min-width: 200px;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                background: #f5f7fa;
+                border-radius: 10px;
+                padding: 0 14px;
+                border: 1.5px solid transparent;
+                transition: border-color 0.2s ease;
+            }
+            .toolbar-search:focus-within {
+                border-color: #003366;
+                background: #fff;
+            }
+            .toolbar-search input {
+                border: none;
+                background: transparent;
+                outline: none;
+                font-size: 13px;
+                color: #2d3748;
+                padding: 9px 0;
+                flex: 1;
+            }
+            .toolbar-search input::placeholder {
+                color: #a0aec0;
+            }
+            .filter-select {
+                border: 1.5px solid #e2e8f0;
+                border-radius: 10px;
+                padding: 9px 14px;
+                font-size: 12px;
+                color: #4a5568;
+                background: #f5f7fa;
+                outline: none;
+                cursor: pointer;
+                transition: border-color 0.2s ease;
+            }
+            .filter-select:focus {
+                border-color: #003366;
+                background: #fff;
+            }
+            .toolbar-label {
+                font-size: 11px;
+                font-weight: 700;
+                color: #718096;
+                text-transform: uppercase;
+                letter-spacing: 0.8px;
+            }
+
+            /* --- Tabla moderna --- */
+            .table-wrapper-v2 {
+                background: #fff;
+                border-radius: 16px;
+                overflow: hidden;
+                box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+                border: 1px solid rgba(226, 232, 240, 0.8);
+            }
+            .table-modern {
+                width: 100%;
+                border-collapse: collapse;
+                font-size: 13px;
+            }
+            .table-modern thead tr {
+                background: linear-gradient(135deg, #f0f4ff, #e8eeff);
+                border-bottom: 2px solid #dde4f5;
+            }
+            .table-modern thead th {
+                padding: 14px 18px;
+                color: #003366;
+                font-weight: 700;
+                font-size: 11px;
+                text-transform: uppercase;
+                letter-spacing: 0.7px;
+                white-space: nowrap;
+            }
+            .table-modern tbody tr {
+                border-bottom: 1px solid #f0f4f8;
+                transition:
+                    background 0.18s ease,
+                    transform 0.18s ease;
+            }
+            .table-modern tbody tr:hover {
+                background: #f5f8ff;
+            }
+            .table-modern tbody td {
+                padding: 14px 18px;
+                color: #4a5568;
+                vertical-align: middle;
+            }
+            .table-modern tbody td:first-child {
+                font-weight: 600;
+                color: #1a202c;
+            }
+
+            /* --- Status badges --- */
+            .status-badge {
+                display: inline-flex;
+                align-items: center;
+                gap: 5px;
+                font-size: 11px;
+                font-weight: 700;
+                padding: 5px 12px;
+                border-radius: 999px;
+                white-space: nowrap;
+            }
+            .status-badge::before {
+                content: "";
+                width: 6px;
+                height: 6px;
+                border-radius: 50%;
+                flex-shrink: 0;
+            }
+            .sb-active {
+                background: #f0fff4;
+                color: #276749;
+            }
+            .sb-active::before {
+                background: #38a169;
+                box-shadow: 0 0 0 2px rgba(56, 161, 105, 0.25);
+            }
+            .sb-pending {
+                background: #fffaf0;
+                color: #c05621;
+            }
+            .sb-pending::before {
+                background: #ff6600;
+                box-shadow: 0 0 0 2px rgba(255, 102, 0, 0.25);
+            }
+            .sb-revision {
+                background: #ebf8ff;
+                color: #2b6cb0;
+            }
+            .sb-revision::before {
+                background: #3182ce;
+                box-shadow: 0 0 0 2px rgba(49, 130, 206, 0.25);
+            }
+            .sb-closed {
+                background: #fff5f5;
+                color: #9b2335;
+            }
+            .sb-closed::before {
+                background: #e53e3e;
+                box-shadow: 0 0 0 2px rgba(229, 62, 62, 0.2);
+            }
+
+            /* --- Área tag --- */
+            .area-tag {
+                display: inline-block;
+                font-size: 10px;
+                font-weight: 700;
+                padding: 3px 10px;
+                border-radius: 6px;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
+            .at-software {
+                background: #ebf8ff;
+                color: #2b6cb0;
+            }
+            .at-marketing {
+                background: #fff5eb;
+                color: #c05621;
+            }
+            .at-admin {
+                background: #f0fff4;
+                color: #276749;
+            }
+
+            /* --- Action buttons --- */
+            .action-btn {
+                width: 32px;
+                height: 32px;
+                border-radius: 8px;
+                border: none;
+                cursor: pointer;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 14px;
+                transition: all 0.2s ease;
+            }
+            .action-btn.view {
+                background: #ebf8ff;
+                color: #2b6cb0;
+            }
+            .action-btn.view:hover {
+                background: #3182ce;
+                color: #fff;
+                transform: scale(1.1);
+            }
+            .action-btn.edit {
+                background: #fffaf0;
+                color: #c05621;
+            }
+            .action-btn.edit:hover {
+                background: #ff6600;
+                color: #fff;
+                transform: scale(1.1);
+            }
+            .action-btn.delete {
+                background: #fff5f5;
+                color: #c53030;
+            }
+            .action-btn.delete:hover {
+                background: #e53e3e;
+                color: #fff;
+                transform: scale(1.1);
+            }
+
+            /* --- Modal mejorado --- */
+            .modal-overlay {
+                display: none;
+                position: fixed;
+                inset: 0;
+                background: rgba(0, 0, 0, 0.55);
+                backdrop-filter: blur(4px);
+                z-index: 1000;
+                align-items: center;
+                justify-content: center;
+            }
+            .modal-overlay.active {
+                display: flex !important;
+            }
+            .modal-box {
+                background: #fff;
+                border-radius: 20px;
+                box-shadow: 0 24px 60px rgba(0, 0, 0, 0.2);
+                width: 100%;
+                padding: 0;
+                overflow: hidden;
+                animation: modalIn 0.32s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+            }
+            .modal-header {
+                background: linear-gradient(135deg, #001e4a, #003580);
+                padding: 22px 28px;
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+            }
+            .modal-header h3 {
+                color: #fff;
+                font-size: 17px;
+                font-weight: 800;
+                margin: 0;
+            }
+            .modal-header .close-btn {
+                width: 32px;
+                height: 32px;
+                border-radius: 8px;
+                background: rgba(255, 255, 255, 0.15);
+                color: #fff;
+                border: none;
+                cursor: pointer;
+                font-size: 18px;
+                line-height: 1;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                transition: background 0.2s ease;
+            }
+            .modal-header .close-btn:hover {
+                background: rgba(255, 255, 255, 0.3);
+            }
+            .modal-body {
+                padding: 28px;
+            }
+            .form-section-label {
+                font-size: 10px;
+                font-weight: 800;
+                letter-spacing: 1.5px;
+                text-transform: uppercase;
+                color: #a0aec0;
+                margin: 20px 0 12px;
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+            .form-section-label::after {
+                content: "";
+                flex: 1;
+                height: 1px;
+                background: #e2e8f0;
+            }
+            .form-section-label:first-child {
+                margin-top: 0;
+            }
+            .modal-footer {
+                padding: 16px 28px;
+                background: #f8fafc;
+                border-top: 1px solid #e2e8f0;
+                display: flex;
+                justify-content: flex-end;
+                gap: 10px;
+            }
+
+            /* --- Modal revisión --- */
+            .rev-info-row {
+                display: flex;
+                align-items: flex-start;
+                gap: 10px;
+                padding: 10px 0;
+                border-bottom: 1px solid #f0f4f8;
+                font-size: 13px;
+            }
+            .rev-info-row:last-child {
+                border-bottom: none;
+            }
+            .rev-info-row .rev-key {
+                font-weight: 700;
+                color: #003366;
+                min-width: 160px;
+                flex-shrink: 0;
+            }
+            .rev-info-row .rev-val {
+                color: #4a5568;
+            }
+            .rev-resource-card {
+                background: #f8fafc;
+                border-radius: 12px;
+                padding: 14px 16px;
+                border: 1px solid #e2e8f0;
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                margin-bottom: 8px;
+                transition: background 0.2s ease;
+            }
+            .rev-resource-card:hover {
+                background: #edf2f7;
+            }
+            .rev-resource-icon {
+                width: 36px;
+                height: 36px;
+                border-radius: 10px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 18px;
+                flex-shrink: 0;
+            }
+
+            /* --- Toast mejorado --- */
+            .toast {
+                position: fixed;
+                bottom: 24px;
+                right: 24px;
+                z-index: 9999;
+                background: linear-gradient(135deg, #003366, #004a8f);
+                color: #fff;
+                padding: 14px 22px;
+                border-radius: 14px;
+                font-size: 13px;
+                font-weight: 600;
+                box-shadow: 0 8px 28px rgba(0, 51, 102, 0.4);
+                opacity: 0;
+                transform: translateY(12px) scale(0.97);
+                transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+                pointer-events: none;
+            }
+            .toast.show {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+
+            /* --- Empty state --- */
+            .empty-state-row td {
+                text-align: center;
+                padding: 48px 0 !important;
+            }
+
+            /* --- Cupos progress bar --- */
+            .cupos-bar {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+            }
+            .cupos-track {
+                flex: 1;
+                height: 6px;
+                background: #e2e8f0;
+                border-radius: 999px;
+                overflow: hidden;
+            }
+            .cupos-fill {
+                height: 100%;
+                border-radius: 999px;
+                background: linear-gradient(90deg, #003366, #0070cc);
+            }
+            .cupos-fill.warn {
+                background: linear-gradient(90deg, #ff6600, #ff9900);
+            }
+            .cupos-fill.full {
+                background: linear-gradient(90deg, #e53e3e, #fc8181);
+            }
+        </style>
+    </head>
+    <body class="flex-column" style="margin: 0">
+        <!-- ======================== NAVBAR ======================== -->
+        <header
+            class="top-navbar"
+            style="
+                background: linear-gradient(
+                    135deg,
+                    #001a40 0%,
+                    #003366 55%,
+                    #004a8f 100%
+                ) !important;
+            "
+        >
+            <div
+                class="logo-area"
+                style="display: flex; align-items: center; gap: 12px"
+            >
+                <div class="logo-box-modern">🎓</div>
+                <div
+                    style="
+                        display: flex;
+                        flex-direction: column;
+                        line-height: 1.2;
+                    "
+                >
+                    <h2
+                        style="
+                            margin: 0;
+                            font-size: 16px;
+                            color: #fff;
+                            font-weight: 800;
+                            letter-spacing: -0.3px;
+                        "
+                    >
+                        Capacitación UEB
+                        <span class="admin-panel-badge">⚙ Panel Admin</span>
+                    </h2>
+                    <span
+                        style="
+                            font-size: 10px;
+                            color: rgba(255, 255, 255, 0.55);
+                            letter-spacing: 0.5px;
+                        "
+                        >Sistema de Gestión Académica</span
+                    >
+                </div>
+            </div>
+            <div
+                class="user-area"
+                style="display: flex; align-items: center; gap: 14px"
+            >
+                <div style="text-align: right">
+                    <span
+                        class="user-name"
+                        style="
+                            color: #fff;
+                            display: block;
+                            font-weight: 700;
+                            font-size: 14px;
+                        "
+                        >Coordinador Académico</span
+                    >
+                    <span
+                        class="user-role"
+                        style="color: rgba(255, 255, 255, 0.6); font-size: 11px"
+                        >Módulo de Control Global</span
+                    >
+                </div>
+                <div
+                    class="avatar"
+                    style="
+                        background: linear-gradient(135deg, #ff6600, #e84d00);
+                        border: 2px solid rgba(255, 255, 255, 0.3);
+                        color: #fff;
+                        font-weight: 800;
+                        box-shadow: 0 4px 14px rgba(255, 102, 0, 0.45);
+                    "
+                >
+                    AD
+                </div>
+            </div>
+        </header>
+
+        <div
+            class="app-body"
+            style="display: flex; flex: 1; overflow: hidden; position: relative"
+        >
+            <!-- ======================== SIDEBAR ======================== -->
+            <nav class="sidebar" id="sidebar">
+                <div
+                    class="sidebar-indicator"
+                    style="color: rgba(255, 255, 255, 0.4)"
+                >
+                    ▶
+                </div>
+                <div class="sidebar-section-label">Navegación</div>
+                <ul class="nav-links" style="padding: 0 4px">
+                    <li>
+                        <a href="dashboard.html" class="nav-link"
+                            ><span class="nav-icon-wrap">📊</span
+                            ><span>Métricas Globales</span></a
+                        >
+                    </li>
+                    <li>
+                        <a href="gestion-cursos.html" class="nav-link active"
+                            ><span class="nav-icon-wrap">📝</span
+                            ><span>Gestión de Cursos</span></a
+                        >
+                    </li>
+                    <li>
+                        <a href="reportes.html" class="nav-link"
+                            ><span class="nav-icon-wrap">📈</span
+                            ><span>Reportes Académicos</span></a
+                        >
+                    </li>
+                </ul>
+                <div class="sidebar-section-label" style="margin-top: auto">
+                    Sistema
+                </div>
+                <ul class="nav-links bottom-links" style="padding: 0 4px">
+                    <li>
+                        <a href="../login.html" class="nav-link text-red"
+                            ><span
+                                class="nav-icon-wrap"
+                                style="background: rgba(229, 62, 62, 0.15)"
+                                >🚪</span
+                            ><span>Cerrar Panel</span></a
+                        >
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- ======================== MAIN ======================== -->
+            <main class="content" style="overflow-y: auto">
+                <!-- Page Hero -->
+                <div class="page-hero fade-up">
+                    <div>
+                        <h2>📝 Control y Gestión de Capacitaciones</h2>
+                        <p>
+                            Alta, baja, inspección y modificación de la oferta
+                            académica institucional.
+                        </p>
+                    </div>
+                    <button class="btn-hero" onclick="abrirModal()">
+                        + Registrar Nuevo Curso
+                    </button>
+                </div>
+
+                <!-- Toolbar de filtros (decorativos) -->
+                <div class="toolbar fade-up delay-1">
+                    <span class="toolbar-label">Filtrar:</span>
+                    <div class="toolbar-search">
+                        <span style="color: #a0aec0; font-size: 14px">🔍</span>
+                        <input
+                            type="text"
+                            placeholder="Buscar curso, docente o área..."
+                        />
+                    </div>
+                    <select class="filter-select">
+                        <option>Todas las áreas</option>
+                        <option>Software</option>
+                        <option>Marketing</option>
+                        <option>Administración</option>
+                    </select>
+                    <select class="filter-select">
+                        <option>Todos los estados</option>
+                        <option>Activo</option>
+                        <option>Pendiente</option>
+                        <option>En Revisión</option>
+                        <option>Cerrado</option>
+                    </select>
+                    <select class="filter-select">
+                        <option>Todas las modalidades</option>
+                        <option>Virtual</option>
+                        <option>Presencial</option>
+                        <option>Híbrido</option>
+                    </select>
+                </div>
+
+                <!-- Tabla de cursos -->
+                <div class="table-wrapper-v2 fade-up delay-2">
+                    <div
+                        style="
+                            padding: 16px 20px;
+                            border-bottom: 1px solid #f0f4f8;
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+                        "
+                    >
+                        <div
+                            style="display: flex; align-items: center; gap: 8px"
+                        >
+                            <span
+                                style="
+                                    font-size: 14px;
+                                    font-weight: 700;
+                                    color: #003366;
+                                "
+                                >Listado de Capacitaciones</span
+                            >
+                            <span
+                                style="
+                                    background: #ebf8ff;
+                                    color: #2b6cb0;
+                                    font-size: 11px;
+                                    font-weight: 700;
+                                    padding: 3px 10px;
+                                    border-radius: 999px;
+                                "
+                                >Actualizado</span
+                            >
+                        </div>
+                        <span style="font-size: 11px; color: #a0aec0"
+                            >Ciclo Académico 2026-2026</span
+                        >
+                    </div>
+                    <div style="overflow-x: auto">
+                        <table class="table-modern">
+                            <thead>
+                                <tr>
+                                    <th>Curso / Capacitación</th>
+                                    <th>Área</th>
+                                    <th>Docente Facilitador</th>
+                                    <th>Cupos / Estado</th>
+                                    <th style="text-align: center">Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabla-cursos">
+                                <!-- Llenado dinámico por admin-cursos.js -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </main>
+        </div>
+
+        <!-- ======================== MODAL CREAR/EDITAR CURSO ======================== -->
+        <div id="modal-curso" class="modal-overlay">
+            <div class="modal-box" style="max-width: 520px">
+                <div class="modal-header">
+                    <h3 id="modal-titulo">Registrar Capacitación</h3>
+                    <button class="close-btn" onclick="cerrarModal()">
+                        &times;
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="form-curso" onsubmit="guardarCurso(event)">
+                        <div class="form-section-label">
+                            📋 Información General
+                        </div>
+
+                        <div class="mb-10">
+                            <label class="label-sm">Nombre del Curso:</label>
+                            <input
+                                type="text"
+                                id="curso-nombre"
+                                class="form-input"
+                                placeholder="Ej. Fundamentos de Python Avanzado"
+                                required
+                            />
+                        </div>
+
+                        <div class="grid-2-cols mb-10">
+                            <div>
+                                <label class="label-sm"
+                                    >Área del conocimiento:</label
+                                >
+                                <select
+                                    id="curso-categoria"
+                                    class="form-select"
+                                >
+                                    <option value="Software">
+                                        💻 Software
+                                    </option>
+                                    <option value="Marketing">
+                                        📣 Marketing
+                                    </option>
+                                    <option value="Administración">
+                                        🏢 Administración
+                                    </option>
+                                </select>
+                            </div>
+                            <div>
+                                <label class="label-sm">Carga horaria:</label>
+                                <input
+                                    type="number"
+                                    id="curso-horas"
+                                    class="form-input"
+                                    placeholder="Ej. 40"
+                                    required
+                                />
+                            </div>
+                        </div>
+
+                        <div class="form-section-label">
+                            👤 Asignación Docente
+                        </div>
+
+                        <div class="mb-10">
+                            <label class="label-sm">Docente Encargado:</label>
+                            <input
+                                type="text"
+                                id="curso-docente"
+                                class="form-input"
+                                placeholder="Ej. Ing. Carlos Méndez"
+                                required
+                            />
+                        </div>
+
+                        <div class="form-section-label">⚙ Configuración</div>
+
+                        <div class="grid-2-cols mb-10">
+                            <div>
+                                <label class="label-sm"
+                                    >Cupos disponibles:</label
+                                >
+                                <input
+                                    type="number"
+                                    id="curso-cupos"
+                                    class="form-input"
+                                    placeholder="Ej. 30"
+                                    required
+                                />
+                            </div>
+                            <div>
+                                <label class="label-sm">Modalidad:</label>
+                                <select
+                                    id="curso-modalidad"
+                                    class="form-select"
+                                >
+                                    <option value="Virtual">🌐 Virtual</option>
+                                    <option value="Presencial">
+                                        🏛 Presencial
+                                    </option>
+                                    <option value="Híbrido">🔀 Híbrido</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button
+                        type="button"
+                        class="btn-outline"
+                        onclick="cerrarModal()"
+                    >
+                        Cancelar
+                    </button>
+                    <button type="submit" form="form-curso" class="btn-cta">
+                        💾 Guardar Registro
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ======================== MODAL REVISIÓN ======================== -->
+        <div id="modal-revision" class="modal-overlay">
+            <div class="modal-box" style="max-width: 580px">
+                <div
+                    class="modal-header"
+                    style="
+                        background: linear-gradient(135deg, #1a4731, #276749);
+                    "
+                >
+                    <h3>🔎 Evaluar Contenido del Curso</h3>
+                    <button class="close-btn" onclick="cerrarModalRevision()">
+                        &times;
+                    </button>
+                </div>
+                <div
+                    class="modal-body"
+                    style="max-height: 65vh; overflow-y: auto"
+                >
+                    <h4
+                        id="rev-nombre"
+                        class="blue-text"
+                        style="
+                            font-size: 17px;
+                            font-weight: 800;
+                            margin: 0 0 16px;
+                        "
+                    ></h4>
+
+                    <div
+                        style="
+                            background: #f8fafc;
+                            border-radius: 14px;
+                            padding: 18px;
+                            border: 1px solid #e2e8f0;
+                            margin-bottom: 20px;
+                        "
+                    >
+                        <div class="rev-info-row">
+                            <span class="rev-key">👨‍🏫 Docente Proponente:</span>
+                            <span class="rev-val" id="rev-docente"></span>
+                        </div>
+                        <div class="rev-info-row">
+                            <span class="rev-key">⏱️ Duración Malla:</span>
+                            <span class="rev-val"
+                                ><span id="rev-tiempo"></span> —
+                                <strong
+                                    ><span id="rev-horas"></span> horas</strong
+                                ></span
+                            >
+                        </div>
+                        <div class="rev-info-row">
+                            <span class="rev-key">📅 Planif. Horaria:</span>
+                            <span class="rev-val" id="rev-cronograma"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-section-label">
+                        📄 Resumen y Enfoque de Egreso
+                    </div>
+                    <div
+                        id="rev-descripcion"
+                        style="
+                            background: #f5f8ff;
+                            border: 1px solid #dde4f5;
+                            border-radius: 12px;
+                            padding: 14px;
+                            font-size: 13px;
+                            color: #4a5568;
+                            line-height: 1.6;
+                            margin-bottom: 16px;
+                        "
+                    ></div>
+
+                    <div class="form-section-label">📚 Módulos del Curso</div>
+                    <ul
+                        id="rev-modulos"
+                        style="
+                            padding-left: 0;
+                            list-style: none;
+                            display: flex;
+                            flex-direction: column;
+                            gap: 6px;
+                            margin-bottom: 16px;
+                        "
+                    ></ul>
+
+                    <div class="form-section-label">🎬 Recursos Didácticos</div>
+                    <div class="rev-resource-card">
+                        <div
+                            class="rev-resource-icon"
+                            style="
+                                background: linear-gradient(
+                                    135deg,
+                                    #fff5f5,
+                                    #fed7d7
+                                );
+                            "
+                        >
+                            📹
+                        </div>
+                        <div style="flex: 1">
+                            <p
+                                style="
+                                    font-size: 11px;
+                                    font-weight: 700;
+                                    color: #718096;
+                                    margin: 0 0 3px;
+                                "
+                            >
+                                Clase Muestra (YouTube)
+                            </p>
+                            <a
+                                id="rev-video"
+                                href="#"
+                                target="_blank"
+                                class="blue-link"
+                                style="font-size: 13px"
+                                >Ver enlace externo ↗</a
+                            >
+                        </div>
+                    </div>
+                    <div class="rev-resource-card">
+                        <div
+                            class="rev-resource-icon"
+                            style="
+                                background: linear-gradient(
+                                    135deg,
+                                    #f0fff4,
+                                    #c6f6d5
+                                );
+                            "
+                        >
+                            📚
+                        </div>
+                        <div style="flex: 1">
+                            <p
+                                style="
+                                    font-size: 11px;
+                                    font-weight: 700;
+                                    color: #718096;
+                                    margin: 0 0 3px;
+                                "
+                            >
+                                Sílabo Completo (Drive PDF)
+                            </p>
+                            <a
+                                id="rev-material"
+                                href="#"
+                                target="_blank"
+                                class="blue-link"
+                                style="font-size: 13px"
+                                >Descargar documento ↗</a
+                            >
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button
+                        type="button"
+                        class="btn-outline"
+                        onclick="cerrarModalRevision()"
+                    >
+                        Cerrar Vista
+                    </button>
+                    <button
+                        type="button"
+                        class="btn-cta"
+                        id="rev-btn-aprobar"
+                        style="
+                            background: linear-gradient(
+                                135deg,
+                                #276749,
+                                #38a169
+                            );
+                            box-shadow: 0 4px 14px rgba(56, 161, 105, 0.4);
+                        "
+                    >
+                        ✅ Aprobar y Publicar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Toast -->
+        <div id="toast" class="toast" role="alert"></div>
+
+        <script src="../../js/admin-cursos.js"></script>
+    </body>
+</html>

@@ -1,0 +1,1863 @@
+<!doctype html>
+<html lang="es">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Capacitaciones UEB | Plataforma Oficial</title>
+        <link rel="stylesheet" href="../styles.css" />
+        <style>
+            /* ═══════════════════════════════════════════════
+           BARRA DE PROGRESO DE SCROLL
+        ═══════════════════════════════════════════════ */
+            #scroll-progress {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 0%;
+                height: 3px;
+                background: linear-gradient(
+                    90deg,
+                    #003366 0%,
+                    #0070cc 50%,
+                    #ff6600 100%
+                );
+                z-index: 9999;
+                transition: width 0.08s linear;
+                border-radius: 0 3px 3px 0;
+            }
+
+            /* ═══════════════════════════════════════════════
+           NAVBAR — STICKY GLASS
+        ═══════════════════════════════════════════════ */
+            .navbar-modern {
+                position: sticky;
+                top: 0;
+                z-index: 1000;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 0 40px;
+                height: 68px;
+                background: rgba(255, 255, 255, 0.95);
+                border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+                transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            .navbar-modern.glass {
+                background: rgba(255, 255, 255, 0.72);
+                backdrop-filter: blur(18px) saturate(180%);
+                -webkit-backdrop-filter: blur(18px) saturate(180%);
+                border-bottom-color: rgba(0, 51, 102, 0.12);
+                box-shadow: 0 4px 32px rgba(0, 51, 102, 0.1);
+            }
+            .navbar-logo {
+                display: flex;
+                align-items: center;
+                gap: 12px;
+                text-decoration: none;
+            }
+            .navbar-logo-badge {
+                width: 38px;
+                height: 38px;
+                background: linear-gradient(135deg, #003366 0%, #0055a5 100%);
+                border-radius: 10px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 18px;
+                box-shadow: 0 4px 14px rgba(0, 51, 102, 0.3);
+            }
+            .navbar-logo h2 {
+                font-size: 15px;
+                font-weight: 700;
+                color: #003366;
+                letter-spacing: -0.3px;
+            }
+            .navbar-logo span {
+                font-size: 11px;
+                color: #718096;
+                display: block;
+                font-weight: 400;
+            }
+            .navbar-links {
+                display: flex;
+                gap: 6px;
+                align-items: center;
+            }
+            .navbar-links a {
+                position: relative;
+                font-size: 13.5px;
+                font-weight: 500;
+                color: #4a5568;
+                text-decoration: none;
+                padding: 6px 14px;
+                border-radius: 8px;
+                transition:
+                    color 0.2s,
+                    background 0.2s;
+                overflow: hidden;
+            }
+            .navbar-links a::after {
+                content: "";
+                position: absolute;
+                bottom: 3px;
+                left: 50%;
+                transform: translateX(-50%) scaleX(0);
+                width: calc(100% - 28px);
+                height: 2px;
+                background: #ff6600;
+                border-radius: 2px;
+                transition: transform 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
+            }
+            .navbar-links a:hover {
+                color: #003366;
+                background: rgba(0, 51, 102, 0.05);
+            }
+            .navbar-links a:hover::after {
+                transform: translateX(-50%) scaleX(1);
+            }
+            .navbar-cta {
+                background: linear-gradient(135deg, #ff6600 0%, #e84d00 100%);
+                color: #fff !important;
+                padding: 9px 22px !important;
+                border-radius: 999px !important;
+                font-weight: 600 !important;
+                font-size: 13px !important;
+                box-shadow: 0 4px 14px rgba(255, 102, 0, 0.3);
+                transition: all 0.25s ease !important;
+                letter-spacing: 0.2px;
+            }
+            .navbar-cta:hover {
+                transform: translateY(-2px) !important;
+                box-shadow: 0 8px 24px rgba(255, 102, 0, 0.4) !important;
+                background: linear-gradient(
+                    135deg,
+                    #ff7a1a 0%,
+                    #cc4400 100%
+                ) !important;
+            }
+            .navbar-cta::after {
+                display: none !important;
+            }
+
+            /* ═══════════════════════════════════════════════
+           HERO SECTION
+        ═══════════════════════════════════════════════ */
+            .hero-section {
+                position: relative;
+                min-height: 600px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                overflow: hidden;
+                background: linear-gradient(
+                    135deg,
+                    #001a33 0%,
+                    #003366 45%,
+                    #004d99 100%
+                );
+                animation: heroGradientShift 10s ease-in-out infinite;
+            }
+            @keyframes heroGradientShift {
+                0% {
+                    background: linear-gradient(
+                        135deg,
+                        #001a33 0%,
+                        #003366 45%,
+                        #004d99 100%
+                    );
+                }
+                33% {
+                    background: linear-gradient(
+                        135deg,
+                        #002244 0%,
+                        #003d80 45%,
+                        #0055a5 100%
+                    );
+                }
+                66% {
+                    background: linear-gradient(
+                        135deg,
+                        #001533 0%,
+                        #003366 45%,
+                        #003d80 100%
+                    );
+                }
+                100% {
+                    background: linear-gradient(
+                        135deg,
+                        #001a33 0%,
+                        #003366 45%,
+                        #004d99 100%
+                    );
+                }
+            }
+
+            /* Formas geométricas decorativas flotantes */
+            .hero-shape {
+                position: absolute;
+                border-radius: 50%;
+                opacity: 0.1;
+                pointer-events: none;
+            }
+            .hero-shape-1 {
+                width: 420px;
+                height: 420px;
+                background: radial-gradient(circle, #0088cc, transparent 70%);
+                top: -120px;
+                right: -100px;
+                animation: floatShape1 8s ease-in-out infinite;
+            }
+            .hero-shape-2 {
+                width: 280px;
+                height: 280px;
+                background: radial-gradient(circle, #ff6600, transparent 70%);
+                bottom: -80px;
+                left: -60px;
+                opacity: 0.12;
+                animation: floatShape2 11s ease-in-out infinite;
+            }
+            .hero-shape-3 {
+                width: 160px;
+                height: 160px;
+                border: 2px solid rgba(255, 255, 255, 0.15);
+                top: 15%;
+                left: 8%;
+                animation: floatShape3 7s ease-in-out infinite;
+                border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            }
+            .hero-shape-4 {
+                width: 90px;
+                height: 90px;
+                border: 2px solid rgba(255, 102, 0, 0.25);
+                bottom: 20%;
+                right: 12%;
+                animation: floatShape3 9s ease-in-out infinite reverse;
+                border-radius: 50%;
+            }
+            .hero-line {
+                position: absolute;
+                height: 1px;
+                background: linear-gradient(
+                    90deg,
+                    transparent,
+                    rgba(255, 255, 255, 0.12),
+                    transparent
+                );
+                width: 60%;
+                pointer-events: none;
+            }
+            .hero-line-1 {
+                top: 35%;
+                left: 20%;
+                animation: lineFade 5s ease-in-out infinite;
+            }
+            .hero-line-2 {
+                top: 60%;
+                left: 10%;
+                width: 40%;
+                animation: lineFade 7s ease-in-out infinite 2s;
+            }
+            .hero-dot {
+                position: absolute;
+                border-radius: 50%;
+                background: rgba(255, 255, 255, 0.15);
+                pointer-events: none;
+            }
+            .hero-dot-1 {
+                width: 8px;
+                height: 8px;
+                top: 22%;
+                left: 20%;
+                animation: dotPulse 4s ease-in-out infinite;
+            }
+            .hero-dot-2 {
+                width: 5px;
+                height: 5px;
+                top: 70%;
+                right: 25%;
+                animation: dotPulse 6s ease-in-out infinite 1s;
+            }
+            .hero-dot-3 {
+                width: 12px;
+                height: 12px;
+                bottom: 30%;
+                left: 40%;
+                opacity: 0.08;
+                animation: dotPulse 5s ease-in-out infinite 0.5s;
+            }
+
+            @keyframes floatShape1 {
+                0%,
+                100% {
+                    transform: translate(0, 0) rotate(0deg);
+                }
+                50% {
+                    transform: translate(-25px, 30px) rotate(10deg);
+                }
+            }
+            @keyframes floatShape2 {
+                0%,
+                100% {
+                    transform: translate(0, 0) scale(1);
+                }
+                50% {
+                    transform: translate(20px, -20px) scale(1.08);
+                }
+            }
+            @keyframes floatShape3 {
+                0%,
+                100% {
+                    transform: rotate(0deg) translate(0, 0);
+                }
+                33% {
+                    transform: rotate(15deg) translate(8px, -12px);
+                }
+                66% {
+                    transform: rotate(-8deg) translate(-5px, 8px);
+                }
+            }
+            @keyframes lineFade {
+                0%,
+                100% {
+                    opacity: 0;
+                    transform: scaleX(0.6);
+                }
+                50% {
+                    opacity: 1;
+                    transform: scaleX(1);
+                }
+            }
+            @keyframes dotPulse {
+                0%,
+                100% {
+                    transform: scale(1);
+                    opacity: 0.15;
+                }
+                50% {
+                    transform: scale(1.8);
+                    opacity: 0.4;
+                }
+            }
+
+            .hero-content {
+                position: relative;
+                z-index: 2;
+                text-align: center;
+                padding: 60px 30px;
+                max-width: 760px;
+            }
+            .hero-badge {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                background: rgba(255, 102, 0, 0.18);
+                border: 1px solid rgba(255, 102, 0, 0.35);
+                color: #ffb380;
+                font-size: 12px;
+                font-weight: 600;
+                letter-spacing: 1px;
+                text-transform: uppercase;
+                padding: 6px 16px;
+                border-radius: 999px;
+                margin-bottom: 24px;
+                animation: fadeInUp 0.7s ease both;
+            }
+            .hero-badge-dot {
+                width: 6px;
+                height: 6px;
+                border-radius: 50%;
+                background: #ff6600;
+                animation: dotPulse 1.5s ease-in-out infinite;
+            }
+            .hero-title {
+                font-size: clamp(28px, 5vw, 50px);
+                font-weight: 800;
+                color: #ffffff;
+                line-height: 1.15;
+                letter-spacing: -1px;
+                margin-bottom: 20px;
+                animation: fadeInUp 0.7s ease 0.15s both;
+            }
+            .hero-title .highlight {
+                background: linear-gradient(
+                    135deg,
+                    #ff8533 0%,
+                    #ff6600 50%,
+                    #ffb380 100%
+                );
+                -webkit-background-clip: text;
+                -webkit-text-fill-color: transparent;
+                background-clip: text;
+            }
+            .hero-subtitle {
+                font-size: 16px;
+                color: rgba(255, 255, 255, 0.78);
+                line-height: 1.7;
+                max-width: 560px;
+                margin: 0 auto 36px auto;
+                animation: fadeInUp 0.7s ease 0.3s both;
+            }
+            .hero-actions {
+                display: flex;
+                gap: 14px;
+                justify-content: center;
+                flex-wrap: wrap;
+                animation: fadeInUp 0.7s ease 0.45s both;
+            }
+            .hero-btn-primary {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                background: linear-gradient(135deg, #ff6600 0%, #e84d00 100%);
+                color: #ffffff;
+                font-size: 14px;
+                font-weight: 600;
+                padding: 14px 30px;
+                border-radius: 999px;
+                text-decoration: none;
+                box-shadow: 0 8px 28px rgba(255, 102, 0, 0.4);
+                transition: all 0.3s ease;
+                border: none;
+                cursor: pointer;
+            }
+            .hero-btn-primary:hover {
+                transform: translateY(-3px);
+                box-shadow: 0 14px 36px rgba(255, 102, 0, 0.5);
+            }
+            .hero-btn-secondary {
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                background: rgba(255, 255, 255, 0.1);
+                color: #ffffff;
+                font-size: 14px;
+                font-weight: 600;
+                padding: 14px 30px;
+                border-radius: 999px;
+                text-decoration: none;
+                border: 1.5px solid rgba(255, 255, 255, 0.3);
+                backdrop-filter: blur(8px);
+                transition: all 0.3s ease;
+            }
+            .hero-btn-secondary:hover {
+                background: rgba(255, 255, 255, 0.18);
+                border-color: rgba(255, 255, 255, 0.55);
+                transform: translateY(-3px);
+            }
+            .hero-stats-row {
+                display: flex;
+                gap: 40px;
+                justify-content: center;
+                margin-top: 50px;
+                padding-top: 40px;
+                border-top: 1px solid rgba(255, 255, 255, 0.12);
+                animation: fadeInUp 0.7s ease 0.6s both;
+                flex-wrap: wrap;
+            }
+            .hero-stat {
+                text-align: center;
+            }
+            .hero-stat-num {
+                font-size: 30px;
+                font-weight: 800;
+                color: #ffffff;
+                line-height: 1;
+            }
+            .hero-stat-num .accent {
+                color: #ff8533;
+            }
+            .hero-stat-label {
+                font-size: 12px;
+                color: rgba(255, 255, 255, 0.55);
+                margin-top: 4px;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
+
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(28px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
+                }
+            }
+            @keyframes fadeIn {
+                from {
+                    opacity: 0;
+                }
+                to {
+                    opacity: 1;
+                }
+            }
+
+            /* ═══════════════════════════════════════════════
+           SECCIÓN ESTADÍSTICAS (IntersectionObserver)
+        ═══════════════════════════════════════════════ */
+            .stats-section {
+                background: #ffffff;
+                padding: 70px 40px;
+                border-top: 1px solid #e2e8f0;
+                border-bottom: 1px solid #e2e8f0;
+            }
+            .stats-section-inner {
+                max-width: 1100px;
+                margin: 0 auto;
+            }
+            .stats-label-top {
+                text-align: center;
+                font-size: 12px;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 2px;
+                color: #ff6600;
+                margin-bottom: 10px;
+            }
+            .stats-heading {
+                text-align: center;
+                font-size: 28px;
+                font-weight: 800;
+                color: #003366;
+                margin-bottom: 50px;
+                letter-spacing: -0.5px;
+            }
+            .stats-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 24px;
+            }
+            .stat-tile {
+                background: #f5f7fa;
+                border-radius: 18px;
+                padding: 32px 24px;
+                text-align: center;
+                border: 1.5px solid #e2e8f0;
+                position: relative;
+                overflow: hidden;
+                transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+            }
+            .stat-tile::before {
+                content: "";
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                height: 3px;
+                border-radius: 18px 18px 0 0;
+            }
+            .stat-tile.blue-top::before {
+                background: linear-gradient(90deg, #003366, #0070cc);
+            }
+            .stat-tile.orange-top::before {
+                background: linear-gradient(90deg, #ff6600, #ff9933);
+            }
+            .stat-tile.green-top::before {
+                background: linear-gradient(90deg, #38a169, #68d391);
+            }
+            .stat-tile.teal-top::before {
+                background: linear-gradient(90deg, #0088cc, #00b4d8);
+            }
+            .stat-tile:hover {
+                transform: translateY(-6px);
+                box-shadow: 0 16px 40px rgba(0, 51, 102, 0.12);
+                border-color: #003366;
+            }
+            .stat-tile-icon {
+                font-size: 32px;
+                margin-bottom: 12px;
+                display: block;
+            }
+            .stat-tile-num {
+                font-size: 38px;
+                font-weight: 800;
+                color: #003366;
+                line-height: 1;
+                margin-bottom: 6px;
+                display: block;
+            }
+            .stat-tile-num .suf {
+                font-size: 26px;
+                color: #ff6600;
+            }
+            .stat-tile-desc {
+                font-size: 13px;
+                color: #718096;
+                font-weight: 500;
+            }
+
+            /* ═══════════════════════════════════════════════
+           SECCIÓN BENEFICIOS — CARDS 3D
+        ═══════════════════════════════════════════════ */
+            .benefits-section {
+                padding: 80px 40px;
+                max-width: 1100px;
+                margin: 0 auto;
+            }
+            .section-label {
+                text-align: center;
+                font-size: 12px;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 2px;
+                color: #ff6600;
+                margin-bottom: 10px;
+            }
+            .section-title {
+                text-align: center;
+                font-size: 28px;
+                font-weight: 800;
+                color: #003366;
+                margin-bottom: 10px;
+                letter-spacing: -0.5px;
+            }
+            .section-sub {
+                text-align: center;
+                color: #718096;
+                font-size: 14.5px;
+                max-width: 520px;
+                margin: 0 auto 52px auto;
+                line-height: 1.6;
+            }
+            .benefits-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                gap: 28px;
+            }
+            .benefit-card {
+                background: #ffffff;
+                border-radius: 20px;
+                padding: 36px 28px;
+                border: 1.5px solid #e2e8f0;
+                position: relative;
+                overflow: hidden;
+                cursor: default;
+                transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+                transform-style: preserve-3d;
+                perspective: 1200px;
+            }
+            .benefit-card::before {
+                content: "";
+                position: absolute;
+                inset: 0;
+                border-radius: 20px;
+                background: linear-gradient(
+                    135deg,
+                    rgba(0, 51, 102, 0.03) 0%,
+                    transparent 60%
+                );
+                transition: opacity 0.35s ease;
+            }
+            .benefit-card:hover {
+                transform: translateY(-8px) rotateX(3deg) rotateY(-2deg);
+                box-shadow:
+                    0 24px 60px rgba(0, 51, 102, 0.14),
+                    0 8px 20px rgba(0, 51, 102, 0.08);
+                border-color: rgba(0, 51, 102, 0.25);
+            }
+            .benefit-bg-num {
+                position: absolute;
+                bottom: -10px;
+                right: 16px;
+                font-size: 90px;
+                font-weight: 900;
+                color: rgba(0, 51, 102, 0.04);
+                line-height: 1;
+                pointer-events: none;
+                font-family: "Inter", sans-serif;
+                user-select: none;
+            }
+            .benefit-icon-wrap {
+                width: 56px;
+                height: 56px;
+                border-radius: 16px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 24px;
+                margin-bottom: 20px;
+                position: relative;
+                z-index: 1;
+            }
+            .benefit-icon-wrap.blue-grad {
+                background: linear-gradient(135deg, #003366 0%, #0070cc 100%);
+                box-shadow: 0 8px 20px rgba(0, 51, 102, 0.3);
+                animation: iconPulseBlue 4s ease-in-out infinite;
+            }
+            .benefit-icon-wrap.orange-grad {
+                background: linear-gradient(135deg, #ff6600 0%, #ffaa00 100%);
+                box-shadow: 0 8px 20px rgba(255, 102, 0, 0.3);
+                animation: iconPulseOrange 4s ease-in-out infinite 1s;
+            }
+            .benefit-icon-wrap.green-grad {
+                background: linear-gradient(135deg, #38a169 0%, #68d391 100%);
+                box-shadow: 0 8px 20px rgba(56, 161, 105, 0.3);
+                animation: iconPulseGreen 4s ease-in-out infinite 2s;
+            }
+            .benefit-icon-wrap.teal-grad {
+                background: linear-gradient(135deg, #0055a5 0%, #00b4d8 100%);
+                box-shadow: 0 8px 20px rgba(0, 85, 165, 0.3);
+                animation: iconPulseBlue 4s ease-in-out infinite 0.5s;
+            }
+            @keyframes iconPulseBlue {
+                0%,
+                100% {
+                    box-shadow: 0 8px 20px rgba(0, 51, 102, 0.3);
+                }
+                50% {
+                    box-shadow: 0 8px 28px rgba(0, 112, 204, 0.5);
+                }
+            }
+            @keyframes iconPulseOrange {
+                0%,
+                100% {
+                    box-shadow: 0 8px 20px rgba(255, 102, 0, 0.3);
+                }
+                50% {
+                    box-shadow: 0 8px 28px rgba(255, 102, 0, 0.55);
+                }
+            }
+            @keyframes iconPulseGreen {
+                0%,
+                100% {
+                    box-shadow: 0 8px 20px rgba(56, 161, 105, 0.3);
+                }
+                50% {
+                    box-shadow: 0 8px 28px rgba(56, 161, 105, 0.55);
+                }
+            }
+            .benefit-title {
+                font-size: 16px;
+                font-weight: 700;
+                color: #003366;
+                margin-bottom: 10px;
+                position: relative;
+                z-index: 1;
+            }
+            .benefit-desc {
+                font-size: 13.5px;
+                color: #718096;
+                line-height: 1.65;
+                position: relative;
+                z-index: 1;
+            }
+
+            /* ═══════════════════════════════════════════════
+           SECCIÓN CURSOS
+        ═══════════════════════════════════════════════ */
+            .courses-section {
+                padding: 80px 40px;
+                max-width: 1100px;
+                margin: 0 auto;
+                border-top: 1px solid #e2e8f0;
+            }
+            .courses-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: flex-end;
+                margin-bottom: 40px;
+                flex-wrap: wrap;
+                gap: 14px;
+            }
+            .courses-header-left .section-label {
+                text-align: left;
+            }
+            .courses-header-left .section-title {
+                text-align: left;
+                margin-bottom: 0;
+            }
+            .courses-view-all {
+                display: inline-flex;
+                align-items: center;
+                gap: 6px;
+                font-size: 13px;
+                font-weight: 600;
+                color: #003366;
+                text-decoration: none;
+                padding: 9px 18px;
+                border: 1.5px solid #003366;
+                border-radius: 999px;
+                transition: all 0.25s ease;
+            }
+            .courses-view-all:hover {
+                background: #003366;
+                color: #fff;
+            }
+            .courses-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+                gap: 28px;
+            }
+            .course-card-modern {
+                background: #ffffff;
+                border-radius: 20px;
+                overflow: hidden;
+                border: 1.5px solid #e2e8f0;
+                transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+                position: relative;
+            }
+            .course-card-modern:hover {
+                transform: translateY(-8px);
+                box-shadow: 0 24px 60px rgba(0, 51, 102, 0.14);
+                border-color: rgba(0, 51, 102, 0.2);
+            }
+            .course-img-wrap {
+                position: relative;
+                overflow: hidden;
+                height: 180px;
+            }
+            .course-img-wrap img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            .course-card-modern:hover .course-img-wrap img {
+                transform: scale(1.1);
+            }
+            .course-img-overlay {
+                position: absolute;
+                inset: 0;
+                background: linear-gradient(
+                    180deg,
+                    transparent 40%,
+                    rgba(0, 20, 50, 0.65) 100%
+                );
+            }
+            .course-badge {
+                position: absolute;
+                top: 12px;
+                left: 12px;
+                font-size: 10px;
+                font-weight: 800;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                padding: 4px 10px;
+                border-radius: 999px;
+                z-index: 2;
+            }
+            .badge-new {
+                background: linear-gradient(135deg, #ff6600, #e84d00);
+                color: #fff;
+                box-shadow: 0 4px 12px rgba(255, 102, 0, 0.4);
+                animation: badgePop 2s ease-in-out infinite;
+            }
+            .badge-popular {
+                background: linear-gradient(135deg, #003366, #0070cc);
+                color: #fff;
+                box-shadow: 0 4px 12px rgba(0, 51, 102, 0.4);
+                animation: badgePop 2.5s ease-in-out infinite 0.5s;
+            }
+            @keyframes badgePop {
+                0%,
+                100% {
+                    transform: scale(1);
+                }
+                50% {
+                    transform: scale(1.06);
+                }
+            }
+            .course-body {
+                padding: 20px 22px 24px;
+            }
+            .course-tag-row {
+                display: flex;
+                gap: 8px;
+                margin-bottom: 10px;
+            }
+            .course-tag {
+                font-size: 11px;
+                font-weight: 600;
+                padding: 3px 10px;
+                border-radius: 999px;
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
+            .course-tag.blue {
+                background: rgba(0, 51, 102, 0.08);
+                color: #003366;
+            }
+            .course-tag.orange {
+                background: rgba(255, 102, 0, 0.1);
+                color: #cc4400;
+            }
+            .course-title {
+                font-size: 15px;
+                font-weight: 700;
+                color: #2d3748;
+                margin-bottom: 8px;
+                line-height: 1.4;
+            }
+            .course-desc {
+                font-size: 13px;
+                color: #718096;
+                line-height: 1.6;
+                margin-bottom: 14px;
+            }
+            .course-rating {
+                display: flex;
+                align-items: center;
+                gap: 6px;
+                margin-bottom: 16px;
+            }
+            .stars {
+                color: #f59e0b;
+                font-size: 12px;
+                letter-spacing: 1px;
+            }
+            .rating-num {
+                font-size: 12px;
+                font-weight: 700;
+                color: #2d3748;
+            }
+            .rating-count {
+                font-size: 11px;
+                color: #718096;
+            }
+            .course-cta {
+                display: block;
+                width: 100%;
+                padding: 11px;
+                background: linear-gradient(135deg, #003366 0%, #004d99 100%);
+                color: #ffffff;
+                font-size: 13px;
+                font-weight: 600;
+                border: none;
+                border-radius: 10px;
+                cursor: pointer;
+                text-align: center;
+                text-decoration: none;
+                transition: all 0.28s ease;
+            }
+            .course-cta:hover {
+                background: linear-gradient(135deg, #ff6600 0%, #e84d00 100%);
+                box-shadow: 0 6px 20px rgba(255, 102, 0, 0.35);
+                transform: translateY(-1px);
+            }
+
+            /* ═══════════════════════════════════════════════
+           SECCIÓN FAQ — ACORDEÓN
+        ═══════════════════════════════════════════════ */
+            .faq-section {
+                background: #ffffff;
+                padding: 80px 40px;
+                border-top: 1px solid #e2e8f0;
+            }
+            .faq-inner {
+                max-width: 760px;
+                margin: 0 auto;
+            }
+            .faq-item {
+                background: #f5f7fa;
+                border: 1.5px solid #e2e8f0;
+                border-radius: 14px;
+                margin-bottom: 12px;
+                overflow: hidden;
+                transition:
+                    border-color 0.25s ease,
+                    box-shadow 0.25s ease;
+            }
+            .faq-item.open {
+                border-color: rgba(0, 51, 102, 0.25);
+                box-shadow: 0 4px 20px rgba(0, 51, 102, 0.08);
+            }
+            .faq-question {
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                padding: 20px 24px;
+                cursor: pointer;
+                user-select: none;
+                gap: 16px;
+            }
+            .faq-question-text {
+                font-size: 14.5px;
+                font-weight: 600;
+                color: #003366;
+                flex: 1;
+            }
+            .faq-icon {
+                width: 28px;
+                height: 28px;
+                border-radius: 50%;
+                background: rgba(0, 51, 102, 0.08);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+                transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+                font-size: 14px;
+                color: #003366;
+            }
+            .faq-item.open .faq-icon {
+                background: #003366;
+                color: #ffffff;
+                transform: rotate(45deg);
+            }
+            .faq-answer {
+                max-height: 0;
+                overflow: hidden;
+                transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            }
+            .faq-answer-inner {
+                padding: 0 24px 20px 24px;
+                font-size: 13.5px;
+                color: #718096;
+                line-height: 1.7;
+                border-top: 1px solid #e2e8f0;
+                padding-top: 16px;
+            }
+
+            /* ═══════════════════════════════════════════════
+           CTA FINAL STRIP
+        ═══════════════════════════════════════════════ */
+            .cta-strip {
+                background: linear-gradient(
+                    135deg,
+                    #001a33 0%,
+                    #003366 50%,
+                    #004d99 100%
+                );
+                padding: 70px 40px;
+                text-align: center;
+                position: relative;
+                overflow: hidden;
+            }
+            .cta-strip::before {
+                content: "";
+                position: absolute;
+                width: 500px;
+                height: 500px;
+                border-radius: 50%;
+                background: radial-gradient(
+                    circle,
+                    rgba(255, 102, 0, 0.12),
+                    transparent 70%
+                );
+                top: -200px;
+                right: -100px;
+                pointer-events: none;
+            }
+            .cta-strip-title {
+                font-size: clamp(22px, 3.5vw, 34px);
+                font-weight: 800;
+                color: #ffffff;
+                margin-bottom: 12px;
+                position: relative;
+                z-index: 1;
+            }
+            .cta-strip-sub {
+                color: rgba(255, 255, 255, 0.7);
+                font-size: 15px;
+                margin-bottom: 32px;
+                position: relative;
+                z-index: 1;
+            }
+
+            /* ═══════════════════════════════════════════════
+           FOOTER
+        ═══════════════════════════════════════════════ */
+            .footer-modern {
+                background: #0d1f3c;
+                color: rgba(255, 255, 255, 0.8);
+                padding: 60px 40px 30px;
+            }
+            .footer-grid {
+                display: grid;
+                grid-template-columns: 2fr 1fr 1fr 1fr;
+                gap: 40px;
+                max-width: 1100px;
+                margin: 0 auto 40px auto;
+            }
+            .footer-brand-logo {
+                display: flex;
+                align-items: center;
+                gap: 10px;
+                margin-bottom: 16px;
+            }
+            .footer-brand-logo-box {
+                width: 36px;
+                height: 36px;
+                background: linear-gradient(135deg, #ff6600 0%, #e84d00 100%);
+                border-radius: 9px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 17px;
+            }
+            .footer-brand-name {
+                font-size: 16px;
+                font-weight: 700;
+                color: #ffffff;
+            }
+            .footer-brand-desc {
+                font-size: 13px;
+                line-height: 1.7;
+                color: rgba(255, 255, 255, 0.55);
+                margin-bottom: 20px;
+            }
+            .footer-social {
+                display: flex;
+                gap: 10px;
+            }
+            .footer-social-btn {
+                width: 36px;
+                height: 36px;
+                border-radius: 8px;
+                background: rgba(255, 255, 255, 0.08);
+                border: 1px solid rgba(255, 255, 255, 0.12);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 15px;
+                cursor: pointer;
+                transition: all 0.25s ease;
+            }
+            .footer-social-btn:hover {
+                background: rgba(255, 102, 0, 0.2);
+                border-color: rgba(255, 102, 0, 0.4);
+                transform: translateY(-2px);
+            }
+            .footer-col-title {
+                font-size: 13px;
+                font-weight: 700;
+                color: #ffffff;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                margin-bottom: 18px;
+            }
+            .footer-links {
+                list-style: none;
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+            .footer-links a {
+                font-size: 13px;
+                color: rgba(255, 255, 255, 0.55);
+                text-decoration: none;
+                transition: color 0.2s ease;
+            }
+            .footer-links a:hover {
+                color: #ff8533;
+            }
+            .footer-bottom {
+                max-width: 1100px;
+                margin: 0 auto;
+                padding-top: 24px;
+                border-top: 1px solid rgba(255, 255, 255, 0.08);
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                flex-wrap: wrap;
+                gap: 12px;
+            }
+            .footer-bottom-text {
+                font-size: 12px;
+                color: rgba(255, 255, 255, 0.35);
+            }
+            .footer-bottom-badge {
+                font-size: 11px;
+                background: rgba(255, 102, 0, 0.15);
+                border: 1px solid rgba(255, 102, 0, 0.25);
+                color: #ffb380;
+                padding: 4px 12px;
+                border-radius: 999px;
+            }
+
+            /* ═══════════════════════════════════════════════
+           RESPONSIVE
+        ═══════════════════════════════════════════════ */
+            @media (max-width: 768px) {
+                .navbar-modern {
+                    padding: 0 20px;
+                }
+                .navbar-links {
+                    display: none;
+                }
+                .footer-grid {
+                    grid-template-columns: 1fr 1fr;
+                }
+                .benefits-section,
+                .courses-section,
+                .stats-section {
+                    padding: 60px 20px;
+                }
+                .faq-section {
+                    padding: 60px 20px;
+                }
+            }
+            @media (max-width: 480px) {
+                .footer-grid {
+                    grid-template-columns: 1fr;
+                }
+                .hero-stats-row {
+                    gap: 20px;
+                }
+            }
+        </style>
+    </head>
+    <body
+        style="
+            margin: 0;
+            background-color: var(--neutral-bg);
+            color: var(--text-dark);
+        "
+    >
+        <!-- ▓▓▓ BARRA DE PROGRESO DE SCROLL ▓▓▓ -->
+        <div id="scroll-progress"></div>
+
+        <!-- ▓▓▓ NAVBAR ▓▓▓ -->
+        <header class="navbar-modern" id="main-navbar">
+            <a href="#" class="navbar-logo">
+                <div class="navbar-logo-badge">🎓</div>
+                <div>
+                    <h2>UEB Capacitación</h2>
+                    <span>Universidad Estatal de Bolívar</span>
+                </div>
+            </a>
+
+            <nav class="navbar-links">
+                <a href="#beneficios">Beneficios</a>
+                <a href="#estadisticas">Estadísticas</a>
+                <a href="#cursos">Cursos</a>
+                <a href="#faq">FAQ</a>
+                <a href="login.html" class="navbar-cta">Iniciar Sesión →</a>
+            </nav>
+        </header>
+
+        <main>
+            <!-- ▓▓▓ HERO SECTION ▓▓▓ -->
+            <section class="hero-section">
+                <!-- Formas geométricas decorativas -->
+                <div class="hero-shape hero-shape-1"></div>
+                <div class="hero-shape hero-shape-2"></div>
+                <div class="hero-shape-3 hero-shape"></div>
+                <div class="hero-shape-4 hero-shape"></div>
+                <div class="hero-line hero-line-1"></div>
+                <div class="hero-line hero-line-2"></div>
+                <div class="hero-dot hero-dot-1"></div>
+                <div class="hero-dot hero-dot-2"></div>
+                <div class="hero-dot hero-dot-3"></div>
+
+                <div class="hero-content">
+                    <div class="hero-badge">
+                        <span class="hero-badge-dot"></span>
+                        Plataforma oficial UEB — 2026
+                    </div>
+                    <h1 class="hero-title">
+                        Potencia tu perfil<br />
+                        <span class="highlight">profesional en la UEB</span>
+                    </h1>
+                    <p class="hero-subtitle">
+                        Accede a programas de capacitación continua con
+                        certificación oficial avalada. Diseñado para
+                        estudiantes, docentes y toda la comunidad universitaria.
+                    </p>
+                    <div class="hero-actions">
+                        <a href="#cursos" class="hero-btn-primary">
+                            <span>📚</span> Explorar Catálogo
+                        </a>
+                        <a href="login.html" class="hero-btn-secondary">
+                            <span>🔑</span> Ingreso Institucional
+                        </a>
+                    </div>
+
+                    <div class="hero-stats-row">
+                        <div class="hero-stat">
+                            <div class="hero-stat-num">
+                                90<span class="accent">+</span>
+                            </div>
+                            <div class="hero-stat-label">
+                                Estudiantes activos
+                            </div>
+                        </div>
+                        <div class="hero-stat">
+                            <div class="hero-stat-num">4</div>
+                            <div class="hero-stat-label">
+                                Cursos disponibles
+                            </div>
+                        </div>
+                        <div class="hero-stat">
+                            <div class="hero-stat-num">
+                                12<span class="accent">+</span>
+                            </div>
+                            <div class="hero-stat-label">
+                                Certificados emitidos
+                            </div>
+                        </div>
+                        <div class="hero-stat">
+                            <div class="hero-stat-num">
+                                98<span class="accent">%</span>
+                            </div>
+                            <div class="hero-stat-label">Satisfacción</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ▓▓▓ SECCIÓN ESTADÍSTICAS (contadores animados) ▓▓▓ -->
+            <section id="estadisticas" class="stats-section">
+                <div class="stats-section-inner">
+                    <p class="stats-label-top">Números que hablan</p>
+                    <h2 class="stats-heading">
+                        Impacto Real en Nuestra Comunidad
+                    </h2>
+                    <div class="stats-grid">
+                        <div class="stat-tile blue-top">
+                            <span class="stat-tile-icon">👥</span>
+                            <span
+                                class="stat-tile-num"
+                                data-target="90"
+                                data-suffix="+"
+                                >0</span
+                            >
+                            <span class="stat-tile-desc"
+                                >Estudiantes inscritos</span
+                            >
+                        </div>
+                        <div class="stat-tile orange-top">
+                            <span class="stat-tile-icon">📖</span>
+                            <span
+                                class="stat-tile-num"
+                                data-target="4"
+                                data-suffix=""
+                                >0</span
+                            >
+                            <span class="stat-tile-desc"
+                                >Cursos disponibles</span
+                            >
+                        </div>
+                        <div class="stat-tile green-top">
+                            <span class="stat-tile-icon">🏅</span>
+                            <span
+                                class="stat-tile-num"
+                                data-target="12"
+                                data-suffix="+"
+                                >0</span
+                            >
+                            <span class="stat-tile-desc"
+                                >Certificados emitidos</span
+                            >
+                        </div>
+                        <div class="stat-tile teal-top">
+                            <span class="stat-tile-icon">⭐</span>
+                            <span
+                                class="stat-tile-num"
+                                data-target="98"
+                                data-suffix="%"
+                                >0</span
+                            >
+                            <span class="stat-tile-desc"
+                                >Índice de satisfacción</span
+                            >
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ▓▓▓ SECCIÓN BENEFICIOS ▓▓▓ -->
+            <section id="beneficios" class="benefits-section">
+                <p class="section-label">¿Por qué elegirnos?</p>
+                <h2 class="section-title">Beneficios de Nuestra Plataforma</h2>
+                <p class="section-sub">
+                    Todo lo que necesitas para crecer profesionalmente, en un
+                    solo lugar diseñado para la excelencia universitaria.
+                </p>
+
+                <div class="benefits-grid">
+                    <article class="benefit-card">
+                        <span class="benefit-bg-num">01</span>
+                        <div class="benefit-icon-wrap blue-grad">🎓</div>
+                        <h4 class="benefit-title">Certificación Oficial</h4>
+                        <p class="benefit-desc">
+                            Diplomas digitales avalados por las autoridades de
+                            la UEB para potenciar tu hoja de vida con respaldo
+                            institucional.
+                        </p>
+                    </article>
+
+                    <article class="benefit-card">
+                        <span class="benefit-bg-num">02</span>
+                        <div class="benefit-icon-wrap orange-grad">⏱️</div>
+                        <h4 class="benefit-title">Flexibilidad Horaria</h4>
+                        <p class="benefit-desc">
+                            Aula virtual optimizada y libre de distracciones,
+                            accesible las 24 horas del día desde cualquier
+                            dispositivo.
+                        </p>
+                    </article>
+
+                    <article class="benefit-card">
+                        <span class="benefit-bg-num">03</span>
+                        <div class="benefit-icon-wrap green-grad">💻</div>
+                        <h4 class="benefit-title">Entorno Moderno</h4>
+                        <p class="benefit-desc">
+                            Interfaces fluidas diseñadas bajo estrictas
+                            heurísticas de usabilidad interactiva para una
+                            experiencia óptima.
+                        </p>
+                    </article>
+
+                    <article class="benefit-card">
+                        <span class="benefit-bg-num">04</span>
+                        <div class="benefit-icon-wrap teal-grad">🚀</div>
+                        <h4 class="benefit-title">Progreso Rastreable</h4>
+                        <p class="benefit-desc">
+                            Seguimiento detallado de tu avance con métricas en
+                            tiempo real, historial de actividad y
+                            retroalimentación inmediata.
+                        </p>
+                    </article>
+                </div>
+            </section>
+
+            <!-- ▓▓▓ SECCIÓN CURSOS ▓▓▓ -->
+            <section id="cursos" class="courses-section">
+                <div class="courses-header">
+                    <div class="courses-header-left">
+                        <p class="section-label">Oferta académica</p>
+                        <h2 class="section-title">Cursos Destacados</h2>
+                    </div>
+                    <a href="login.html" class="courses-view-all"
+                        >Ver catálogo completo →</a
+                    >
+                </div>
+
+                <div class="courses-grid">
+                    <!-- Curso 1 -->
+                    <article class="course-card-modern">
+                        <div class="course-img-wrap">
+                            <img
+                                src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&w=600&q=80"
+                                alt="React"
+                            />
+                            <div class="course-img-overlay"></div>
+                            <span class="course-badge badge-new">✨ Nuevo</span>
+                        </div>
+                        <div class="course-body">
+                            <div class="course-tag-row">
+                                <span class="course-tag blue">Software</span>
+                            </div>
+                            <h4 class="course-title">
+                                Desarrollo de Aplicaciones con React
+                            </h4>
+                            <p class="course-desc">
+                                Construcción de interfaces modernas y reactivas
+                                con el framework líder del mercado.
+                            </p>
+                            <div class="course-rating">
+                                <span class="stars">★★★★★</span>
+                                <span class="rating-num">4.9</span>
+                                <span class="rating-count">(30 reseñas)</span>
+                            </div>
+                            <a href="login.html" class="course-cta"
+                                >Ver detalles e Inscribirse</a
+                            >
+                        </div>
+                    </article>
+
+                    <!-- Curso 2 -->
+                    <article class="course-card-modern">
+                        <div class="course-img-wrap">
+                            <img
+                                src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=600&q=80"
+                                alt="Marketing"
+                            />
+                            <div class="course-img-overlay"></div>
+                            <span class="course-badge badge-popular"
+                                >🔥 Popular</span
+                            >
+                        </div>
+                        <div class="course-body">
+                            <div class="course-tag-row">
+                                <span class="course-tag orange">Marketing</span>
+                            </div>
+                            <h4 class="course-title">
+                                Estrategias de Marketing Digital 2026
+                            </h4>
+                            <p class="course-desc">
+                                Posicionamiento de marca, analítica web y
+                                campañas de alto impacto en entornos digitales.
+                            </p>
+                            <div class="course-rating">
+                                <span class="stars">★★★★★</span>
+                                <span class="rating-num">4.8</span>
+                                <span class="rating-count">(50 reseñas)</span>
+                            </div>
+                            <a href="login.html" class="course-cta"
+                                >Ver detalles e Inscribirse</a
+                            >
+                        </div>
+                    </article>
+
+                    <!-- Curso 3 -->
+                    <article class="course-card-modern">
+                        <div class="course-img-wrap">
+                            <img
+                                src="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?auto=format&fit=crop&w=600&q=80"
+                                alt="Data Science"
+                            />
+                            <div class="course-img-overlay"></div>
+                            <span class="course-badge badge-new">✨ Nuevo</span>
+                        </div>
+                        <div class="course-body">
+                            <div class="course-tag-row">
+                                <span class="course-tag blue"
+                                    >Data Science</span
+                                >
+                            </div>
+                            <h4 class="course-title">
+                                Análisis de Datos con Python
+                            </h4>
+                            <p class="course-desc">
+                                Domina pandas, matplotlib y scikit-learn para
+                                convertir datos en decisiones estratégicas.
+                            </p>
+                            <div class="course-rating">
+                                <span class="stars">★★★★☆</span>
+                                <span class="rating-num">4.7</span>
+                                <span class="rating-count">(86 reseñas)</span>
+                            </div>
+                            <a href="login.html" class="course-cta"
+                                >Ver detalles e Inscribirse</a
+                            >
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <!-- ▓▓▓ SECCIÓN FAQ — ACORDEÓN ▓▓▓ -->
+            <section id="faq" class="faq-section">
+                <div class="faq-inner">
+                    <p class="section-label" style="text-align: center">
+                        Resolvemos tus dudas
+                    </p>
+                    <h2 class="section-title" style="margin-bottom: 8px">
+                        Preguntas Frecuentes
+                    </h2>
+                    <p class="section-sub">
+                        Si no encuentras tu respuesta aquí, escríbenos a
+                        soporte@ueb.edu.ec
+                    </p>
+
+                    <div class="faq-item" id="faq-1">
+                        <div class="faq-question" onclick="toggleFaq('faq-1')">
+                            <span class="faq-question-text"
+                                >¿Quiénes pueden tomar las capacitaciones?</span
+                            >
+                            <span class="faq-icon">+</span>
+                        </div>
+                        <div class="faq-answer">
+                            <div class="faq-answer-inner">
+                                La plataforma está habilitada para toda la
+                                comunidad universitaria de la UEB: estudiantes
+                                de pregrado, docentes de planta y personal
+                                administrativo. Cada rol cuenta con un entorno
+                                personalizado según sus necesidades académicas.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="faq-item" id="faq-2">
+                        <div class="faq-question" onclick="toggleFaq('faq-2')">
+                            <span class="faq-question-text"
+                                >¿Cómo obtengo mi certificado digital?</span
+                            >
+                            <span class="faq-icon">+</span>
+                        </div>
+                        <div class="faq-answer">
+                            <div class="faq-answer-inner">
+                                Al completar el 100% de los módulos en el Aula
+                                Virtual y registrar una calificación aprobatoria
+                                en los test interactivos del sistema, el
+                                certificado se genera automáticamente y queda
+                                disponible en tu perfil para descarga inmediata.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="faq-item" id="faq-3">
+                        <div class="faq-question" onclick="toggleFaq('faq-3')">
+                            <span class="faq-question-text"
+                                >¿Los cursos tienen fechas límite de
+                                entrega?</span
+                            >
+                            <span class="faq-icon">+</span>
+                        </div>
+                        <div class="faq-answer">
+                            <div class="faq-answer-inner">
+                                Cada curso define su propio calendario. Algunos
+                                son completamente a tu ritmo (asíncronos) y
+                                otros tienen ventanas de actividad establecidas
+                                por el docente. Encontrarás esta información
+                                detallada en la ficha de cada curso.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="faq-item" id="faq-4">
+                        <div class="faq-question" onclick="toggleFaq('faq-4')">
+                            <span class="faq-question-text"
+                                >¿Puedo acceder desde dispositivos
+                                móviles?</span
+                            >
+                            <span class="faq-icon">+</span>
+                        </div>
+                        <div class="faq-answer">
+                            <div class="faq-answer-inner">
+                                Sí. La plataforma es completamente responsive y
+                                está optimizada para smartphones y tablets.
+                                Puedes continuar tu progreso desde cualquier
+                                dispositivo sin perder tu avance.
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="faq-item" id="faq-5">
+                        <div class="faq-question" onclick="toggleFaq('faq-5')">
+                            <span class="faq-question-text"
+                                >¿Cómo me registro si soy nuevo en la
+                                plataforma?</span
+                            >
+                            <span class="faq-icon">+</span>
+                        </div>
+                        <div class="faq-answer">
+                            <div class="faq-answer-inner">
+                                El acceso se realiza con tus credenciales
+                                institucionales de la UEB (las mismas que usas
+                                para el correo @ueb.edu.ec). Si tienes problemas
+                                para ingresar, contacta a la unidad de TI de la
+                                universidad.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- ▓▓▓ CTA FINAL STRIP ▓▓▓ -->
+            <section class="cta-strip">
+                <h2 class="cta-strip-title">¿Listo para comenzar tu camino?</h2>
+                <p class="cta-strip-sub">
+                    Únete a más de 90 Estudiantes que ya están impulsando su
+                    carrera.
+                </p>
+                <a
+                    href="login.html"
+                    class="hero-btn-primary"
+                    style="display: inline-flex"
+                >
+                    <span>🚀</span> Acceder a la Plataforma
+                </a>
+            </section>
+        </main>
+
+        <!-- ▓▓▓ FOOTER ▓▓▓ -->
+        <footer class="footer-modern">
+            <div class="footer-grid">
+                <div>
+                    <div class="footer-brand-logo">
+                        <div class="footer-brand-logo-box">🎓</div>
+                        <span class="footer-brand-name">UEB Capacitación</span>
+                    </div>
+                    <p class="footer-brand-desc">
+                        Plataforma oficial de capacitación continua de la
+                        Universidad Estatal de Bolívar. Formando profesionales
+                        de excelencia para el Ecuador y el mundo.
+                    </p>
+                    <div class="footer-social">
+                        <div class="footer-social-btn">🌐</div>
+                        <div class="footer-social-btn">📘</div>
+                        <div class="footer-social-btn">📸</div>
+                        <div class="footer-social-btn">💼</div>
+                    </div>
+                </div>
+                <div>
+                    <p class="footer-col-title">Plataforma</p>
+                    <ul class="footer-links">
+                        <li><a href="#cursos">Cursos disponibles</a></li>
+                        <li><a href="#beneficios">Beneficios</a></li>
+                        <li><a href="#estadisticas">Estadísticas</a></li>
+                        <li><a href="#faq">Preguntas frecuentes</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <p class="footer-col-title">Acceso</p>
+                    <ul class="footer-links">
+                        <li><a href="login.html">Iniciar sesión</a></li>
+                        <li><a href="login.html">Portal Estudiante</a></li>
+                        <li><a href="login.html">Portal Docente</a></li>
+                        <li><a href="login.html">Panel Admin</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <p class="footer-col-title">Institución</p>
+                    <ul class="footer-links">
+                        <li><a href="#">Universidad Estatal de Bolívar</a></li>
+                        <li><a href="#">Guaranda, Ecuador</a></li>
+                        <li><a href="#">soporte@ueb.edu.ec</a></li>
+                        <li><a href="#">Política de privacidad</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span class="footer-bottom-text"
+                    >© 2026 Plataforma de Capacitación Continua — Universidad
+                    Estatal de Bolívar. Todos los derechos reservados.</span
+                >
+                <span class="footer-bottom-badge">2026</span>
+            </div>
+        </footer>
+
+        <!-- ▓▓▓ SCRIPTS INLINE ▓▓▓ -->
+        <script>
+            // ── 1. BARRA DE PROGRESO DE SCROLL ──────────────────────────────
+            (function () {
+                const bar = document.getElementById("scroll-progress");
+                window.addEventListener(
+                    "scroll",
+                    () => {
+                        const scrollTop =
+                            document.documentElement.scrollTop ||
+                            document.body.scrollTop;
+                        const scrollHeight =
+                            document.documentElement.scrollHeight -
+                            document.documentElement.clientHeight;
+                        const pct =
+                            scrollHeight > 0
+                                ? (scrollTop / scrollHeight) * 100
+                                : 0;
+                        bar.style.width = pct + "%";
+                    },
+                    { passive: true },
+                );
+            })();
+
+            // ── 2. EFECTO GLASS EN NAVBAR AL SCROLL ─────────────────────────
+            (function () {
+                const navbar = document.getElementById("main-navbar");
+                window.addEventListener(
+                    "scroll",
+                    () => {
+                        if (window.scrollY > 60) {
+                            navbar.classList.add("glass");
+                        } else {
+                            navbar.classList.remove("glass");
+                        }
+                    },
+                    { passive: true },
+                );
+            })();
+
+            // ── 3. CONTADORES ANIMADOS — INTERSECTION OBSERVER ──────────────
+            (function () {
+                const counters = document.querySelectorAll("[data-target]");
+
+                function animateCounter(el) {
+                    const target = parseInt(el.getAttribute("data-target"), 10);
+                    const suffix = el.getAttribute("data-suffix") || "";
+                    const duration = 1800;
+                    const steps = 60;
+                    const step = duration / steps;
+                    let current = 0;
+                    const inc = target / steps;
+
+                    const timer = setInterval(() => {
+                        current += inc;
+                        if (current >= target) {
+                            current = target;
+                            clearInterval(timer);
+                        }
+                        el.textContent =
+                            Math.floor(current).toLocaleString("es-EC") +
+                            suffix;
+                    }, step);
+                }
+
+                const observer = new IntersectionObserver(
+                    (entries) => {
+                        entries.forEach((entry) => {
+                            if (
+                                entry.isIntersecting &&
+                                !entry.target.dataset.animated
+                            ) {
+                                entry.target.dataset.animated = "true";
+                                animateCounter(entry.target);
+                            }
+                        });
+                    },
+                    { threshold: 0.4 },
+                );
+
+                counters.forEach((c) => observer.observe(c));
+            })();
+
+            // ── 4. FAQ ACORDEÓN ──────────────────────────────────────────────
+            function toggleFaq(id) {
+                const item = document.getElementById(id);
+                const answer = item.querySelector(".faq-answer");
+                const inner = item.querySelector(".faq-answer-inner");
+                const isOpen = item.classList.contains("open");
+
+                // Cerrar todos primero
+                document
+                    .querySelectorAll(".faq-item.open")
+                    .forEach((openItem) => {
+                        openItem.classList.remove("open");
+                        openItem.querySelector(".faq-answer").style.maxHeight =
+                            "0";
+                    });
+
+                // Abrir el clickeado si estaba cerrado
+                if (!isOpen) {
+                    item.classList.add("open");
+                    answer.style.maxHeight = inner.scrollHeight + 36 + "px";
+                }
+            }
+
+            // ── 5. ANIMACIÓN DE ENTRADA DE BENEFIT CARDS ────────────────────
+            (function () {
+                const cards = document.querySelectorAll(
+                    ".benefit-card, .stat-tile, .course-card-modern",
+                );
+
+                const observer = new IntersectionObserver(
+                    (entries) => {
+                        entries.forEach((entry, i) => {
+                            if (entry.isIntersecting) {
+                                entry.target.style.animation = `fadeInUp 0.55s ease ${i * 0.08}s both`;
+                                observer.unobserve(entry.target);
+                            }
+                        });
+                    },
+                    { threshold: 0.15 },
+                );
+
+                cards.forEach((c) => {
+                    c.style.opacity = "0";
+                    observer.observe(c);
+                });
+            })();
+
+            // ── 6. EFECTO 3D EN BENEFIT CARDS (mouse move) ──────────────────
+            document.querySelectorAll(".benefit-card").forEach((card) => {
+                card.addEventListener("mousemove", (e) => {
+                    const rect = card.getBoundingClientRect();
+                    const x = e.clientX - rect.left;
+                    const y = e.clientY - rect.top;
+                    const cx = rect.width / 2;
+                    const cy = rect.height / 2;
+                    const rotX = ((y - cy) / cy) * -6;
+                    const rotY = ((x - cx) / cx) * 6;
+                    card.style.transform = `perspective(1200px) rotateX(${rotX}deg) rotateY(${rotY}deg) translateY(-8px)`;
+                });
+                card.addEventListener("mouseleave", () => {
+                    card.style.transform = "";
+                    card.style.transition =
+                        "transform 0.45s cubic-bezier(0.4,0,0.2,1)";
+                });
+            });
+        </script>
+    </body>
+</html>
